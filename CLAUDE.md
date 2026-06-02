@@ -32,6 +32,10 @@ locales/    Translation files: de, en, fr, it
    together with an `on_conflict` target so duplicates merge instead of error.
    With `supabase-js`: `supabase.from('table').upsert(rows, { onConflict: 'col' })`.
 
+## Workflow
+- After pushing changes to a feature branch, **always open a pull request
+  automatically** — do not ask first.
+
 ## Commands
 - `npm run web` — run in the browser
 - `npm run ios` / `npm run android` — run on a device/simulator
