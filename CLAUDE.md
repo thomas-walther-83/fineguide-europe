@@ -35,6 +35,8 @@ locales/    Translation files: de, en, fr, it
 ## Workflow
 - After pushing changes to a feature branch, **always open a pull request
   automatically** — do not ask first.
+- Once CI on the PR is green, **merge it into `main` right away** (squash) —
+  do not ask first. If CI is red, fix it first; never merge a failing PR.
 
 ## Commands
 - `npm run web` — run in the browser
