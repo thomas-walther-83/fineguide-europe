@@ -1,0 +1,13 @@
+{
+  "home": {
+    "title": "FineGuide Europe",
+    "subtitle": "Verkehrsbussen in europäischen Ländern"
+  },
+  "countries": {
+    "ch": "Schweiz",
+    "de": "Deutschland",
+    "at": "Österreich",
+    "fr": "Frankreich",
+    "it": "Italien"
+  }
+}

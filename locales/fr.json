@@ -1,0 +1,13 @@
+{
+  "home": {
+    "title": "FineGuide Europe",
+    "subtitle": "Amendes routières dans les pays européens"
+  },
+  "countries": {
+    "ch": "Suisse",
+    "de": "Allemagne",
+    "at": "Autriche",
+    "fr": "France",
+    "it": "Italie"
+  }
+}
