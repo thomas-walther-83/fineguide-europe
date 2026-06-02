@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "FineGuide Europe",
+    "slug": "fineguide-europe",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "fineguideeurope",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fineguide.europe"
+    },
+    "android": {
+      "package": "com.fineguide.europe"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-localization"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

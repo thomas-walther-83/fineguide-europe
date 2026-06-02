@@ -1,0 +1,13 @@
+{
+  "home": {
+    "title": "FineGuide Europe",
+    "subtitle": "Traffic fines across European countries"
+  },
+  "countries": {
+    "ch": "Switzerland",
+    "de": "Germany",
+    "at": "Austria",
+    "fr": "France",
+    "it": "Italy"
+  }
+}

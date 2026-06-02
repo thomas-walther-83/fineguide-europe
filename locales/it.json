@@ -1,0 +1,13 @@
+{
+  "home": {
+    "title": "FineGuide Europe",
+    "subtitle": "Multe stradali nei paesi europei"
+  },
+  "countries": {
+    "ch": "Svizzera",
+    "de": "Germania",
+    "at": "Austria",
+    "fr": "Francia",
+    "it": "Italia"
+  }
+}
