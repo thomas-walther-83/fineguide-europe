@@ -1,18 +1,14 @@
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CountryListItem } from '@/components/CountryListItem';
-import { COUNTRIES, type Country } from '@/lib/countries';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { COUNTRIES } from '@/lib/countries';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
-  const router = useRouter();
-
-  const handleSelect = (country: Country) => {
-    router.push(`/country/${country.id}`);
-  };
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
@@ -23,13 +19,16 @@ export default function HomeScreen() {
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={
           <View style={styles.header}>
-            <Text style={styles.title}>{t('home.title')}</Text>
-            <Text style={styles.subtitle}>{t('home.subtitle')}</Text>
+            <View style={styles.titleRow}>
+              <View style={styles.titleBlock}>
+                <Text style={styles.title}>{t('home.title')}</Text>
+                <Text style={styles.subtitle}>{t('home.subtitle')}</Text>
+              </View>
+            </View>
+            <LanguageSwitcher />
           </View>
         }
-        renderItem={({ item }) => (
-          <CountryListItem country={item} onPress={handleSelect} />
-        )}
+        renderItem={({ item }) => <CountryListItem country={item} />}
       />
     </SafeAreaView>
   );
@@ -45,6 +44,15 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 16,
+    gap: 14,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  titleBlock: {
+    flex: 1,
   },
   title: {
     fontSize: 28,
