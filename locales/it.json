@@ -9,5 +9,20 @@
     "at": "Austria",
     "fr": "Francia",
     "it": "Italia"
+  },
+  "categories": {
+    "speeding": "Velocità",
+    "parking": "Sosta",
+    "phone": "Telefono",
+    "redlight": "Semaforo rosso",
+    "alcohol": "Alcol"
+  },
+  "detail": {
+    "loading": "Caricamento multe…",
+    "error": "Impossibile caricare le multe.",
+    "empty": "Ancora nessuna multa per questo paese.",
+    "disclaimer": "Valori di esempio – non è consulenza legale.",
+    "points_one": "1 punto",
+    "points_other": "{{count}} punti"
   }
 }

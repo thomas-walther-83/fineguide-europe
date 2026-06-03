@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,10 +8,10 @@ import { COUNTRIES, type Country } from '@/lib/countries';
 
 export default function HomeScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
 
   const handleSelect = (country: Country) => {
-    // Placeholder: navigation to a country detail screen will go here.
-    console.log('Selected country:', country.id);
+    router.push(`/country/${country.id}`);
   };
 
   return (

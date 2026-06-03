@@ -9,5 +9,20 @@
     "at": "Österreich",
     "fr": "Frankreich",
     "it": "Italien"
+  },
+  "categories": {
+    "speeding": "Geschwindigkeit",
+    "parking": "Parken",
+    "phone": "Handy am Steuer",
+    "redlight": "Rotlicht",
+    "alcohol": "Alkohol"
+  },
+  "detail": {
+    "loading": "Bussen werden geladen…",
+    "error": "Bussen konnten nicht geladen werden.",
+    "empty": "Noch keine Bussen für dieses Land.",
+    "disclaimer": "Beispielwerte – keine Rechtsberatung.",
+    "points_one": "1 Punkt",
+    "points_other": "{{count}} Punkte"
   }
 }

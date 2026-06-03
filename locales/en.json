@@ -9,5 +9,20 @@
     "at": "Austria",
     "fr": "France",
     "it": "Italy"
+  },
+  "categories": {
+    "speeding": "Speeding",
+    "parking": "Parking",
+    "phone": "Phone use",
+    "redlight": "Red light",
+    "alcohol": "Alcohol"
+  },
+  "detail": {
+    "loading": "Loading fines…",
+    "error": "Could not load fines.",
+    "empty": "No fines for this country yet.",
+    "disclaimer": "Sample values – not legal advice.",
+    "points_one": "1 point",
+    "points_other": "{{count}} points"
   }
 }
