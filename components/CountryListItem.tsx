@@ -1,3 +1,4 @@
+import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -5,23 +6,27 @@ import type { Country } from '@/lib/countries';
 
 type Props = {
   country: Country;
-  onPress?: (country: Country) => void;
 };
 
-export function CountryListItem({ country, onPress }: Props) {
+export function CountryListItem({ country }: Props) {
   const { t } = useTranslation();
 
   return (
-    <Pressable
-      style={({ pressed }) => [styles.row, pressed && styles.pressed]}
-      onPress={() => onPress?.(country)}
+    <Link
+      href={{ pathname: '/country/[id]', params: { id: country.id } }}
+      asChild
     >
-      <Text style={styles.flag}>{country.flag}</Text>
-      <View style={styles.textContainer}>
-        <Text style={styles.name}>{t(country.nameKey)}</Text>
-      </View>
-      <Text style={styles.chevron}>›</Text>
-    </Pressable>
+      <Pressable
+        accessibilityRole="link"
+        style={({ pressed }) => [styles.row, pressed && styles.pressed]}
+      >
+        <Text style={styles.flag}>{country.flag}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.name}>{t(country.nameKey)}</Text>
+        </View>
+        <Text style={styles.chevron}>›</Text>
+      </Pressable>
+    </Link>
   );
 }
 
