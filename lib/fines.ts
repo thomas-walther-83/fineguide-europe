@@ -1,4 +1,4 @@
-import { isSupabaseConfigured, supabase } from './supabase';
+import { getSupabase, isSupabaseConfigured } from './supabase';
 
 /**
  * A single traffic fine ("Verkehrsbusse").
@@ -27,7 +27,7 @@ export async function fetchFinesByCountry(countryCode: string): Promise<Fine[]> 
     return sampleFinesByCountry(countryCode);
   }
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from('fines')
     .select(FINE_COLUMNS)
     .eq('country_code', countryCode)
