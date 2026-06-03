@@ -4,6 +4,19 @@ A cross-platform app (Web, iOS, Android) that shows traffic fines
 ("Verkehrsbussen") in European countries — built from a single codebase with
 **Expo**, **TypeScript** and **react-native-web**.
 
+## 📱 Live web app (install on your phone)
+The web build is deployed to GitHub Pages on every push to `main`:
+
+**https://thomas-walther-83.github.io/fineguide-europe/**
+
+To get an app-like icon on your iPhone: open the URL in **Safari** →
+**Share** → **Zum Home-Bildschirm**. The app then launches full-screen
+(PWA: manifest + icon + standalone display are configured).
+
+> First deploy: the GitHub Actions workflow auto-enables Pages. If Pages is not
+> enabled yet, go to **Settings → Pages → Build and deployment → Source:
+> GitHub Actions** once.
+
 ## Features (scaffold)
 - 📱 One codebase for Web + iOS + Android (Expo + react-native-web)
 - 🧭 File-based navigation with **Expo Router**
