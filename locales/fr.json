@@ -9,5 +9,20 @@
     "at": "Autriche",
     "fr": "France",
     "it": "Italie"
+  },
+  "categories": {
+    "speeding": "Vitesse",
+    "parking": "Stationnement",
+    "phone": "Téléphone",
+    "redlight": "Feu rouge",
+    "alcohol": "Alcool"
+  },
+  "detail": {
+    "loading": "Chargement des amendes…",
+    "error": "Impossible de charger les amendes.",
+    "empty": "Pas encore d’amendes pour ce pays.",
+    "disclaimer": "Valeurs d’exemple – pas un conseil juridique.",
+    "points_one": "1 point",
+    "points_other": "{{count}} points"
   }
 }

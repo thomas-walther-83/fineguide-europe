@@ -18,6 +18,7 @@ app/        Screens (Expo Router, file-based routing)
 components/ Reusable UI components
 lib/        Supabase client, i18n setup, shared data
 locales/    Translation files (de, en, fr, it)
+supabase/   SQL migrations + seed data
 ```
 
 ## Setup
@@ -25,17 +26,34 @@ locales/    Translation files (de, en, fr, it)
    ```bash
    npm install
    ```
-2. Create your environment file and fill in your Supabase values:
+2. (Optional) Create your environment file and fill in your Supabase values:
    ```bash
    cp .env.example .env
    ```
    > Only use the **anon / publishable** key — never the `service_role` key.
+   >
+   > Without a `.env`, the app runs on **bundled sample data**, so you can try
+   > it immediately.
 3. Start the app:
    ```bash
    npm run web      # browser
    npm run ios      # iOS simulator
    npm run android  # Android emulator
    ```
+
+## Supabase database
+The fines screen reads from a `fines` table. To use real data instead of the
+bundled sample:
+
+1. Create a project at [supabase.com](https://supabase.com) and copy its
+   **Project URL** and **anon/publishable key** into `.env`.
+2. In the Supabase dashboard → **SQL Editor**, run the contents of:
+   - [`supabase/migrations/0001_create_fines_table.sql`](./supabase/migrations/0001_create_fines_table.sql)
+   - [`supabase/seed.sql`](./supabase/seed.sql)
+3. Restart the dev server. The app now queries Supabase automatically.
+
+The table uses Row Level Security with read-only public access, matching the
+anon-key-only rule for the client.
 
 ## Useful scripts
 | Command | Description |
