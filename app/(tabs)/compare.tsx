@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { EuropeMap } from '@/components/EuropeMap';
 import { FilterPill } from '@/components/FilterPill';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { FlagChip } from '@/components/FlagChip';
 import { CATEGORIES, type CategoryId } from '@/lib/categories';
 import { COUNTRIES } from '@/lib/countries';
@@ -63,9 +64,7 @@ export default function CompareScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
-      <View style={styles.head}>
-        <Text style={[type.h1, { color: theme.text.primary }]}>{t('compare.title')}</Text>
-      </View>
+      <ScreenHeader title={t('compare.title')} subtitle={t('compare.subtitle')} />
 
       {/* Sticky violation selector — stays put while the map/table scroll. */}
       <View style={[styles.stickyBar, { backgroundColor: theme.bg.canvas, borderBottomColor: theme.border.subtle }]}>

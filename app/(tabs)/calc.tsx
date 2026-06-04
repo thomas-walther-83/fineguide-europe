@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { FilterPill } from '@/components/FilterPill';
 import { FlagChip } from '@/components/FlagChip';
 import { Pill } from '@/components/Pill';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { SeverityBar } from '@/components/SeverityBar';
 import { CATEGORIES, categoryIcon, type CategoryId } from '@/lib/categories';
 import { COUNTRIES, findCountry } from '@/lib/countries';
@@ -65,12 +66,8 @@ export default function CalculatorScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
+      <ScreenHeader title={t('calc.title')} subtitle={t('calc.subtitle')} />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={[type.display, { color: theme.text.primary }]}>{t('calc.title')}</Text>
-        <Text style={[type.body, styles.subtitle, { color: theme.text.secondary }]}>
-          {t('calc.subtitle')}
-        </Text>
-
         {/* Country */}
         <Text style={[type.label, styles.label, { color: theme.text.tertiary }]}>
           {t('calc.selectCountry')}
