@@ -1,5 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 import 'react-native-url-polyfill/auto';
 
 // Keys come from environment variables (see .env.example).
@@ -7,23 +6,28 @@ import 'react-native-url-polyfill/auto';
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn(
-    '[supabase] Missing EXPO_PUBLIC_SUPABASE_URL or EXPO_PUBLIC_SUPABASE_ANON_KEY. ' +
-      'Copy .env.example to .env and fill in your values. ' +
-      'The app falls back to bundled sample data until then.'
-  );
-}
-
 /** True when both Supabase env vars are present, so real queries can run. */
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
-export const supabase = createClient(supabaseUrl ?? '', supabaseAnonKey ?? '', {
-  auth: {
-    storage: AsyncStorage,
-    autoRefreshToken: true,
-    persistSession: true,
-    // Mobile apps do not use URL-based session detection.
-    detectSessionInUrl: false,
-  },
-});
+let client: SupabaseClient | null = null;
+
+/**
+ * Lazily create the Supabase client — only when env vars are configured.
+ * Creating it on import (even unused) pulls heavy code into the first render,
+ * so callers must guard with `isSupabaseConfigured` first.
+ */
+export function getSupabase(): SupabaseClient {
+  if (!isSupabaseConfigured) {
+    throw new Error(
+      '[supabase] Not configured. Set EXPO_PUBLIC_SUPABASE_URL and ' +
+        'EXPO_PUBLIC_SUPABASE_ANON_KEY (see .env.example).'
+    );
+  }
+  if (!client) {
+    // Read-only public data: no auth session to persist.
+    client = createClient(supabaseUrl!, supabaseAnonKey!, {
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+    });
+  }
+  return client;
+}
