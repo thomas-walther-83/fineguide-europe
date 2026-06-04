@@ -7,6 +7,7 @@ import { EuropeMap } from '@/components/EuropeMap';
 import { FlagChip } from '@/components/FlagChip';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { LocateButton } from '@/components/LocateButton';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { COUNTRIES, findCountry } from '@/lib/countries';
 import { useFavorites } from '@/lib/favorites';
 import { tapImpact } from '@/lib/haptics';
@@ -28,10 +29,9 @@ export default function CountriesScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
-      <View style={styles.header}>
-        <Text style={[type.h1, { color: theme.text.primary }]} numberOfLines={1}>
-          {t('home.title')}
-        </Text>
+      <ScreenHeader title={t('home.title')} subtitle={t('home.subtitle')} />
+
+      <View style={styles.controls}>
         <LanguageSwitcher />
       </View>
 
@@ -84,12 +84,7 @@ export default function CountriesScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  header: {
-    paddingHorizontal: space[4],
-    paddingTop: space[1],
-    paddingBottom: space[1],
-    gap: space[2],
-  },
+  controls: { paddingHorizontal: space[4], paddingBottom: space[2] },
   locateWrap: { paddingHorizontal: space[4], paddingBottom: space[2] },
   mapWrap: { flex: 1, paddingHorizontal: space[2], minHeight: 0 },
   footer: {
