@@ -1,14 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { FilterPill } from '@/components/FilterPill';
 import { FlagChip } from '@/components/FlagChip';
+import { SeverityBar } from '@/components/SeverityBar';
 import { CATEGORIES, type CategoryId } from '@/lib/categories';
 import { COUNTRIES } from '@/lib/countries';
 import { fetchAllFines, type Fine } from '@/lib/fines';
 import { severityColor } from '@/lib/severity';
-import { useTheme } from '@/lib/theme';
+import { elevation, radius, space, type, useTheme } from '@/lib/theme';
 
 export default function CompareScreen() {
   const { t } = useTranslation();
@@ -26,7 +28,7 @@ export default function CompareScreen() {
     };
   }, []);
 
-  // A category can now have several rows (e.g. speeding bands). Use the lowest
+  // A category can have several rows (e.g. speeding bands). Use the lowest
   // amount as the comparable representative ("entry-level" fine) per country.
   const rows = useMemo(
     () =>
@@ -46,79 +48,89 @@ export default function CompareScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.title, { color: theme.text.primary }]}>{t('compare.title')}</Text>
-        <Text style={[styles.subtitle, { color: theme.text.secondary }]}>{t('compare.subtitle')}</Text>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <Text style={[type.display, { color: theme.text.primary }]}>{t('compare.title')}</Text>
+        <Text style={[type.body, styles.subtitle, { color: theme.text.secondary }]}>
+          {t('compare.subtitle')}
+        </Text>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillsRow}>
-          {CATEGORIES.map((cat) => {
-            const active = cat.id === category;
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.pillsRow}
+          contentContainerStyle={styles.pillsContent}
+        >
+          {CATEGORIES.map((cat) => (
+            <FilterPill
+              key={cat.id}
+              label={`${cat.icon}  ${t(`categories.${cat.id}`)}`}
+              active={cat.id === category}
+              onPress={() => setCategory(cat.id)}
+            />
+          ))}
+        </ScrollView>
+
+        <View
+          style={[
+            styles.table,
+            elevation(theme, 'card'),
+            { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
+          ]}
+        >
+          <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+          <View style={styles.headRow}>
+            <Text style={[type.label, styles.colCountry, { color: theme.text.tertiary }]}>
+              {t('compare.country')}
+            </Text>
+            <Text style={[type.label, styles.colAmount, { color: theme.text.tertiary }]}>
+              {t('compare.amount')}
+            </Text>
+            <Text style={[type.label, styles.colPoints, { color: theme.text.tertiary }]}>
+              {t('compare.points')}
+            </Text>
+          </View>
+
+          {rows.map(({ country, fine }, i) => {
+            const sev = fine ? severityColor(theme, fine.amount, maxAmount) : theme.text.tertiary;
             return (
-              <Pressable
-                key={cat.id}
-                onPress={() => setCategory(cat.id)}
+              <View
+                key={country.id}
                 style={[
-                  styles.pill,
+                  styles.tr,
                   {
-                    backgroundColor: active ? theme.brand.primary : theme.bg.surfaceAlt,
-                    borderColor: theme.border.subtle,
+                    borderTopColor: theme.border.subtle,
+                    borderTopWidth: i === 0 ? 0 : StyleSheet.hairlineWidth,
                   },
                 ]}
               >
-                <Text
-                  style={[
-                    styles.pillText,
-                    { color: active ? theme.brand.onPrimary : theme.text.secondary },
-                  ]}
-                >
-                  {cat.icon} {t(`categories.${cat.id}`)}
-                </Text>
-              </Pressable>
+                <View style={styles.topLine}>
+                  <View style={[styles.colCountry, styles.countryCell]}>
+                    <FlagChip flag={country.flag} size={26} />
+                    <Text
+                      style={[type.bodyStrong, styles.countryName, { color: theme.text.primary }]}
+                      numberOfLines={1}
+                    >
+                      {t(country.nameKey)}
+                    </Text>
+                  </View>
+                  <Text style={[type.amount, styles.colAmount, { color: sev }]}>
+                    {fine ? `${fine.currency} ${fine.amount}` : '–'}
+                  </Text>
+                  <Text style={[type.bodyStrong, styles.colPoints, { color: theme.text.secondary }]}>
+                    {fine && fine.points != null ? fine.points : '–'}
+                  </Text>
+                </View>
+                {fine ? (
+                  <SeverityBar amount={fine.amount} maxRef={maxAmount} height={5} style={styles.bar} />
+                ) : null}
+              </View>
             );
           })}
-        </ScrollView>
-
-        <View style={[styles.table, { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle }]}>
-          <View style={[styles.tr, { backgroundColor: theme.bg.surfaceAlt, borderBottomColor: theme.border.subtle }]}>
-            <Text style={[styles.th, styles.colCountry, { color: theme.text.tertiary }]}>{t('compare.country')}</Text>
-            <Text style={[styles.th, styles.colAmount, { color: theme.text.tertiary }]}>{t('compare.amount')}</Text>
-            <Text style={[styles.th, styles.colPoints, { color: theme.text.tertiary }]}>{t('compare.points')}</Text>
-          </View>
-          {rows.map(({ country, fine }, i) => (
-            <View
-              key={country.id}
-              style={[
-                styles.tr,
-                {
-                  borderBottomColor: theme.border.subtle,
-                  backgroundColor: i % 2 ? theme.bg.surfaceAlt : 'transparent',
-                },
-              ]}
-            >
-              <View style={[styles.colCountry, styles.countryCell]}>
-                <FlagChip flag={country.flag} size={24} />
-                <Text style={[styles.countryName, { color: theme.text.primary }]} numberOfLines={1}>
-                  {t(country.nameKey)}
-                </Text>
-              </View>
-              <Text
-                style={[
-                  styles.td,
-                  styles.colAmount,
-                  styles.amount,
-                  { color: fine ? severityColor(theme, fine.amount, maxAmount) : theme.text.tertiary },
-                ]}
-              >
-                {fine ? `${fine.currency} ${fine.amount}` : '–'}
-              </Text>
-              <Text style={[styles.td, styles.colPoints, { color: theme.text.secondary }]}>
-                {fine && fine.points != null ? fine.points : '–'}
-              </Text>
-            </View>
-          ))}
         </View>
 
-        <Text style={[styles.disclaimer, { color: theme.text.tertiary }]}>{t('detail.disclaimer')}</Text>
+        <Text style={[type.caption, styles.disclaimer, { color: theme.text.tertiary }]}>
+          {t('detail.disclaimer')}
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
@@ -126,33 +138,30 @@ export default function CompareScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16 },
-  title: { fontSize: 24, fontWeight: '800' },
-  subtitle: { marginTop: 4, marginBottom: 14, fontSize: 14 },
-  pillsRow: { flexGrow: 0, marginBottom: 16 },
-  pill: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 999,
+  content: { padding: space[4], paddingBottom: space[10] },
+  subtitle: { marginTop: space[1], marginBottom: space[4] },
+  pillsRow: { flexGrow: 0, marginBottom: space[4], marginHorizontal: -space[4] },
+  pillsContent: { paddingHorizontal: space[4] },
+  table: {
+    borderRadius: radius.lg,
     borderWidth: StyleSheet.hairlineWidth,
-    marginRight: 8,
+    overflow: 'hidden',
+    paddingHorizontal: space[4],
   },
-  pillText: { fontSize: 14, fontWeight: '600' },
-  table: { borderRadius: 14, borderWidth: StyleSheet.hairlineWidth, overflow: 'hidden' },
-  tr: {
+  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
+  headRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingTop: space[4],
+    paddingBottom: space[3],
   },
-  th: { fontSize: 12, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 },
-  td: { fontSize: 15 },
+  tr: { paddingVertical: space[3] },
+  topLine: { flexDirection: 'row', alignItems: 'center' },
+  countryCell: { flexDirection: 'row', alignItems: 'center', gap: space[3] },
+  countryName: { flexShrink: 1 },
   colCountry: { flex: 1 },
-  countryCell: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  countryName: { fontSize: 15, fontWeight: '600', flexShrink: 1 },
-  colAmount: { width: 110, textAlign: 'right' },
-  colPoints: { width: 60, textAlign: 'right' },
-  amount: { fontWeight: '800', fontVariant: ['tabular-nums'] },
-  disclaimer: { marginTop: 12, fontSize: 12, textAlign: 'center' },
+  colAmount: { width: 104, textAlign: 'right' },
+  colPoints: { width: 56, textAlign: 'right' },
+  bar: { marginTop: space[2] },
+  disclaimer: { marginTop: space[4], textAlign: 'center' },
 });

@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { Pill } from '@/components/Pill';
+import { SeverityBar } from '@/components/SeverityBar';
 import { categoryIcon } from '@/lib/categories';
 import type { Fine } from '@/lib/fines';
-import { severityColor } from '@/lib/severity';
-import { useTheme } from '@/lib/theme';
+import { severityColor, severityForAmount } from '@/lib/severity';
+import { elevation, radius, space, type, useTheme } from '@/lib/theme';
 
 type Props = {
   fine: Fine;
@@ -16,38 +18,38 @@ export function FineListItem({ fine, maxAmount }: Props) {
   const { t } = useTranslation();
   const theme = useTheme();
   const sev = severityColor(theme, fine.amount, maxAmount);
+  const sevKey = severityForAmount(fine.amount, maxAmount);
 
   return (
     <View
       style={[
         styles.card,
+        elevation(theme, 'card'),
         { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
       ]}
     >
+      {/* premium top highlight (dark mode only; transparent in light) */}
+      <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+      {/* severity accent bar */}
       <View style={[styles.accent, { backgroundColor: sev }]} />
       <View style={styles.body}>
         <View style={styles.headerRow}>
-          <Text style={[styles.category, { color: theme.brand.primary }]} numberOfLines={1}>
+          <Text style={[type.label, styles.category, { color: theme.brand.primary }]} numberOfLines={1}>
             {categoryIcon(fine.category)}{' '}
             {t(`categories.${fine.category}`, { defaultValue: fine.category })}
           </Text>
-          <Text style={[styles.amount, { color: sev }]}>
-            <Text style={[styles.currency, { color: theme.text.secondary }]}>
-              {fine.currency}{' '}
-            </Text>
+          <Text style={[type.amount, { color: sev }]}>
+            <Text style={[styles.currency, { color: theme.text.secondary }]}>{fine.currency} </Text>
             {fine.amount}
           </Text>
         </View>
-        <Text style={[styles.description, { color: theme.text.primary }]}>
+        <Text style={[type.body, styles.description, { color: theme.text.primary }]}>
           {fine.description}
         </Text>
+        <SeverityBar amount={fine.amount} maxRef={maxAmount} style={styles.bar} />
         {fine.points != null && fine.points > 0 && (
           <View style={styles.footer}>
-            <View style={[styles.pointsPill, { backgroundColor: theme.accent.amberSoft }]}>
-              <Text style={[styles.pointsText, { color: theme.accent.amber }]}>
-                {t('detail.points', { count: fine.points })}
-              </Text>
-            </View>
+            <Pill tone={sevKey} label={t('detail.points', { count: fine.points })} />
           </View>
         )}
       </View>
@@ -58,31 +60,24 @@ export function FineListItem({ fine, maxAmount }: Props) {
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    borderRadius: 12,
+    borderRadius: radius.lg,
     borderWidth: StyleSheet.hairlineWidth,
-    marginBottom: 12,
+    marginBottom: space[3],
     overflow: 'hidden',
   },
-  accent: { width: 4 },
-  body: { flex: 1, padding: 16 },
+  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
+  accent: { width: 5 },
+  body: { flex: 1, padding: space[4] },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 6,
-    gap: 12,
+    marginBottom: space[2],
+    gap: space[3],
   },
-  category: {
-    flex: 1,
-    fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  amount: { fontSize: 18, fontWeight: '800', fontVariant: ['tabular-nums'] },
-  currency: { fontSize: 13, fontWeight: '600' },
-  description: { fontSize: 15, lineHeight: 21 },
-  footer: { flexDirection: 'row', marginTop: 10 },
-  pointsPill: { paddingVertical: 4, paddingHorizontal: 10, borderRadius: 999 },
-  pointsText: { fontSize: 12, fontWeight: '700' },
+  category: { flex: 1 },
+  currency: { ...type.captionStrong, fontWeight: '600' },
+  description: { marginBottom: space[3] },
+  bar: {},
+  footer: { flexDirection: 'row', marginTop: space[3] },
 });

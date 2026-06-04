@@ -8,11 +8,13 @@ import { EmptyState } from '@/components/EmptyState';
 import { FlagChip } from '@/components/FlagChip';
 import { Icon } from '@/components/Icon';
 import { Pill } from '@/components/Pill';
+import { SeverityBar } from '@/components/SeverityBar';
 import { SkeletonList } from '@/components/Skeleton';
 import { categoryIcon } from '@/lib/categories';
 import { findCountry } from '@/lib/countries';
 import { fetchAllFines, type Fine } from '@/lib/fines';
-import { severityColor } from '@/lib/severity';
+import { tapImpact } from '@/lib/haptics';
+import { severityColor, severityForAmount } from '@/lib/severity';
 import { elevation, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
 export default function SearchScreen() {
@@ -21,6 +23,7 @@ export default function SearchScreen() {
   const [fines, setFines] = useState<Fine[]>([]);
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState('');
+  const [focused, setFocused] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -50,21 +53,31 @@ export default function SearchScreen() {
   const maxAmount = useMemo(() => results.reduce((m, f) => Math.max(m, f.amount), 0), [results]);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
       <View style={styles.searchWrap}>
+        <Text style={[type.display, styles.heading, { color: theme.text.primary }]}>
+          {t('tabs.search')}
+        </Text>
         <View
           style={[
             styles.searchBox,
-            { backgroundColor: theme.bg.surfaceAlt, borderColor: theme.border.subtle },
+            {
+              backgroundColor: theme.bg.surface,
+              borderColor: focused ? theme.brand.primary : theme.border.subtle,
+              borderWidth: focused ? 1.5 : StyleSheet.hairlineWidth,
+            },
+            elevation(theme, 'card'),
           ]}
         >
-          <Icon name="search" size={18} color={theme.text.tertiary} />
+          <Icon name="search" size={18} color={focused ? theme.brand.primary : theme.text.tertiary} />
           <TextInput
-            style={[styles.input, { color: theme.text.primary }]}
+            style={[styles.input, type.body, { color: theme.text.primary }]}
             placeholder={t('search.placeholder')}
             placeholderTextColor={theme.text.tertiary}
             value={query}
             onChangeText={setQuery}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
             autoCorrect={false}
             returnKeyType="search"
           />
@@ -75,7 +88,7 @@ export default function SearchScreen() {
               onPress={() => setQuery('')}
               style={[styles.clear, { backgroundColor: theme.text.tertiary }]}
             >
-              <Text style={[styles.clearGlyph, { color: theme.bg.surfaceAlt }]}>×</Text>
+              <Text style={[styles.clearGlyph, { color: theme.bg.surface }]}>×</Text>
             </Pressable>
           ) : null}
         </View>
@@ -93,20 +106,19 @@ export default function SearchScreen() {
               <SkeletonList count={4} kind="card" />
             </View>
           ) : (
-            <EmptyState
-              icon="search"
-              title={trimmed ? t('search.noResults') : t('search.hint')}
-            />
+            <EmptyState icon="search" title={trimmed ? t('search.noResults') : t('search.hint')} />
           )
         }
         renderItem={({ item }) => {
           const country = findCountry(item.country_code);
           const severity = severityColor(theme, item.amount, maxAmount);
+          const sevKey = severityForAmount(item.amount, maxAmount);
           return (
             <Link href={{ pathname: '/country/[id]', params: { id: item.country_code } }} asChild>
               <Pressable
                 accessibilityRole="link"
                 accessibilityLabel={`${country ? t(country.nameKey) : item.country_code}, ${item.description}, ${item.currency} ${item.amount}`}
+                onPress={tapImpact}
                 style={({ pressed }) => [
                   styles.card,
                   elevation(theme, 'card'),
@@ -117,6 +129,7 @@ export default function SearchScreen() {
                   },
                 ]}
               >
+                <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
                 <View style={[styles.accent, { backgroundColor: severity }]} />
                 <View style={styles.cardBody}>
                   <View style={styles.cardHeader}>
@@ -134,9 +147,10 @@ export default function SearchScreen() {
                     {categoryIcon(item.category)} {t(`categories.${item.category}`)}
                   </Text>
                   <Text style={[type.body, { color: theme.text.primary }]}>{item.description}</Text>
+                  <SeverityBar amount={item.amount} maxRef={maxAmount} style={styles.bar} />
                   {item.points != null && item.points > 0 ? (
                     <View style={styles.footer}>
-                      <Pill tone="amber" label={t('detail.points', { count: item.points })} />
+                      <Pill tone={sevKey} label={t('detail.points', { count: item.points })} />
                     </View>
                   ) : null}
                 </View>
@@ -151,14 +165,14 @@ export default function SearchScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  searchWrap: { paddingHorizontal: space[4], paddingTop: space[3], paddingBottom: space[2] },
+  searchWrap: { paddingHorizontal: space[4], paddingTop: space[3], paddingBottom: space[3], gap: space[3] },
+  heading: {},
   searchBox: {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: radius.md,
-    borderWidth: StyleSheet.hairlineWidth,
-    paddingHorizontal: space[3],
-    minHeight: 48,
+    paddingHorizontal: space[4],
+    minHeight: 52,
     gap: space[2],
   },
   input: { flex: 1, paddingVertical: space[3], fontSize: 16 },
@@ -170,7 +184,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   clearGlyph: { fontSize: 15, lineHeight: 18, fontWeight: '700' },
-  listContent: { paddingHorizontal: space[4], paddingBottom: space[6] },
+  listContent: { paddingHorizontal: space[4], paddingBottom: space[10] },
   skeletonWrap: { paddingTop: space[2] },
   card: {
     flexDirection: 'row',
@@ -179,7 +193,8 @@ const styles = StyleSheet.create({
     marginBottom: space[3],
     overflow: 'hidden',
   },
-  accent: { width: 3 },
+  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1, zIndex: 1 },
+  accent: { width: 5 },
   cardBody: { flex: 1, padding: space[4] },
   cardHeader: {
     flexDirection: 'row',
@@ -190,5 +205,6 @@ const styles = StyleSheet.create({
   },
   countryCell: { flexDirection: 'row', alignItems: 'center', gap: space[2], flexShrink: 1 },
   category: { marginBottom: space[1] },
+  bar: { marginTop: space[3] },
   footer: { flexDirection: 'row', marginTop: space[3] },
 });
