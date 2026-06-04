@@ -18,7 +18,7 @@ import {
   MAP_VIEWBOX,
   NEIGHBOR_PATHS,
 } from '@/lib/mapData';
-import { radius, space, type, useTheme } from '@/lib/theme';
+import { radius, useTheme } from '@/lib/theme';
 
 type Props = {
   /** Called with the country id when a country shape is tapped. */
@@ -102,20 +102,26 @@ export function EuropeMap({ onSelectCountry, fillFor, selectedId, maxHeight }: P
                 const isActive = active === c.id;
                 const isSelected = selectedId === c.id;
                 const override = fillFor?.(c.id);
-                const base = override ?? theme.bg.surface;
-                const fill = isActive ? blend(base, theme) : base;
+                // Home (no override): strong brand-tinted land that clearly
+                // stands out from the sea + faint neighbours. Compare (override):
+                // the severity colour at full strength.
+                const fill = override ?? theme.brand.primary;
+                const fillOpacity = override ? (isActive ? 0.85 : 1) : isActive ? 0.65 : 0.34;
                 const stroke = isSelected
                   ? theme.brand.primary
                   : isActive
-                    ? theme.text.secondary
-                    : theme.border.strong;
+                    ? theme.text.primary
+                    : override
+                      ? theme.border.strong
+                      : theme.brand.primary;
                 return (
                   <Path
                     key={c.id}
                     d={d}
                     fill={fill}
+                    fillOpacity={fillOpacity}
                     stroke={stroke}
-                    strokeWidth={isSelected ? 2.4 : isActive ? 1.6 : 1}
+                    strokeWidth={isSelected ? 2.6 : isActive ? 2 : 1.3}
                     strokeLinejoin="round"
                     // Tapping anywhere on the shape selects it (web + native).
                     onPress={() => handlePress(c.id)}
@@ -133,7 +139,8 @@ export function EuropeMap({ onSelectCountry, fillFor, selectedId, maxHeight }: P
             </G>
           </Svg>
 
-          {/* Flag chips at label anchors. */}
+          {/* Flag-only badges at each country centroid (keeps small countries
+              identifiable without covering them with a wide label). */}
           {COUNTRIES.map((c) => {
             const anchor = COUNTRY_LABEL_ANCHORS[c.id];
             if (!anchor) return null;
@@ -144,7 +151,7 @@ export function EuropeMap({ onSelectCountry, fillFor, selectedId, maxHeight }: P
                 key={`lbl-${c.id}`}
                 pointerEvents="none"
                 style={[
-                  styles.chip,
+                  styles.flagBadge,
                   {
                     left,
                     top,
@@ -153,10 +160,7 @@ export function EuropeMap({ onSelectCountry, fillFor, selectedId, maxHeight }: P
                   },
                 ]}
               >
-                <Text style={styles.chipFlag}>{c.flag}</Text>
-                <Text style={[type.label, styles.chipCode, { color: theme.text.secondary }]}>
-                  {c.id.toUpperCase()}
-                </Text>
+                <Text style={styles.badgeFlag}>{c.flag}</Text>
               </View>
             );
           })}
@@ -188,39 +192,29 @@ export function EuropeMap({ onSelectCountry, fillFor, selectedId, maxHeight }: P
   );
 }
 
-/** Lighten/darken a fill slightly to signal hover/press without a new token. */
-function blend(_base: string, theme: ReturnType<typeof useTheme>): string {
-  // A translucent brand wash reads as "active" over any base fill in both modes.
-  return theme.mode === 'dark'
-    ? 'rgba(91,141,239,0.55)'
-    : 'rgba(37,99,230,0.30)';
-}
-
 const styles = StyleSheet.create({
   fill: { flex: 1, alignItems: 'center', justifyContent: 'center', width: '100%' },
   stage: { position: 'relative' },
-  chip: {
+  flagBadge: {
     position: 'absolute',
-    flexDirection: 'row',
+    width: 28,
+    height: 28,
     alignItems: 'center',
-    gap: 3,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
+    justifyContent: 'center',
     borderRadius: radius.pill,
     borderWidth: StyleSheet.hairlineWidth,
-    transform: [{ translateX: -18 }, { translateY: -10 }],
+    transform: [{ translateX: -14 }, { translateY: -14 }],
     ...Platform.select({
-      web: { boxShadow: '0 2px 8px rgba(11,18,32,0.18)' } as object,
+      web: { boxShadow: '0 2px 8px rgba(11,18,32,0.22)' } as object,
       default: {
         shadowColor: '#0B1220',
-        shadowOpacity: 0.18,
+        shadowOpacity: 0.2,
         shadowRadius: 6,
         shadowOffset: { width: 0, height: 2 },
         elevation: 2,
       },
     }),
   },
-  chipFlag: { fontSize: 11, lineHeight: 13 },
-  chipCode: { fontSize: 9, letterSpacing: 0.3 },
+  badgeFlag: { fontSize: 16, lineHeight: 19 },
   hit: { position: 'absolute', width: 44, height: 44, borderRadius: 22 },
 });
