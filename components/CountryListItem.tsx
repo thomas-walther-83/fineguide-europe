@@ -2,6 +2,7 @@ import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { FavoriteButton } from '@/components/FavoriteButton';
 import { FlagChip } from '@/components/FlagChip';
 import { Icon } from '@/components/Icon';
 import type { Country } from '@/lib/countries';
@@ -41,7 +42,10 @@ export function CountryListItem({ country }: Props) {
             {subtitle}
           </Text>
         </View>
-        <Icon name="chevron-right" size={20} color={theme.text.tertiary} />
+        <View style={styles.trailing}>
+          <FavoriteButton id={country.id} />
+          <Icon name="chevron-right" size={20} color={theme.text.tertiary} />
+        </View>
       </Pressable>
     </Link>
   );
@@ -61,4 +65,5 @@ const styles = StyleSheet.create({
   },
   textContainer: { flex: 1 },
   subtitle: { marginTop: 2 },
+  trailing: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
 });

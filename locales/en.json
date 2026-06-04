@@ -60,6 +60,14 @@
     "source": "Source",
     "updated": "Updated"
   },
+  "favorites": {
+    "title": "Favorites",
+    "add": "Add to favorites",
+    "remove": "Remove from favorites"
+  },
+  "offline": {
+    "banner": "Offline – showing saved data"
+  },
   "common": {
     "retry": "Retry"
   }
