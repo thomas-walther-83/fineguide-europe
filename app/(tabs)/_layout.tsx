@@ -57,7 +57,7 @@ export default function TabsLayout() {
     >
       <Tabs.Screen
         name="index"
-        options={{ title: t('tabs.countries'), tabBarIcon: icon('globe') }}
+        options={{ title: t('tabs.countries'), tabBarIcon: icon('globe'), headerShown: false }}
       />
       <Tabs.Screen
         name="compare"

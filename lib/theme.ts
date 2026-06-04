@@ -58,10 +58,10 @@ const dark: Theme = {
     midSoft: 'rgba(251,191,85,0.16)',
     highSoft: 'rgba(251,113,133,0.16)',
   },
-  // Deep near-black navy canvas, layered elevated surfaces.
-  bg: { canvas: '#0B1220', surface: '#121C2E', surfaceAlt: '#1A2638', elevated: '#16223A' },
-  border: { subtle: '#243247', strong: '#33455F' },
-  highlight: 'rgba(255,255,255,0.06)',
+  // Softer navy canvas (less inky), clearly layered elevated surfaces.
+  bg: { canvas: '#151D2C', surface: '#1F2A3E', surfaceAlt: '#28344B', elevated: '#232F45' },
+  border: { subtle: '#2E3C54', strong: '#3C4E6A' },
+  highlight: 'rgba(255,255,255,0.07)',
   text: { primary: '#F3F6FB', secondary: '#A4B4C8', tertiary: '#6C7E94' },
 };
 

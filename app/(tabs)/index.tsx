@@ -12,12 +12,16 @@ import { useFavorites } from '@/lib/favorites';
 import { tapImpact } from '@/lib/haptics';
 import { elevation, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
+// Fixed strong blue for the Compare CTA so white text always has good contrast
+// in both light and dark.
+const CTA_BLUE = '#2563E6';
+const CTA_BLUE_PRESSED = '#1B4FCC';
+
 export default function CountriesScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
   const { favorites } = useFavorites();
 
-  // Favorite countries, in the order the user starred them; ignore any stale ids.
   const favoriteCountries = favorites
     .map((id) => findCountry(id))
     .filter((c): c is NonNullable<typeof c> => c != null);
@@ -31,13 +35,11 @@ export default function CountriesScreen() {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View style={styles.header}>
-            <View style={styles.heroTop}>
-              <View style={styles.heroText}>
-                <Text style={[type.label, styles.eyebrow, { color: theme.brand.primary }]}>
-                  {t('home.title')}
-                </Text>
-                <Text style={[type.hero, { color: theme.text.primary }]}>{t('home.subtitle')}</Text>
-              </View>
+            <View>
+              <Text style={[type.display, { color: theme.text.primary }]}>{t('home.title')}</Text>
+              <Text style={[type.caption, styles.subtitle, { color: theme.text.secondary }]} numberOfLines={2}>
+                {t('home.subtitle')}
+              </Text>
             </View>
 
             <LanguageSwitcher />
@@ -49,36 +51,28 @@ export default function CountriesScreen() {
                 onPress={tapImpact}
                 style={({ pressed }) => [
                   styles.cta,
-                  elevation(theme, 'raised'),
+                  elevation(theme, 'card'),
                   {
-                    backgroundColor: pressed ? theme.brand.primaryPressed : theme.brand.primary,
+                    backgroundColor: pressed ? CTA_BLUE_PRESSED : CTA_BLUE,
                     transform: [{ scale: pressed ? PRESS_SCALE : 1 }],
                   },
                 ]}
               >
-                {/* decorative severity ramp on the CTA edge */}
-                <View pointerEvents="none" style={styles.ctaRamp}>
-                  <View style={[styles.rampSeg, { backgroundColor: theme.severity.low }]} />
-                  <View style={[styles.rampSeg, { backgroundColor: theme.severity.mid }]} />
-                  <View style={[styles.rampSeg, { backgroundColor: theme.severity.high }]} />
-                </View>
                 <View style={styles.ctaIconBadge}>
-                  <Icon name="compare" size={22} color={theme.brand.onPrimary} />
+                  <Icon name="compare" size={20} color="#FFFFFF" />
                 </View>
                 <View style={styles.ctaText}>
-                  <Text style={[type.h2, { color: theme.brand.onPrimary }]}>
-                    {t('compare.title')}
-                  </Text>
-                  <Text style={[type.caption, styles.ctaSubtitle, { color: theme.brand.onPrimary }]}>
+                  <Text style={[type.h2, { color: '#FFFFFF' }]}>{t('compare.title')}</Text>
+                  <Text style={[type.caption, styles.ctaSubtitle]} numberOfLines={1}>
                     {t('compare.subtitle')}
                   </Text>
                 </View>
-                <Icon name="chevron-right" size={22} color={theme.brand.onPrimary} />
+                <Icon name="chevron-right" size={20} color="#FFFFFF" />
               </Pressable>
             </Link>
 
             {favoriteCountries.length > 0 && (
-              <View>
+              <View style={styles.section}>
                 <SectionHeader title={t('favorites.title')} />
                 {favoriteCountries.map((country) => (
                   <CountryListItem key={country.id} country={country} />
@@ -97,30 +91,26 @@ export default function CountriesScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  listContent: { padding: space[4], paddingBottom: space[12] },
-  header: { gap: space[5], paddingTop: space[2] },
-  heroTop: { flexDirection: 'row', alignItems: 'flex-start' },
-  heroText: { flex: 1, gap: space[1] },
-  eyebrow: {},
+  listContent: { paddingHorizontal: space[4], paddingTop: space[2], paddingBottom: space[12] },
+  header: { gap: space[4] },
+  subtitle: { marginTop: space[1] },
   cta: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: radius.xl,
-    padding: space[4],
-    paddingLeft: space[5],
+    borderRadius: radius.lg,
+    paddingVertical: space[3],
+    paddingHorizontal: space[4],
     gap: space[3],
-    overflow: 'hidden',
   },
-  ctaRamp: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 5 },
-  rampSeg: { flex: 1 },
   ctaIconBadge: {
-    width: 46,
-    height: 46,
+    width: 40,
+    height: 40,
     borderRadius: radius.md,
-    backgroundColor: 'rgba(255,255,255,0.18)',
+    backgroundColor: 'rgba(255,255,255,0.20)',
     alignItems: 'center',
     justifyContent: 'center',
   },
   ctaText: { flex: 1 },
-  ctaSubtitle: { marginTop: 2, opacity: 0.92 },
+  ctaSubtitle: { marginTop: 1, color: 'rgba(255,255,255,0.9)' },
+  section: { gap: space[0] },
 });
