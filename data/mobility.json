@@ -259,5 +259,121 @@
     },
     "source_url": "https://hac.hr/en/toll/toll-rates",
     "updated_at": "2026-06-04"
+  },
+  "pt": {
+    "country_code": "pt",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine Vignette. Auf den Autobahnen gilt eine streckenbezogene elektronische Maut, auf ehemaligen SCUT-Strecken ausschliesslich elektronisch (kein Barzahlungsschalter).",
+      "note_en": "No vignette. Motorways use distance-based electronic tolling; the former SCUT roads are toll-by-plate only (no cash booths).",
+      "note_fr": "Pas de vignette. Les autoroutes utilisent un péage électronique au kilomètre ; les anciennes routes SCUT sont uniquement à péage électronique (sans guichet en espèces).",
+      "note_it": "Nessuna vignetta. Le autostrade usano un pedaggio elettronico a distanza; le ex strade SCUT sono solo a pedaggio elettronico (senza casello in contanti)."
+    },
+    "toll": {
+      "system": "distance",
+      "note_de": "Streckenbezogene Maut. Klassische Mautstellen akzeptieren Karte/Bargeld; auf den elektronischen Strecken (ex-SCUT) zahlt man über Via Verde (On-Board-Unit) oder vorab/nachträglich registrierte Systeme wie Easytoll/Tollcard. Mietwagen haben meist ein Via-Verde-Gerät.",
+      "note_en": "Distance-based toll. Conventional toll plazas accept card/cash; electronic (ex-SCUT) sections are paid via Via Verde (on-board unit) or pre-/post-paid schemes such as Easytoll/Tollcard. Rental cars usually carry a Via Verde device.",
+      "note_fr": "Péage au kilomètre. Les barrières classiques acceptent carte/espèces ; les tronçons électroniques (ex-SCUT) se paient via Via Verde (boîtier embarqué) ou des systèmes pré/post-payés comme Easytoll/Tollcard. Les voitures de location ont souvent un boîtier Via Verde.",
+      "note_it": "Pedaggio a distanza. I caselli classici accettano carta/contanti; i tratti elettronici (ex-SCUT) si pagano tramite Via Verde (dispositivo di bordo) o sistemi pre/post-pagati come Easytoll/Tollcard. Le auto a noleggio hanno spesso un dispositivo Via Verde."
+    },
+    "lowEmissionZones": {
+      "scheme": "ZER",
+      "note_de": "Lissabon hat eine Umweltzone (ZER Avenida/Baixa-Chiado): ältere Fahrzeuge (vor bestimmten Euro-Normen) dürfen nicht in die Innenstadtzonen einfahren. Sonst keine landesweiten Umweltzonen.",
+      "note_en": "Lisbon has a low-emission zone (ZER Avenida/Baixa-Chiado): older vehicles (below set Euro standards) may not enter the central zones. Otherwise no nationwide low-emission zones.",
+      "note_fr": "Lisbonne dispose d'une zone à faibles émissions (ZER Avenida/Baixa-Chiado) : les véhicules anciens (en deçà de certaines normes Euro) ne peuvent pas entrer dans les zones centrales. Sinon, pas de zones à faibles émissions au niveau national.",
+      "note_it": "Lisbona ha una zona a basse emissioni (ZER Avenida/Baixa-Chiado): i veicoli più vecchi (sotto determinati standard Euro) non possono entrare nelle zone centrali. Altrimenti nessuna zona a basse emissioni a livello nazionale."
+    },
+    "source_url": "https://www.visitportugal.com/en/content/tolls",
+    "updated_at": "2026-06-04"
+  },
+  "gr": {
+    "country_code": "gr",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine Autobahnvignette. Stattdessen streckenbezogene Maut an Mautstationen auf den grossen Autobahnen.",
+      "note_en": "No motorway vignette. Instead there is distance-based toll at toll stations on the major motorways.",
+      "note_fr": "Pas de vignette autoroutière. À la place, péage au kilomètre aux gares de péage sur les grandes autoroutes.",
+      "note_it": "Nessuna vignetta autostradale. Al suo posto, pedaggio a distanza ai caselli sulle principali autostrade."
+    },
+    "toll": {
+      "system": "distance",
+      "note_de": "Streckenbezogene Maut an Mautstationen (offenes System mit festen Beträgen je Abschnitt) auf Autobahnen wie der PATHE (Athen–Thessaloniki), Egnatia Odos sowie an der Rio-Andirrio-Brücke und im Aktio-Preveza-Tunnel. Zahlung bar, mit Karte oder per Transponder (z. B. e-pass/Fast Pass).",
+      "note_en": "Distance-based toll at toll stations (open system with fixed amounts per section) on motorways such as PATHE (Athens–Thessaloniki), Egnatia Odos, plus the Rio–Antirrio bridge and the Aktio–Preveza tunnel. Pay by cash, card or transponder (e.g. e-pass/Fast Pass).",
+      "note_fr": "Péage au kilomètre aux gares de péage (système ouvert avec montants fixes par section) sur des autoroutes comme la PATHE (Athènes–Thessalonique), l'Egnatia Odos, ainsi que le pont Rio–Antirrio et le tunnel Aktio–Preveza. Paiement en espèces, par carte ou transpondeur (p. ex. e-pass/Fast Pass).",
+      "note_it": "Pedaggio a distanza ai caselli (sistema aperto con importi fissi per tratta) su autostrade come la PATHE (Atene–Salonicco), l'Egnatia Odos, oltre al ponte Rio–Antirrio e al tunnel Aktio–Preveza. Pagamento in contanti, con carta o transponder (es. e-pass/Fast Pass)."
+    },
+    "lowEmissionZones": {
+      "scheme": "daktylios",
+      "note_de": "Keine klassischen Umweltzonen, aber im Zentrum von Athen gilt der „Daktylios“ – eine Zufahrtsbeschränkung nach Kennzeichenendziffer (gerade/ungerade) an Werktagen.",
+      "note_en": "No classic low-emission zones, but central Athens has the 'daktylios' – an access restriction by number-plate last digit (odd/even) on weekdays.",
+      "note_fr": "Pas de zones à faibles émissions classiques, mais le centre d'Athènes applique le « daktylios » – une restriction d'accès selon le dernier chiffre de la plaque (pair/impair) en semaine.",
+      "note_it": "Nessuna zona a basse emissioni classica, ma il centro di Atene applica il «daktylios» – una restrizione di accesso in base all'ultima cifra della targa (pari/dispari) nei giorni feriali."
+    },
+    "source_url": "https://www.tolls.eu/greece",
+    "updated_at": "2026-06-04"
+  },
+  "lu": {
+    "country_code": "lu",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine Pkw-Vignette. Autobahnen sind für Pkw kostenlos.",
+      "note_en": "No car vignette. Motorways are free for passenger cars.",
+      "note_fr": "Pas de vignette pour les voitures. Les autoroutes sont gratuites pour les voitures particulières.",
+      "note_it": "Nessuna vignetta per le auto. Le autostrade sono gratuite per le auto."
+    },
+    "toll": {
+      "system": "none",
+      "note_de": "Keine streckenbezogene Pkw-Maut. Mautpflichtig sind nur schwere Lkw über 12 t (Eurovignette).",
+      "note_en": "No distance-based car toll. Only heavy trucks over 12 t are tolled (Eurovignette).",
+      "note_fr": "Pas de péage au kilomètre pour les voitures. Seuls les poids lourds de plus de 12 t sont soumis au péage (Eurovignette).",
+      "note_it": "Nessun pedaggio a distanza per le auto. Solo i mezzi pesanti oltre 12 t sono soggetti a pedaggio (Eurovignette)."
+    },
+    "lowEmissionZones": {
+      "scheme": "none",
+      "note_de": "Keine landesweiten Umweltzonen für Pkw.",
+      "note_en": "No nationwide low-emission zones for cars.",
+      "note_fr": "Pas de zones à faibles émissions à l'échelle nationale pour les voitures.",
+      "note_it": "Nessuna zona a basse emissioni a livello nazionale per le auto."
+    },
+    "source_url": "https://www.kodino.com/uk/tolls/luxembourg",
+    "updated_at": "2026-06-04"
+  },
+  "si": {
+    "country_code": "si",
+    "vignette": {
+      "required": true,
+      "price": 117.5,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Elektronische Vignette (e-vinjeta) für alle Autobahnen und Schnellstrassen, Pkw bis 3,5 t (Klasse 2A). Jahresvignette 2026: 117,50 €. Kurzvignetten: 1 Woche 16 €, 1 Monat 32 €. Kein Klebepickerl mehr – an Kennzeichen gebunden.",
+      "note_en": "Electronic vignette (e-vinjeta) for all motorways and expressways, cars up to 3.5 t (class 2A). 2026 annual vignette: EUR 117.50. Short-term: 1-week EUR 16, 1-month EUR 32. No sticker any more – linked to the number plate.",
+      "note_fr": "Vignette électronique (e-vinjeta) pour toutes les autoroutes et voies rapides, voitures jusqu'à 3,5 t (classe 2A). Vignette annuelle 2026 : 117,50 €. Courte durée : 1 semaine 16 €, 1 mois 32 €. Plus d'autocollant – liée à la plaque d'immatriculation.",
+      "note_it": "Vignetta elettronica (e-vinjeta) per tutte le autostrade e superstrade, auto fino a 3,5 t (classe 2A). Vignetta annuale 2026: 117,50 €. Breve durata: 1 settimana 16 €, 1 mese 32 €. Niente più adesivo – legata alla targa."
+    },
+    "toll": {
+      "system": "vignette-plus-special",
+      "note_de": "Über die e-Vignette hinaus keine streckenbezogene Pkw-Maut. Der Karawanken-Tunnel (Richtung Österreich) ist gesondert mautpflichtig.",
+      "note_en": "Beyond the e-vignette there is no distance-based car toll. The Karawanken tunnel (towards Austria) carries a separate toll.",
+      "note_fr": "Au-delà de l'e-vignette, pas de péage au kilomètre pour les voitures. Le tunnel des Karawanken (vers l'Autriche) a un péage distinct.",
+      "note_it": "Oltre all'e-vignetta non c'è pedaggio a distanza per le auto. Il tunnel delle Caravanche (verso l'Austria) ha un pedaggio separato."
+    },
+    "lowEmissionZones": {
+      "scheme": "none",
+      "note_de": "Keine landesweiten Umweltzonen für Pkw. In der Altstadt von Ljubljana gilt eine weitgehend autofreie Zone (Zufahrtsbeschränkungen).",
+      "note_en": "No nationwide low-emission zones for cars. Ljubljana's old town is a largely car-free zone (access restrictions).",
+      "note_fr": "Pas de zones à faibles émissions à l'échelle nationale pour les voitures. Le centre historique de Ljubljana est une zone largement piétonne (restrictions d'accès).",
+      "note_it": "Nessuna zona a basse emissioni a livello nazionale per le auto. Il centro storico di Lubiana è una zona in gran parte pedonale (restrizioni di accesso)."
+    },
+    "source_url": "https://evinjeta.dars.si/en",
+    "updated_at": "2026-06-04"
   }
 }

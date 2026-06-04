@@ -3,8 +3,8 @@
 // Extracts + projects the 5 target countries (CH, DE, AT, FR, IT) plus a set of
 // faint context neighbours from Natural Earth 1:50m Admin-0 Countries (PUBLIC
 // DOMAIN — https://www.naturalearthdata.com/about/terms-of-use/, no attribution
-// required) into one shared SVG viewBox framed on the Alpine / central-Europe
-// cluster. Rings are simplified with Douglas–Peucker and overseas territories
+// required) into one shared SVG viewBox framed on western Europe through the
+// Aegean. Rings are simplified with Douglas–Peucker and overseas territories
 // are clipped to the visible frame. Shapes are intentionally approximate.
 //
 // Usage:
@@ -14,17 +14,18 @@ const fs = require('fs');
 const SRC = process.env.NE_GEOJSON || '/tmp/ne50.geojson';
 const gj = JSON.parse(fs.readFileSync(SRC, 'utf8'));
 
-// ISO_A3 codes -> our app ids for the 9 tappable countries.
+// ISO_A3 codes -> our app ids for the 13 tappable countries.
 const TARGET = {
   CHE: 'ch', DEU: 'de', AUT: 'at', FRA: 'fr', ITA: 'it',
   ESP: 'es', NLD: 'nl', BEL: 'be', HRV: 'hr',
+  PRT: 'pt', GRC: 'gr', LUX: 'lu', SVN: 'si',
 };
 // Faint context neighbors (drawn behind, low contrast, not tappable).
-// (ESP, NLD, BEL, HRV are now tappable targets, so dropped from here.)
+// (ESP, NLD, BEL, HRV, PRT, GRC, LUX, SVN are now tappable targets, dropped.)
 const NEIGHBORS = new Set([
-  'LUX', 'CZE', 'POL', 'SVK', 'HUN', 'SVN', 'BIH', 'SRB', 'MNE',
-  'GBR', 'IRL', 'DNK', 'GRC', 'LIE', 'MCO', 'AND', 'SMR', 'TUN', 'DZA',
-  'MAR', 'PRT', 'GIB',
+  'CZE', 'POL', 'SVK', 'HUN', 'BIH', 'SRB', 'MNE', 'MKD', 'ALB',
+  'GBR', 'IRL', 'DNK', 'LIE', 'MCO', 'AND', 'SMR', 'TUN', 'DZA',
+  'MAR', 'GIB', 'BGR', 'TUR', 'ROU', 'XKX',
 ]);
 
 function iso(f) {
@@ -32,12 +33,16 @@ function iso(f) {
   return p.ISO_A3 !== '-99' ? p.ISO_A3 : p.ADM0_A3;
 }
 
-// View frame in lon/lat, framed on the 9 target countries (W Europe + Adriatic).
-// ESP reaches ~ -9.3 lon (Galicia), HRV reaches ~ 19.4 lon (Slavonia) and ~42.4
-// lat (Dubrovnik); NLD reaches ~ 53.5 lat; ESP/ITA reach ~ 36 lat (Andalusia /
-// Sicily). Widened west + slightly trimmed north vs the old Alpine-only frame.
-const LON0 = -9.8, LON1 = 19.8; // west..east
-const LAT0 = 35.4, LAT1 = 54.2; // south..north
+// View frame in lon/lat, framed on the 13 target countries (Iberia -> Aegean).
+// West edge: Portugal/Galicia reach ~ -9.5 lon (Cabo da Roca). East edge: mainland
+// Greece (Thrace) reaches ~ 28.3 lon. North: NLD ~ 53.5 lat. South: we frame
+// MAINLAND Greece (Peloponnese ~ 36.4 lat) and deliberately EXCLUDE Crete (~34.8
+// lat): including Crete would push LAT0 ~0.6° further south, shrinking every
+// country for one island. ESP/ITA reach ~ 36 lat (Andalusia / Sicily). The wide
+// Iberia->Aegean span (~38° lon) makes the small central countries (LU, SI, CH,
+// BE) render quite small — acceptable for an overview; search/list cover detail.
+const LON0 = -9.9, LON1 = 28.6; // west..east
+const LAT0 = 35.0, LAT1 = 54.2; // south..north (Crete excluded)
 const W = 1000;
 // Equirectangular with cos(midLat) so 1° lon ≈ cos(lat)·(1° lat) in pixels —
 // keeps shapes correctly proportioned (not horizontally stretched).
@@ -210,10 +215,10 @@ const q = (s) => JSON.stringify(s);
 let ts = `// AUTO-GENERATED stylized map geometry. Do not edit by hand.
 //
 // Source: Natural Earth 1:50m Admin-0 Countries (public domain, no attribution
-// required) — https://www.naturalearthdata.com/ . The nine target countries +
+// required) — https://www.naturalearthdata.com/ . The 13 target countries +
 // faint context neighbours, extracted, simplified (Douglas–Peucker) and
 // projected (equirectangular, cos(midLat)-corrected so shapes are not stretched)
-// into a shared SVG viewBox framed on western Europe + the Adriatic.
+// into a shared SVG viewBox framed on western Europe through the Aegean.
 // Regenerate with scripts/extract-map.js. Shapes are approximate.
 
 export const MAP_VIEWBOX = { width: ${W}, height: ${H} } as const;
