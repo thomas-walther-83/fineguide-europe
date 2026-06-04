@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { FlagChip } from '@/components/FlagChip';
+import { Icon } from '@/components/Icon';
 import type { Country } from '@/lib/countries';
-import { useTheme } from '@/lib/theme';
+import { elevation, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
 type Props = {
   country: Country;
@@ -22,20 +23,25 @@ export function CountryListItem({ country }: Props) {
     <Link href={{ pathname: '/country/[id]', params: { id: country.id } }} asChild>
       <Pressable
         accessibilityRole="link"
+        accessibilityLabel={`${t(country.nameKey)}, ${subtitle}`}
         style={({ pressed }) => [
           styles.row,
+          elevation(theme, 'card'),
           {
             backgroundColor: pressed ? theme.bg.surfaceAlt : theme.bg.surface,
             borderColor: theme.border.subtle,
+            transform: [{ scale: pressed ? PRESS_SCALE : 1 }],
           },
         ]}
       >
         <FlagChip flag={country.flag} />
         <View style={styles.textContainer}>
-          <Text style={[styles.name, { color: theme.text.primary }]}>{t(country.nameKey)}</Text>
-          <Text style={[styles.subtitle, { color: theme.text.secondary }]}>{subtitle}</Text>
+          <Text style={[type.h2, { color: theme.text.primary }]}>{t(country.nameKey)}</Text>
+          <Text style={[type.caption, styles.subtitle, { color: theme.text.secondary }]}>
+            {subtitle}
+          </Text>
         </View>
-        <Text style={[styles.chevron, { color: theme.text.tertiary }]}>›</Text>
+        <Icon name="chevron-right" size={20} color={theme.text.tertiary} />
       </Pressable>
     </Link>
   );
@@ -45,16 +51,14 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    borderRadius: 12,
+    paddingVertical: space[3],
+    paddingHorizontal: space[4],
+    borderRadius: radius.lg,
     borderWidth: StyleSheet.hairlineWidth,
-    marginBottom: 12,
-    gap: 14,
-    minHeight: 64,
+    marginBottom: space[3],
+    gap: space[4],
+    minHeight: 68,
   },
   textContainer: { flex: 1 },
-  name: { fontSize: 17, fontWeight: '700' },
-  subtitle: { marginTop: 2, fontSize: 13 },
-  chevron: { fontSize: 26, fontWeight: '300' },
+  subtitle: { marginTop: 2 },
 });

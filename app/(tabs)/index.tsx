@@ -4,9 +4,11 @@ import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CountryListItem } from '@/components/CountryListItem';
+import { Icon } from '@/components/Icon';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { SectionHeader } from '@/components/SectionHeader';
 import { COUNTRIES } from '@/lib/countries';
-import { useTheme } from '@/lib/theme';
+import { elevation, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
 export default function CountriesScreen() {
   const { t } = useTranslation();
@@ -18,38 +20,49 @@ export default function CountriesScreen() {
         data={COUNTRIES}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
         ListHeaderComponent={
           <View style={styles.header}>
-            <Text style={[styles.title, { color: theme.text.primary }]}>{t('home.title')}</Text>
-            <Text style={[styles.subtitle, { color: theme.text.secondary }]}>
-              {t('home.subtitle')}
-            </Text>
+            <View style={styles.heroTop}>
+              <View style={styles.heroText}>
+                <Text style={[type.display, { color: theme.text.primary }]}>{t('home.title')}</Text>
+                <Text style={[type.body, styles.subtitle, { color: theme.text.secondary }]}>
+                  {t('home.subtitle')}
+                </Text>
+              </View>
+            </View>
+
             <LanguageSwitcher />
 
             <Link href="/compare" asChild>
               <Pressable
                 accessibilityRole="link"
+                accessibilityLabel={`${t('compare.title')}. ${t('compare.subtitle')}`}
                 style={({ pressed }) => [
                   styles.cta,
-                  { backgroundColor: pressed ? theme.brand.primaryPressed : theme.brand.primary },
+                  elevation(theme, 'raised'),
+                  {
+                    backgroundColor: pressed ? theme.brand.primaryPressed : theme.brand.primary,
+                    transform: [{ scale: pressed ? PRESS_SCALE : 1 }],
+                  },
                 ]}
               >
-                <Text style={styles.ctaIcon}>📊</Text>
+                <View style={styles.ctaIconBadge}>
+                  <Icon name="compare" size={22} color={theme.brand.onPrimary} />
+                </View>
                 <View style={styles.ctaText}>
-                  <Text style={[styles.ctaTitle, { color: theme.brand.onPrimary }]}>
+                  <Text style={[type.h2, { color: theme.brand.onPrimary }]}>
                     {t('compare.title')}
                   </Text>
-                  <Text style={[styles.ctaSubtitle, { color: theme.brand.onPrimary }]}>
+                  <Text style={[type.caption, styles.ctaSubtitle, { color: theme.brand.onPrimary }]}>
                     {t('compare.subtitle')}
                   </Text>
                 </View>
-                <Text style={[styles.ctaChevron, { color: theme.brand.onPrimary }]}>›</Text>
+                <Icon name="chevron-right" size={22} color={theme.brand.onPrimary} />
               </Pressable>
             </Link>
 
-            <Text style={[styles.sectionLabel, { color: theme.text.tertiary }]}>
-              {t('tabs.countries')}
-            </Text>
+            <SectionHeader title={t('tabs.countries')} />
           </View>
         }
         renderItem={({ item }) => <CountryListItem country={item} />}
@@ -60,27 +73,26 @@ export default function CountriesScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  listContent: { padding: 16 },
-  header: { marginBottom: 4, gap: 14 },
-  title: { fontSize: 28, fontWeight: '800' },
-  subtitle: { marginTop: -8, fontSize: 15 },
+  listContent: { padding: space[4] },
+  header: { gap: space[5], paddingTop: space[2] },
+  heroTop: { flexDirection: 'row', alignItems: 'flex-start' },
+  heroText: { flex: 1 },
+  subtitle: { marginTop: space[1] },
   cta: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 16,
-    padding: 16,
-    gap: 12,
+    borderRadius: radius.xl,
+    padding: space[4],
+    gap: space[3],
   },
-  ctaIcon: { fontSize: 26 },
+  ctaIconBadge: {
+    width: 44,
+    height: 44,
+    borderRadius: radius.md,
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   ctaText: { flex: 1 },
-  ctaTitle: { fontSize: 16, fontWeight: '800' },
-  ctaSubtitle: { fontSize: 13, marginTop: 2, opacity: 0.9 },
-  ctaChevron: { fontSize: 24, fontWeight: '300' },
-  sectionLabel: {
-    fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginTop: 4,
-  },
+  ctaSubtitle: { marginTop: 2, opacity: 0.9 },
 });
