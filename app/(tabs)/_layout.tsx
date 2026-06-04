@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/Icon';
@@ -28,11 +28,12 @@ export default function TabsLayout() {
           backgroundColor: theme.bg.surface,
           borderTopColor: theme.border.subtle,
           borderTopWidth: StyleSheet.hairlineWidth,
-          // Web's safe-area inset can be unexpectedly large (huge empty bar), so
-          // use a fixed compact height there; native keeps the home-indicator
-          // inset so the bar background fills to the bottom edge.
-          height: Platform.OS === 'web' ? 60 : 54 + insets.bottom,
-          paddingBottom: Platform.OS === 'web' ? 8 : insets.bottom,
+          // Compact bar + the home-indicator inset so the background fills to the
+          // bottom edge while the labels clear the indicator. The root now spans
+          // the full dynamic viewport (see scripts/postexport-web.js), so the bar
+          // sits flush at the bottom on web and native alike.
+          height: 56 + insets.bottom,
+          paddingBottom: insets.bottom,
           paddingTop: 6,
         },
         tabBarActiveTintColor: theme.brand.primary,
