@@ -143,5 +143,121 @@
     },
     "source_url": "https://mobility.autopay.eu/en/knowledge/drivers-guide/road-tolls-italy/",
     "updated_at": "2026-06-04"
+  },
+  "es": {
+    "country_code": "es",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine nationale Autobahnvignette. Stattdessen streckenbezogene Maut (peaje) auf den Mautautobahnen (autopistas AP).",
+      "note_en": "No national motorway vignette. Instead there is distance-based toll (peaje) on the toll motorways (autopistas AP).",
+      "note_fr": "Pas de vignette autoroutière nationale. À la place : péage au kilomètre (peaje) sur les autoroutes à péage (autopistas AP).",
+      "note_it": "Nessuna vignetta autostradale nazionale. Al suo posto: pedaggio a distanza (peaje) sulle autostrade a pagamento (autopistas AP)."
+    },
+    "toll": {
+      "system": "distance",
+      "note_de": "Streckenbezogene Maut (peaje) auf den AP-Autobahnen; viele frühere Mautstrecken wurden in den letzten Jahren mautfrei. Die parallelen Autovías (A-Strassen) sind kostenlos.",
+      "note_en": "Distance-based toll (peaje) on the AP motorways; many former toll stretches have become free in recent years. The parallel autovías (A-roads) are free of charge.",
+      "note_fr": "Péage au kilomètre (peaje) sur les autoroutes AP ; de nombreux tronçons à péage sont devenus gratuits ces dernières années. Les autovías parallèles (routes A) sont gratuites.",
+      "note_it": "Pedaggio a distanza (peaje) sulle autostrade AP; molti tratti a pedaggio sono diventati gratuiti negli ultimi anni. Le autovías parallele (strade A) sono gratuite."
+    },
+    "lowEmissionZones": {
+      "scheme": "ZBE",
+      "note_de": "Umweltzonen (Zonas de Bajas Emisiones, ZBE) sind in allen Städten über 50 000 Einwohner vorgeschrieben (z. B. Madrid, Barcelona). Die Einfahrt richtet sich nach dem DGT-Umweltlabel des Fahrzeugs.",
+      "note_en": "Low-emission zones (Zonas de Bajas Emisiones, ZBE) are mandatory in all cities over 50,000 inhabitants (e.g. Madrid, Barcelona). Access depends on the vehicle's DGT environmental label.",
+      "note_fr": "Les zones à faibles émissions (Zonas de Bajas Emisiones, ZBE) sont obligatoires dans toutes les villes de plus de 50 000 habitants (p. ex. Madrid, Barcelone). L'accès dépend de l'étiquette environnementale DGT du véhicule.",
+      "note_it": "Le zone a basse emissioni (Zonas de Bajas Emisiones, ZBE) sono obbligatorie in tutte le città oltre 50.000 abitanti (es. Madrid, Barcellona). L'accesso dipende dall'etichetta ambientale DGT del veicolo."
+    },
+    "source_url": "https://www.dgt.es/muevete-con-seguridad/Etiqueta-Ambiental-DGT/",
+    "updated_at": "2026-06-04"
+  },
+  "nl": {
+    "country_code": "nl",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine nationale Autobahnvignette. Autobahnen sind grundsätzlich kostenlos.",
+      "note_en": "No national motorway vignette. Motorways are generally free of charge.",
+      "note_fr": "Pas de vignette autoroutière nationale. Les autoroutes sont en principe gratuites.",
+      "note_it": "Nessuna vignetta autostradale nazionale. Le autostrade sono in genere gratuite."
+    },
+    "toll": {
+      "system": "none",
+      "note_de": "Keine streckenbezogene Pkw-Maut. Ausnahmen sind einzelne Bauwerke: der Westerscheldetunnel und der Kiltunnel sind kostenpflichtig.",
+      "note_en": "No distance-based car toll. Exceptions are a few structures: the Westerschelde Tunnel and the Kil Tunnel charge a fee.",
+      "note_fr": "Pas de péage au kilomètre pour les voitures. Exceptions : quelques ouvrages, le tunnel de l'Escaut occidental (Westerscheldetunnel) et le Kiltunnel sont payants.",
+      "note_it": "Nessun pedaggio a distanza per le auto. Eccezioni: alcune opere, il tunnel della Schelda occidentale (Westerscheldetunnel) e il Kiltunnel sono a pagamento."
+    },
+    "lowEmissionZones": {
+      "scheme": "milieuzone",
+      "note_de": "Umweltzonen (milieuzones) in mehreren Städten (u. a. Amsterdam, Rotterdam, Utrecht) betreffen vor allem ältere Diesel-Pkw; die Regeln werden schrittweise verschärft (Null-Emissions-Zonen ab 2025/2030).",
+      "note_en": "Low-emission zones (milieuzones) in several cities (incl. Amsterdam, Rotterdam, Utrecht) mainly affect older diesel cars; rules are being tightened step by step (zero-emission zones from 2025/2030).",
+      "note_fr": "Des zones à faibles émissions (milieuzones) dans plusieurs villes (dont Amsterdam, Rotterdam, Utrecht) concernent surtout les voitures diesel anciennes ; les règles se durcissent progressivement (zones zéro émission à partir de 2025/2030).",
+      "note_it": "Le zone a basse emissioni (milieuzones) in diverse città (tra cui Amsterdam, Rotterdam, Utrecht) riguardano soprattutto le auto diesel più vecchie; le regole si inaspriscono gradualmente (zone a zero emissioni dal 2025/2030)."
+    },
+    "source_url": "https://www.milieuzones.nl/",
+    "updated_at": "2026-06-04"
+  },
+  "be": {
+    "country_code": "be",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine nationale Autobahnvignette für Pkw. Autobahnen sind für Personenwagen kostenlos.",
+      "note_en": "No national motorway vignette for cars. Motorways are free of charge for passenger cars.",
+      "note_fr": "Pas de vignette autoroutière nationale pour les voitures. Les autoroutes sont gratuites pour les voitures particulières.",
+      "note_it": "Nessuna vignetta autostradale nazionale per le auto. Le autostrade sono gratuite per le autovetture."
+    },
+    "toll": {
+      "system": "none",
+      "note_de": "Keine streckenbezogene Pkw-Maut. Ausnahme: der Liefkenshoektunnel bei Antwerpen ist kostenpflichtig. (Eine Kilometerabgabe gilt nur für Lkw.)",
+      "note_en": "No distance-based car toll. Exception: the Liefkenshoek Tunnel near Antwerp charges a fee. (A per-kilometre charge applies only to trucks.)",
+      "note_fr": "Pas de péage au kilomètre pour les voitures. Exception : le tunnel Liefkenshoek près d'Anvers est payant. (Une redevance kilométrique ne s'applique qu'aux poids lourds.)",
+      "note_it": "Nessun pedaggio a distanza per le auto. Eccezione: il tunnel Liefkenshoek vicino ad Anversa è a pagamento. (Un'imposta chilometrica si applica solo ai camion.)"
+    },
+    "lowEmissionZones": {
+      "scheme": "LEZ",
+      "note_de": "Umweltzonen (LEZ / zone de basses émissions) in Brüssel, Antwerpen und Gent. Fahrzeuge müssen die Emissionskriterien erfüllen; ausländische Kennzeichen müssen sich vorab registrieren.",
+      "note_en": "Low-emission zones (LEZ / zone de basses émissions) in Brussels, Antwerp and Ghent. Vehicles must meet the emission criteria; foreign plates must register in advance.",
+      "note_fr": "Zones à faibles émissions (LEZ / zone de basses émissions) à Bruxelles, Anvers et Gand. Les véhicules doivent respecter les critères d'émission ; les plaques étrangères doivent s'enregistrer au préalable.",
+      "note_it": "Zone a basse emissioni (LEZ / zone de basses émissions) a Bruxelles, Anversa e Gand. I veicoli devono rispettare i criteri di emissione; le targhe straniere devono registrarsi in anticipo."
+    },
+    "source_url": "https://lez.brussels/mytax/en/",
+    "updated_at": "2026-06-04"
+  },
+  "hr": {
+    "country_code": "hr",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine Autobahnvignette. Stattdessen streckenbezogene Maut (cestarina) auf den meisten Autobahnen.",
+      "note_en": "No motorway vignette. Instead there is distance-based toll (cestarina) on most motorways.",
+      "note_fr": "Pas de vignette autoroutière. À la place : péage au kilomètre (cestarina) sur la plupart des autoroutes.",
+      "note_it": "Nessuna vignetta autostradale. Al suo posto: pedaggio a distanza (cestarina) sulla maggior parte delle autostrade."
+    },
+    "toll": {
+      "system": "distance",
+      "note_de": "Streckenbezogene Autobahnmaut (cestarina): meist geschlossenes System – am Eingang ein Ticket ziehen, am Ausgang nach gefahrenen Kilometern und Fahrzeugklasse zahlen. Die Brücke nach Dubrovnik (Pelješac) ist mautfrei.",
+      "note_en": "Distance-based motorway toll (cestarina): usually a closed system – take a ticket at the entry, pay at the exit by kilometres driven and vehicle class. The Pelješac bridge to the Dubrovnik area is toll-free.",
+      "note_fr": "Péage autoroutier au kilomètre (cestarina) : système généralement fermé – prendre un ticket à l'entrée, payer à la sortie selon les kilomètres et la classe du véhicule. Le pont de Pelješac est gratuit.",
+      "note_it": "Pedaggio autostradale a distanza (cestarina): di solito sistema chiuso – ritirare il biglietto all'ingresso, pagare all'uscita in base ai chilometri percorsi e alla classe del veicolo. Il ponte di Pelješac è gratuito."
+    },
+    "lowEmissionZones": {
+      "scheme": "none",
+      "note_de": "Keine landesweiten Umweltzonen für Pkw. In Altstädten (z. B. Dubrovnik, Split) gelten lokale Zufahrtsbeschränkungen und gebührenpflichtige Parkzonen.",
+      "note_en": "No nationwide low-emission zones for cars. Old-town areas (e.g. Dubrovnik, Split) have local access restrictions and paid parking zones.",
+      "note_fr": "Pas de zones à faibles émissions à l'échelle nationale pour les voitures. Les vieilles villes (p. ex. Dubrovnik, Split) appliquent des restrictions d'accès locales et des zones de stationnement payantes.",
+      "note_it": "Nessuna zona a basse emissioni a livello nazionale per le auto. I centri storici (es. Dubrovnik, Spalato) hanno restrizioni di accesso locali e zone di sosta a pagamento."
+    },
+    "source_url": "https://hac.hr/en/toll/toll-rates",
+    "updated_at": "2026-06-04"
   }
 }

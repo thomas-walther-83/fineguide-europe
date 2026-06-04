@@ -26,7 +26,11 @@
     "de": "Germania",
     "at": "Austria",
     "fr": "Francia",
-    "it": "Italia"
+    "it": "Italia",
+    "es": "Spagna",
+    "nl": "Paesi Bassi",
+    "be": "Belgio",
+    "hr": "Croazia"
   },
   "categories": {
     "speeding": "Velocità",

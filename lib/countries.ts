@@ -17,6 +17,10 @@ export const COUNTRIES: Country[] = [
   { id: 'at', flag: '🇦🇹', nameKey: 'countries.at', currency: 'EUR', hasPoints: false },
   { id: 'fr', flag: '🇫🇷', nameKey: 'countries.fr', currency: 'EUR', hasPoints: true },
   { id: 'it', flag: '🇮🇹', nameKey: 'countries.it', currency: 'EUR', hasPoints: true },
+  { id: 'es', flag: '🇪🇸', nameKey: 'countries.es', currency: 'EUR', hasPoints: true },
+  { id: 'nl', flag: '🇳🇱', nameKey: 'countries.nl', currency: 'EUR', hasPoints: false },
+  { id: 'be', flag: '🇧🇪', nameKey: 'countries.be', currency: 'EUR', hasPoints: true },
+  { id: 'hr', flag: '🇭🇷', nameKey: 'countries.hr', currency: 'EUR', hasPoints: true },
 ];
 
 export function findCountry(id: string): Country | undefined {
