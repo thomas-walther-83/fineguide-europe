@@ -55,7 +55,9 @@
   },
   "meta": {
     "withPoints": "Point system",
-    "noPoints": "No point system"
+    "noPoints": "No point system",
+    "source": "Source",
+    "updated": "Updated"
   },
   "common": {
     "retry": "Retry"

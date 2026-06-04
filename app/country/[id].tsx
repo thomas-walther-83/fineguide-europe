@@ -1,7 +1,7 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FineListItem } from '@/components/FineListItem';
@@ -43,6 +43,8 @@ export default function CountryDetailScreen() {
 
   const title = country ? t(country.nameKey) : countryCode.toUpperCase();
   const maxAmount = fines.reduce((m, f) => Math.max(m, f.amount), 0);
+  const source = fines.find((f) => f.source_url)?.source_url ?? null;
+  const updated = fines.find((f) => f.updated_at)?.updated_at ?? null;
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
@@ -86,9 +88,20 @@ export default function CountryDetailScreen() {
                   )}
                 </View>
               </View>
-              <Text style={[styles.disclaimer, { color: theme.text.tertiary }]}>
-                {t('detail.disclaimer')}
-              </Text>
+              <View style={styles.metaRow}>
+                <Text style={[styles.disclaimer, { color: theme.text.tertiary }]}>
+                  {t('detail.disclaimer')}
+                  {updated ? ` · ${t('meta.updated')} ${updated}` : ''}
+                </Text>
+                {source && (
+                  <Text
+                    onPress={() => Linking.openURL(source)}
+                    style={[styles.sourceLink, { color: theme.brand.primary }]}
+                  >
+                    {t('meta.source')} ↗
+                  </Text>
+                )}
+              </View>
             </View>
           }
           ListEmptyComponent={
@@ -117,7 +130,9 @@ const styles = StyleSheet.create({
   heroText: { flex: 1 },
   heroTitle: { fontSize: 22, fontWeight: '800' },
   heroSubtitle: { marginTop: 2, fontSize: 14 },
-  disclaimer: { marginTop: 10, marginBottom: 14, fontSize: 12, textAlign: 'center' },
+  metaRow: { marginTop: 10, marginBottom: 14, alignItems: 'center', gap: 4 },
+  disclaimer: { fontSize: 12, textAlign: 'center' },
+  sourceLink: { fontSize: 12, fontWeight: '700' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 10 },
   muted: { fontSize: 15, textAlign: 'center' },
   errorIcon: { fontSize: 32 },

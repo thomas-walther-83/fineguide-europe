@@ -1,0 +1,36 @@
+[
+  { "id": "ch-speeding", "country_code": "ch", "category": "speeding", "description": "Tempo 16–20 km/h zu schnell (innerorts)", "amount": 250, "currency": "CHF", "points": null, "source_url": "https://www.astra.admin.ch", "updated_at": null },
+  { "id": "ch-redlight", "country_code": "ch", "category": "redlight", "description": "Missachten eines Rotlichts", "amount": 250, "currency": "CHF", "points": null, "source_url": "https://www.astra.admin.ch", "updated_at": null },
+  { "id": "ch-phone", "country_code": "ch", "category": "phone", "description": "Telefonieren ohne Freisprechanlage", "amount": 100, "currency": "CHF", "points": null, "source_url": "https://www.astra.admin.ch", "updated_at": null },
+  { "id": "ch-parking", "country_code": "ch", "category": "parking", "description": "Parkieren auf dem Trottoir", "amount": 120, "currency": "CHF", "points": null, "source_url": "https://www.astra.admin.ch", "updated_at": null },
+  { "id": "ch-alcohol", "country_code": "ch", "category": "alcohol", "description": "Fahren mit 0,5–0,79 ‰", "amount": 600, "currency": "CHF", "points": null, "source_url": "https://www.astra.admin.ch", "updated_at": null },
+  { "id": "ch-seatbelt", "country_code": "ch", "category": "seatbelt", "description": "Nicht angegurtet", "amount": 60, "currency": "CHF", "points": null, "source_url": "https://www.astra.admin.ch", "updated_at": null },
+
+  { "id": "de-speeding", "country_code": "de", "category": "speeding", "description": "Bis 20 km/h zu schnell (innerorts)", "amount": 70, "currency": "EUR", "points": 0, "source_url": "https://www.bmdv.bund.de", "updated_at": null },
+  { "id": "de-redlight", "country_code": "de", "category": "redlight", "description": "Rote Ampel überfahren", "amount": 90, "currency": "EUR", "points": 1, "source_url": "https://www.bmdv.bund.de", "updated_at": null },
+  { "id": "de-phone", "country_code": "de", "category": "phone", "description": "Handy am Steuer", "amount": 100, "currency": "EUR", "points": 1, "source_url": "https://www.bmdv.bund.de", "updated_at": null },
+  { "id": "de-parking", "country_code": "de", "category": "parking", "description": "Unerlaubtes Parken", "amount": 25, "currency": "EUR", "points": 0, "source_url": "https://www.bmdv.bund.de", "updated_at": null },
+  { "id": "de-alcohol", "country_code": "de", "category": "alcohol", "description": "0,5-‰-Grenze (Erstverstoß)", "amount": 500, "currency": "EUR", "points": 2, "source_url": "https://www.bmdv.bund.de", "updated_at": null },
+  { "id": "de-seatbelt", "country_code": "de", "category": "seatbelt", "description": "Nicht angeschnallt", "amount": 30, "currency": "EUR", "points": 0, "source_url": "https://www.bmdv.bund.de", "updated_at": null },
+
+  { "id": "at-speeding", "country_code": "at", "category": "speeding", "description": "Bis 30 km/h zu schnell", "amount": 45, "currency": "EUR", "points": null, "source_url": "https://www.oesterreich.gv.at", "updated_at": null },
+  { "id": "at-redlight", "country_code": "at", "category": "redlight", "description": "Rotlichtmissachtung", "amount": 70, "currency": "EUR", "points": null, "source_url": "https://www.oesterreich.gv.at", "updated_at": null },
+  { "id": "at-phone", "country_code": "at", "category": "phone", "description": "Handy am Steuer", "amount": 100, "currency": "EUR", "points": null, "source_url": "https://www.oesterreich.gv.at", "updated_at": null },
+  { "id": "at-parking", "country_code": "at", "category": "parking", "description": "Vorschriftswidriges Parken", "amount": 36, "currency": "EUR", "points": null, "source_url": "https://www.oesterreich.gv.at", "updated_at": null },
+  { "id": "at-alcohol", "country_code": "at", "category": "alcohol", "description": "Alkohol 0,5–0,79 ‰", "amount": 300, "currency": "EUR", "points": null, "source_url": "https://www.oesterreich.gv.at", "updated_at": null },
+  { "id": "at-seatbelt", "country_code": "at", "category": "seatbelt", "description": "Gurtpflicht missachtet", "amount": 35, "currency": "EUR", "points": null, "source_url": "https://www.oesterreich.gv.at", "updated_at": null },
+
+  { "id": "fr-speeding", "country_code": "fr", "category": "speeding", "description": "Excès de vitesse < 20 km/h", "amount": 68, "currency": "EUR", "points": 1, "source_url": "https://www.securite-routiere.gouv.fr", "updated_at": null },
+  { "id": "fr-redlight", "country_code": "fr", "category": "redlight", "description": "Non-respect d’un feu rouge", "amount": 135, "currency": "EUR", "points": 4, "source_url": "https://www.securite-routiere.gouv.fr", "updated_at": null },
+  { "id": "fr-phone", "country_code": "fr", "category": "phone", "description": "Téléphone tenu en main au volant", "amount": 135, "currency": "EUR", "points": 3, "source_url": "https://www.securite-routiere.gouv.fr", "updated_at": null },
+  { "id": "fr-parking", "country_code": "fr", "category": "parking", "description": "Stationnement gênant", "amount": 35, "currency": "EUR", "points": 0, "source_url": "https://www.securite-routiere.gouv.fr", "updated_at": null },
+  { "id": "fr-alcohol", "country_code": "fr", "category": "alcohol", "description": "Alcoolémie 0,5–0,8 g/L", "amount": 135, "currency": "EUR", "points": 6, "source_url": "https://www.securite-routiere.gouv.fr", "updated_at": null },
+  { "id": "fr-seatbelt", "country_code": "fr", "category": "seatbelt", "description": "Ceinture non bouclée", "amount": 135, "currency": "EUR", "points": 3, "source_url": "https://www.securite-routiere.gouv.fr", "updated_at": null },
+
+  { "id": "it-speeding", "country_code": "it", "category": "speeding", "description": "Eccesso di velocità fino a 10 km/h", "amount": 42, "currency": "EUR", "points": 0, "source_url": "https://www.poliziadistato.it", "updated_at": null },
+  { "id": "it-redlight", "country_code": "it", "category": "redlight", "description": "Passaggio con semaforo rosso", "amount": 167, "currency": "EUR", "points": 6, "source_url": "https://www.poliziadistato.it", "updated_at": null },
+  { "id": "it-phone", "country_code": "it", "category": "phone", "description": "Uso del cellulare alla guida", "amount": 165, "currency": "EUR", "points": 5, "source_url": "https://www.poliziadistato.it", "updated_at": null },
+  { "id": "it-parking", "country_code": "it", "category": "parking", "description": "Sosta vietata", "amount": 42, "currency": "EUR", "points": 0, "source_url": "https://www.poliziadistato.it", "updated_at": null },
+  { "id": "it-alcohol", "country_code": "it", "category": "alcohol", "description": "Tasso alcolemico 0,5–0,8 g/L", "amount": 544, "currency": "EUR", "points": 10, "source_url": "https://www.poliziadistato.it", "updated_at": null },
+  { "id": "it-seatbelt", "country_code": "it", "category": "seatbelt", "description": "Cintura non allacciata", "amount": 83, "currency": "EUR", "points": 5, "source_url": "https://www.poliziadistato.it", "updated_at": null }
+]
