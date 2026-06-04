@@ -6,7 +6,17 @@
   "tabs": {
     "countries": "Länder",
     "compare": "Vergleich",
+    "calculator": "Rechner",
     "search": "Suche"
+  },
+  "calc": {
+    "title": "Bussen-Rechner",
+    "subtitle": "Land und Verstoss wählen — geschätzte Busse.",
+    "selectCountry": "Land",
+    "selectViolation": "Verstoss",
+    "original": "Original",
+    "noData": "Keine Daten für diese Auswahl.",
+    "estimate": "Schätzwert."
   },
   "countries": {
     "ch": "Schweiz",
