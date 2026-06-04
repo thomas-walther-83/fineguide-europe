@@ -14,6 +14,7 @@
     "subtitle": "Pick a country and a violation — estimated fine.",
     "selectCountry": "Country",
     "selectViolation": "Violation",
+    "variant": "Variant",
     "original": "Original",
     "noData": "No data for this selection.",
     "estimate": "Estimate."

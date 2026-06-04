@@ -19,6 +19,7 @@ export default function CalculatorScreen() {
   const [fines, setFines] = useState<Fine[]>([]);
   const [countryId, setCountryId] = useState('ch');
   const [category, setCategory] = useState<CategoryId>('speeding');
+  const [variantId, setVariantId] = useState<string | null>(null);
   const [display, setDisplay] = useState<Display>('original');
 
   useEffect(() => {
@@ -31,10 +32,17 @@ export default function CalculatorScreen() {
     };
   }, []);
 
-  const result = useMemo(
-    () => fines.find((f) => f.country_code === countryId && f.category === category),
+  // All rows for the selected country + violation (e.g. speeding bands).
+  const variants = useMemo(
+    () =>
+      fines
+        .filter((f) => f.country_code === countryId && f.category === category)
+        .sort((a, b) => a.amount - b.amount),
     [fines, countryId, category]
   );
+
+  // The chosen row: the selected variant if still applicable, else the lowest.
+  const result = variants.find((f) => f.id === variantId) ?? variants[0];
 
   // Reference for severity colour: the biggest fine for this category anywhere.
   const categoryMax = useMemo(
@@ -115,6 +123,40 @@ export default function CalculatorScreen() {
             );
           })}
         </ScrollView>
+
+        {/* Variant (only when several bands/cases exist) */}
+        {variants.length > 1 && (
+          <>
+            <Text style={[styles.label, { color: theme.text.tertiary }]}>{t('calc.variant')}</Text>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillsRow}>
+              {variants.map((v) => {
+                const active = v.id === result?.id;
+                return (
+                  <Pressable
+                    key={v.id}
+                    onPress={() => setVariantId(v.id)}
+                    style={[
+                      styles.pill,
+                      {
+                        backgroundColor: active ? theme.brand.primary : theme.bg.surfaceAlt,
+                        borderColor: theme.border.subtle,
+                      },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.pillText,
+                        { color: active ? theme.brand.onPrimary : theme.text.secondary },
+                      ]}
+                    >
+                      {v.description}
+                    </Text>
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
+          </>
+        )}
 
         {/* Result */}
         <View style={[styles.resultCard, { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle }]}>

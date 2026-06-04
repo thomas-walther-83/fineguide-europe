@@ -1,14 +1,17 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, FlatList, Linking, Pressable, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Linking, Pressable, SectionList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FineListItem } from '@/components/FineListItem';
 import { FlagChip } from '@/components/FlagChip';
+import { CATEGORIES, categoryIcon, type CategoryId } from '@/lib/categories';
 import { findCountry } from '@/lib/countries';
 import { fetchFinesByCountry, type Fine } from '@/lib/fines';
 import { useTheme } from '@/lib/theme';
+
+type Section = { category: CategoryId; max: number; data: Fine[] };
 
 export default function CountryDetailScreen() {
   const { t } = useTranslation();
@@ -42,9 +45,23 @@ export default function CountryDetailScreen() {
   useEffect(() => load(), [load]);
 
   const title = country ? t(country.nameKey) : countryCode.toUpperCase();
-  const maxAmount = fines.reduce((m, f) => Math.max(m, f.amount), 0);
   const source = fines.find((f) => f.source_url)?.source_url ?? null;
   const updated = fines.find((f) => f.updated_at)?.updated_at ?? null;
+
+  // Group fines by category (in canonical order); each category becomes a
+  // section so multiple variants (e.g. speeding bands) read cleanly.
+  const sections = useMemo<Section[]>(() => {
+    const groups = new Map<CategoryId, Fine[]>();
+    for (const f of fines) {
+      const list = groups.get(f.category) ?? [];
+      list.push(f);
+      groups.set(f.category, list);
+    }
+    return CATEGORIES.filter((c) => groups.has(c.id)).map((c) => {
+      const data = (groups.get(c.id) ?? []).sort((a, b) => a.amount - b.amount);
+      return { category: c.id, data, max: data.reduce((m, f) => Math.max(m, f.amount), 0) };
+    });
+  }, [fines]);
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
@@ -71,10 +88,11 @@ export default function CountryDetailScreen() {
       )}
 
       {status === 'ready' && (
-        <FlatList
-          data={fines}
+        <SectionList
+          sections={sections}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
+          stickySectionHeadersEnabled={false}
           ListHeaderComponent={
             <View>
               <View style={[styles.hero, { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle }]}>
@@ -104,12 +122,20 @@ export default function CountryDetailScreen() {
               </View>
             </View>
           }
+          renderSectionHeader={({ section }) => (
+            <Text style={[styles.sectionHeader, { color: theme.text.tertiary }]}>
+              {categoryIcon((section as Section).category)}{' '}
+              {t(`categories.${(section as Section).category}`)}
+            </Text>
+          )}
           ListEmptyComponent={
             <View style={styles.center}>
               <Text style={[styles.muted, { color: theme.text.secondary }]}>{t('detail.empty')}</Text>
             </View>
           }
-          renderItem={({ item }) => <FineListItem fine={item} maxAmount={maxAmount} />}
+          renderItem={({ item, section }) => (
+            <FineListItem fine={item} maxAmount={(section as Section).max} />
+          )}
         />
       )}
     </SafeAreaView>
@@ -130,9 +156,17 @@ const styles = StyleSheet.create({
   heroText: { flex: 1 },
   heroTitle: { fontSize: 22, fontWeight: '800' },
   heroSubtitle: { marginTop: 2, fontSize: 14 },
-  metaRow: { marginTop: 10, marginBottom: 14, alignItems: 'center', gap: 4 },
+  metaRow: { marginTop: 10, marginBottom: 8, alignItems: 'center', gap: 4 },
   disclaimer: { fontSize: 12, textAlign: 'center' },
   sourceLink: { fontSize: 12, fontWeight: '700' },
+  sectionHeader: {
+    fontSize: 12,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+    marginTop: 14,
+    marginBottom: 8,
+  },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 10 },
   muted: { fontSize: 15, textAlign: 'center' },
   errorIcon: { fontSize: 32 },

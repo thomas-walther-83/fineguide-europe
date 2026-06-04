@@ -26,11 +26,15 @@ export default function CompareScreen() {
     };
   }, []);
 
+  // A category can now have several rows (e.g. speeding bands). Use the lowest
+  // amount as the comparable representative ("entry-level" fine) per country.
   const rows = useMemo(
     () =>
       COUNTRIES.map((country) => ({
         country,
-        fine: fines.find((f) => f.country_code === country.id && f.category === category),
+        fine: fines
+          .filter((f) => f.country_code === country.id && f.category === category)
+          .sort((a, b) => a.amount - b.amount)[0],
       })),
     [fines, category]
   );
