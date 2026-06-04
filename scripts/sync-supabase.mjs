@@ -36,19 +36,35 @@ if (!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)) {
 const here = dirname(fileURLToPath(import.meta.url));
 const fines = JSON.parse(readFileSync(join(here, '..', 'data', 'fines.json'), 'utf8'));
 
-// Drop the local string id so Postgres generates/keeps the uuid primary key;
-// rows are matched on the (country_code, description) unique key instead.
-const rows = fines.map(({ id, ...rest }) => rest);
+// Only send columns that exist in the table, so extra/new JSON fields can't
+// break the upsert. Rows are matched on the (country_code, description) unique
+// key; Postgres keeps/generates the uuid primary key itself.
+const COLUMNS = [
+  'country_code',
+  'category',
+  'description',
+  'amount',
+  'currency',
+  'points',
+  'source_url',
+  'updated_at',
+];
+const rows = fines.map((f) => Object.fromEntries(COLUMNS.map((c) => [c, f[c] ?? null])));
 
 const supabase = createClient(url, serviceKey, { auth: { persistSession: false } });
 
-const { error } = await supabase
-  .from('fines')
-  .upsert(rows, { onConflict: 'country_code,description' });
-
-if (error) {
-  console.error('Sync failed:', error.message);
+// Full replace: the dataset is the single source of truth, so clear the table
+// first to drop any renamed/removed rows, then insert the current dataset.
+const cleared = await supabase.from('fines').delete().gte('amount', 0);
+if (cleared.error) {
+  console.error('Sync failed (clearing table):', cleared.error.message);
   process.exit(1);
 }
 
-console.log(`✓ Synced ${rows.length} fines to Supabase.`);
+const { error } = await supabase.from('fines').insert(rows);
+if (error) {
+  console.error('Sync failed (inserting rows):', error.message);
+  process.exit(1);
+}
+
+console.log(`✓ Synced ${rows.length} fines to Supabase (full replace).`);

@@ -14,6 +14,7 @@
     "subtitle": "Choisissez un pays et une infraction — amende estimée.",
     "selectCountry": "Pays",
     "selectViolation": "Infraction",
+    "variant": "Variante",
     "original": "Original",
     "noData": "Aucune donnée pour cette sélection.",
     "estimate": "Estimation."
