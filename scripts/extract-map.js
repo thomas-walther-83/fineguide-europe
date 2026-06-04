@@ -14,12 +14,17 @@ const fs = require('fs');
 const SRC = process.env.NE_GEOJSON || '/tmp/ne50.geojson';
 const gj = JSON.parse(fs.readFileSync(SRC, 'utf8'));
 
-// ISO_A3 codes -> our app ids for the 5 tappable countries.
-const TARGET = { CHE: 'ch', DEU: 'de', AUT: 'at', FRA: 'fr', ITA: 'it' };
+// ISO_A3 codes -> our app ids for the 9 tappable countries.
+const TARGET = {
+  CHE: 'ch', DEU: 'de', AUT: 'at', FRA: 'fr', ITA: 'it',
+  ESP: 'es', NLD: 'nl', BEL: 'be', HRV: 'hr',
+};
 // Faint context neighbors (drawn behind, low contrast, not tappable).
+// (ESP, NLD, BEL, HRV are now tappable targets, so dropped from here.)
 const NEIGHBORS = new Set([
-  'BEL', 'NLD', 'LUX', 'CZE', 'POL', 'SVK', 'HUN', 'SVN', 'HRV', 'ESP',
-  'GBR', 'DNK', 'BIH', 'SRB', 'GRC', 'LIE', 'MCO', 'AND', 'SMR', 'TUN',
+  'LUX', 'CZE', 'POL', 'SVK', 'HUN', 'SVN', 'BIH', 'SRB', 'MNE',
+  'GBR', 'IRL', 'DNK', 'GRC', 'LIE', 'MCO', 'AND', 'SMR', 'TUN', 'DZA',
+  'MAR', 'PRT', 'GIB',
 ]);
 
 function iso(f) {
@@ -27,10 +32,12 @@ function iso(f) {
   return p.ISO_A3 !== '-99' ? p.ISO_A3 : p.ADM0_A3;
 }
 
-// View frame in lon/lat, centered on the Alpine / central-Europe cluster.
-// FRA reaches ~ -5..8 lon, ITA reaches ~ 36 lat (Sicily), DE/PL ~ 55 lat.
-const LON0 = -6.0, LON1 = 19.5; // west..east
-const LAT0 = 35.5, LAT1 = 55.8; // south..north
+// View frame in lon/lat, framed on the 9 target countries (W Europe + Adriatic).
+// ESP reaches ~ -9.3 lon (Galicia), HRV reaches ~ 19.4 lon (Slavonia) and ~42.4
+// lat (Dubrovnik); NLD reaches ~ 53.5 lat; ESP/ITA reach ~ 36 lat (Andalusia /
+// Sicily). Widened west + slightly trimmed north vs the old Alpine-only frame.
+const LON0 = -9.8, LON1 = 19.8; // west..east
+const LAT0 = 35.4, LAT1 = 54.2; // south..north
 const W = 1000;
 // Equirectangular with cos(midLat) so 1° lon ≈ cos(lat)·(1° lat) in pixels —
 // keeps shapes correctly proportioned (not horizontally stretched).
@@ -141,22 +148,101 @@ function geomToPath(geom, eps, minArea) {
   return d;
 }
 
+// Area-weighted centroid (projected px) of a single ring.
+function ringCentroid(ring) {
+  const pts = ring.map(project);
+  let a = 0, cx = 0, cy = 0;
+  for (let i = 0, n = pts.length; i < n; i++) {
+    const [x1, y1] = pts[i];
+    const [x2, y2] = pts[(i + 1) % n];
+    const cross = x1 * y2 - x2 * y1;
+    a += cross;
+    cx += (x1 + x2) * cross;
+    cy += (y1 + y2) * cross;
+  }
+  a *= 0.5;
+  if (Math.abs(a) < 1e-9) {
+    // Degenerate — fall back to the arithmetic mean of vertices.
+    const mx = pts.reduce((s, p) => s + p[0], 0) / pts.length;
+    const my = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+    return { x: mx, y: my, area: 0 };
+  }
+  return { x: cx / (6 * a), y: cy / (6 * a), area: Math.abs(a) };
+}
+
+// Label anchor for a target: centroid of its LARGEST in-frame ring (so the chip
+// sits on the mainland, not pulled out to sea by islands), clamped into the
+// viewBox with a small margin.
+function geomAnchor(geom) {
+  const polys = geom.type === 'Polygon' ? [geom.coordinates]
+    : geom.type === 'MultiPolygon' ? geom.coordinates : [];
+  let best = null;
+  for (const poly of polys) {
+    const outer = poly[0];
+    if (!ringInFrame(outer)) continue;
+    const c = ringCentroid(outer);
+    if (!best || c.area > best.area) best = c;
+  }
+  if (!best) return null;
+  const m = 14;
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  return { x: r2(clamp(best.x, m, W - m)), y: r2(clamp(best.y, m, H - m)) };
+}
+
 const targets = {};
 const neighbors = {};
+const anchors = {};
 for (const f of gj.features) {
   const code = iso(f);
   if (TARGET[code]) {
-    targets[TARGET[code]] = geomToPath(f.geometry, 0.6, 4);
+    const id = TARGET[code];
+    targets[id] = geomToPath(f.geometry, 0.6, 4);
+    anchors[id] = geomAnchor(f.geometry);
   } else if (NEIGHBORS.has(code)) {
     // Coarser simplification + bigger min area for faint background.
     neighbors[code] = geomToPath(f.geometry, 1.2, 20);
   }
 }
 
-const out = { width: W, height: H, targets, neighbors };
+// Emit lib/mapData.ts directly (data-driven; EuropeMap.tsx is untouched).
+const ids = Object.keys(TARGET).map((c) => TARGET[c]);
+const q = (s) => JSON.stringify(s);
+let ts = `// AUTO-GENERATED stylized map geometry. Do not edit by hand.
+//
+// Source: Natural Earth 1:50m Admin-0 Countries (public domain, no attribution
+// required) — https://www.naturalearthdata.com/ . The nine target countries +
+// faint context neighbours, extracted, simplified (Douglas–Peucker) and
+// projected (equirectangular, cos(midLat)-corrected so shapes are not stretched)
+// into a shared SVG viewBox framed on western Europe + the Adriatic.
+// Regenerate with scripts/extract-map.js. Shapes are approximate.
+
+export const MAP_VIEWBOX = { width: ${W}, height: ${H} } as const;
+
+/** Tappable target countries, keyed by app country id. */
+export const COUNTRY_PATHS: Record<string, string> = {
+${ids.map((id) => `  ${id}: ${q(targets[id] || '')},`).join('\n')}
+};
+
+/** Faint background silhouettes for geographic context (not interactive). */
+export const NEIGHBOR_PATHS: string[] = [
+${Object.keys(neighbors).filter((k) => neighbors[k]).map((k) => `  ${q(neighbors[k])},`).join('\n')}
+];
+
+/** Auto-computed label/centroid anchors (viewBox coords) for flag chips + hit areas. */
+export const COUNTRY_LABEL_ANCHORS: Record<string, { x: number; y: number }> = {
+${ids.map((id) => `  ${id}: { x: ${anchors[id].x}, y: ${anchors[id].y} },`).join('\n')}
+};
+`;
+
+const outPath = process.env.MAPDATA_OUT || '/tmp/mapData.ts';
+fs.writeFileSync(outPath, ts);
+const out = { width: W, height: H, targets, neighbors, anchors };
 fs.writeFileSync('/tmp/mapdata.json', JSON.stringify(out));
 console.log('viewBox', W, H, 'midLat', midLat.toFixed(1), 'k', k.toFixed(3));
-for (const id of Object.keys(TARGET).map((c) => TARGET[c])) {
-  console.log(id, (targets[id] || '').length, 'chars');
+for (const id of ids) {
+  const a = anchors[id];
+  console.log(id, (targets[id] || '').length, 'chars',
+    a ? `anchor ${a.x},${a.y}` : 'NO ANCHOR');
 }
-console.log('neighbors:', Object.keys(neighbors).length);
+console.log('neighbors:', Object.keys(neighbors).filter((n) => neighbors[n]).length);
+console.log('wrote', outPath);
