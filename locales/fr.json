@@ -7,6 +7,7 @@
   "tabs": {
     "countries": "Pays",
     "compare": "Comparer",
+    "trip": "Trajet",
     "calculator": "Calculateur",
     "search": "Recherche"
   },
@@ -51,6 +52,24 @@
     "points": "Points",
     "legendLow": "Plus faible",
     "legendHigh": "Plus élevée"
+  },
+  "trip": {
+    "title": "Comparatif de trajet",
+    "subtitle": "Choisissez votre point de départ et votre destination.",
+    "home": "Départ",
+    "destination": "Destination",
+    "homeShort": "Chez vous",
+    "destShort": "Là-bas",
+    "moreExpensive": "Plus cher",
+    "cheaper": "Moins cher",
+    "similar": "À peu près pareil",
+    "pointsHint": "Attention : des points là où vous n’en avez pas.",
+    "morePointsHint": "Attention : plus de points que chez vous.",
+    "pointsBadge": "+{{count}} points",
+    "approxNote": "Les montants sont convertis en {{currency}} à un taux approximatif — voir le montant d’origine de chaque pays.",
+    "approxLabel": "env.",
+    "noData": "Pas encore de données comparables pour cette paire.",
+    "summary": "Comparé en {{currency}} (env.)"
   },
   "search": {
     "placeholder": "Rechercher une infraction ou un pays…",

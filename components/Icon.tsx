@@ -12,6 +12,7 @@ export type IconName =
   | 'compare'
   | 'languages'
   | 'calc'
+  | 'trip'
   | 'star'
   | 'star-filled';
 
@@ -198,6 +199,56 @@ export function Icon({ name, size = 20, color, style }: Props) {
               }}
             />
           ))}
+        </View>
+      </View>
+    );
+  }
+
+  if (name === 'trip') {
+    // A route marker: an origin ring and a filled destination dot joined by a
+    // line — the "home → destination" idea, drawn with Views (no SVG dep).
+    const dot = Math.max(stroke * 2, size * 0.26);
+    const ring = dot;
+    return (
+      <View style={[box, style]}>
+        <View
+          style={{
+            width: size,
+            height: size,
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+          }}
+        >
+          {/* origin ring (home) */}
+          <View
+            style={{
+              width: ring,
+              height: ring,
+              borderRadius: ring / 2,
+              borderWidth: stroke,
+              borderColor: color,
+            }}
+          />
+          {/* connecting line */}
+          <View
+            style={{
+              flex: 1,
+              height: stroke,
+              marginHorizontal: stroke,
+              backgroundColor: color,
+              borderRadius: stroke,
+            }}
+          />
+          {/* destination dot (filled) */}
+          <View
+            style={{
+              width: dot,
+              height: dot,
+              borderRadius: dot / 2,
+              backgroundColor: color,
+            }}
+          />
         </View>
       </View>
     );
