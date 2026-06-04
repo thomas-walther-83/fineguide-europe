@@ -53,7 +53,7 @@ const tags = [
   `<meta name="description" content="Verkehrsbussen in europäischen Ländern" />`,
   `<link rel="manifest" href="${base}manifest.json" />`,
   `<meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)" />`,
-  `<meta name="theme-color" content="#F4F6FA" media="(prefers-color-scheme: light)" />`,
+  `<meta name="theme-color" content="#E7ECF3" media="(prefers-color-scheme: light)" />`,
   `<link rel="icon" href="${base}favicon.png" />`,
   `<link rel="apple-touch-icon" href="${base}apple-touch-icon.png" />`,
   `<meta name="apple-mobile-web-app-capable" content="yes" />`,

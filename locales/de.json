@@ -1,7 +1,8 @@
 {
   "home": {
     "title": "FineGuide Europe",
-    "subtitle": "Verkehrsbussen in europäischen Ländern"
+    "subtitle": "Verkehrsbussen in europäischen Ländern",
+    "pickHint": "Tippe auf ein Land, um seine Bussen zu sehen"
   },
   "tabs": {
     "countries": "Länder",
@@ -47,7 +48,9 @@
     "subtitle": "Wähle einen Verstoss und vergleiche die Bussen.",
     "country": "Land",
     "amount": "Busse",
-    "points": "Punkte"
+    "points": "Punkte",
+    "legendLow": "Tiefer",
+    "legendHigh": "Höher"
   },
   "search": {
     "placeholder": "Verstoss oder Land suchen…",
