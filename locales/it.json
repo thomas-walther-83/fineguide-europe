@@ -132,5 +132,10 @@
   },
   "common": {
     "retry": "Riprova"
+  },
+  "map": {
+    "zoomIn": "Ingrandisci",
+    "zoomOut": "Riduci",
+    "reset": "Reimposta vista"
   }
 }

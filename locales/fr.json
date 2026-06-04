@@ -132,5 +132,10 @@
   },
   "common": {
     "retry": "Réessayer"
+  },
+  "map": {
+    "zoomIn": "Zoom avant",
+    "zoomOut": "Zoom arrière",
+    "reset": "Réinitialiser la vue"
   }
 }

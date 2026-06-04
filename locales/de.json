@@ -132,5 +132,10 @@
   },
   "common": {
     "retry": "Erneut versuchen"
+  },
+  "map": {
+    "zoomIn": "Hineinzoomen",
+    "zoomOut": "Herauszoomen",
+    "reset": "Ansicht zurücksetzen"
   }
 }
