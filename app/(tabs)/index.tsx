@@ -11,7 +11,7 @@ import { ScreenHeader } from '@/components/ScreenHeader';
 import { COUNTRIES, findCountry } from '@/lib/countries';
 import { useFavorites } from '@/lib/favorites';
 import { tapImpact } from '@/lib/haptics';
-import { PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
+import { layout, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
 export default function CountriesScreen() {
   const { t } = useTranslation();
@@ -84,11 +84,11 @@ export default function CountriesScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  controls: { paddingHorizontal: space[4], paddingBottom: space[2] },
-  locateWrap: { paddingHorizontal: space[4], paddingBottom: space[2] },
+  controls: { paddingHorizontal: layout.screenX, paddingBottom: space[2] },
+  locateWrap: { paddingHorizontal: layout.screenX, paddingBottom: space[2] },
   mapWrap: { flex: 1, paddingHorizontal: space[2], minHeight: 0 },
   footer: {
-    paddingHorizontal: space[4],
+    paddingHorizontal: layout.screenX,
     paddingTop: space[2],
     paddingBottom: space[2],
     gap: space[2],

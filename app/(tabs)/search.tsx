@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { CardSheen } from '@/components/Card';
 import { EmptyState } from '@/components/EmptyState';
 import { FlagChip } from '@/components/FlagChip';
 import { Icon } from '@/components/Icon';
@@ -16,7 +17,7 @@ import { findCountry } from '@/lib/countries';
 import { fetchAllFines, type Fine } from '@/lib/fines';
 import { tapImpact } from '@/lib/haptics';
 import { severityColor, severityForAmount } from '@/lib/severity';
-import { elevation, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
+import { elevation, layout, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
 export default function SearchScreen() {
   const { t } = useTranslation();
@@ -57,9 +58,6 @@ export default function SearchScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
       <ScreenHeader title={t('tabs.search')} subtitle={t('search.hint')} />
       <View style={styles.searchWrap}>
-        <Text style={[type.display, styles.heading, { color: theme.text.primary }]}>
-          {t('tabs.search')}
-        </Text>
         <View
           style={[
             styles.searchBox,
@@ -90,7 +88,7 @@ export default function SearchScreen() {
               onPress={() => setQuery('')}
               style={[styles.clear, { backgroundColor: theme.text.tertiary }]}
             >
-              <Text style={[styles.clearGlyph, { color: theme.bg.surface }]}>×</Text>
+              <Text style={[type.bodyStrong, styles.clearGlyph, { color: theme.bg.surface }]}>×</Text>
             </Pressable>
           ) : null}
         </View>
@@ -131,7 +129,7 @@ export default function SearchScreen() {
                   },
                 ]}
               >
-                <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+                <CardSheen />
                 <View style={[styles.accent, { backgroundColor: severity }]} />
                 <View style={styles.cardBody}>
                   <View style={styles.cardHeader}>
@@ -167,17 +165,20 @@ export default function SearchScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  searchWrap: { paddingHorizontal: space[4], paddingTop: space[3], paddingBottom: space[3], gap: space[3] },
-  heading: {},
+  searchWrap: {
+    paddingHorizontal: layout.screenX,
+    paddingTop: layout.topGap,
+    paddingBottom: space[3],
+  },
   searchBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: radius.md,
+    borderRadius: radius.lg,
     paddingHorizontal: space[4],
     minHeight: 52,
     gap: space[2],
   },
-  input: { flex: 1, paddingVertical: space[3], fontSize: 16 },
+  input: { flex: 1, paddingVertical: space[3] },
   clear: {
     width: 20,
     height: 20,
@@ -185,8 +186,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  clearGlyph: { fontSize: 15, lineHeight: 18, fontWeight: '700' },
-  listContent: { paddingHorizontal: space[4], paddingBottom: space[10] },
+  clearGlyph: { textAlign: 'center' },
+  listContent: { paddingHorizontal: layout.screenX, paddingBottom: layout.bottomGap },
   skeletonWrap: { paddingTop: space[2] },
   card: {
     flexDirection: 'row',
@@ -195,7 +196,6 @@ const styles = StyleSheet.create({
     marginBottom: space[3],
     overflow: 'hidden',
   },
-  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1, zIndex: 1 },
   accent: { width: 5 },
   cardBody: { flex: 1, padding: space[4] },
   cardHeader: {
