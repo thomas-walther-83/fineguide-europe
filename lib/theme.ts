@@ -90,6 +90,22 @@ export const space = {
   12: 48,
 } as const;
 
+/**
+ * Layout rhythm. One horizontal inset for all screen content, one top gap under
+ * the shared header, and one vertical gap between content blocks. Screens read
+ * these instead of inventing their own paddings so every view lines up.
+ */
+export const layout = {
+  /** Horizontal content inset — the single padding used on every screen. */
+  screenX: space[4],
+  /** Gap between the header and the first content block. */
+  topGap: space[4],
+  /** Vertical rhythm between stacked content blocks (selectors, cards). */
+  gap: space[4],
+  /** Bottom padding so content clears the tab bar / safe area. */
+  bottomGap: space[10],
+} as const;
+
 /** Corner radii — generous, continuous-feeling rounding. */
 export const radius = {
   sm: 10,

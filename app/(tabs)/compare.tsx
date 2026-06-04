@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Card } from '@/components/Card';
+import { Disclaimer } from '@/components/Disclaimer';
 import { EuropeMap } from '@/components/EuropeMap';
 import { FilterPill } from '@/components/FilterPill';
 import { ScreenHeader } from '@/components/ScreenHeader';
@@ -12,7 +14,7 @@ import { CATEGORIES, type CategoryId } from '@/lib/categories';
 import { COUNTRIES } from '@/lib/countries';
 import { fetchAllFines, type Fine } from '@/lib/fines';
 import { severityColor } from '@/lib/severity';
-import { elevation, radius, space, type, useTheme } from '@/lib/theme';
+import { layout, radius, space, type, useTheme } from '@/lib/theme';
 
 export default function CompareScreen() {
   const { t } = useTranslation();
@@ -86,14 +88,7 @@ export default function CompareScreen() {
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {/* Map hero: countries coloured by their representative fine. */}
-        <View
-          style={[
-            styles.mapCard,
-            elevation(theme, 'card'),
-            { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
-          ]}
-        >
-          <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+        <Card noPadding style={styles.mapCard}>
           <EuropeMap onSelectCountry={openCountry} fillFor={fillFor} maxHeight={300} />
           <View style={styles.legend}>
             <Text style={[type.caption, { color: theme.text.tertiary }]}>
@@ -108,17 +103,10 @@ export default function CompareScreen() {
               {t('compare.legendHigh')}
             </Text>
           </View>
-        </View>
+        </Card>
 
         {/* Compact figures below the hero. */}
-        <View
-          style={[
-            styles.table,
-            elevation(theme, 'card'),
-            { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
-          ]}
-        >
-          <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+        <Card noPadding style={styles.table}>
           <View style={styles.headRow}>
             <Text style={[type.label, styles.colCountry, { color: theme.text.tertiary }]}>
               {t('compare.country')}
@@ -162,11 +150,9 @@ export default function CompareScreen() {
               </View>
             );
           })}
-        </View>
+        </Card>
 
-        <Text style={[type.caption, styles.disclaimer, { color: theme.text.tertiary }]}>
-          {t('detail.disclaimer')}
-        </Text>
+        <Disclaimer>{t('detail.disclaimer')}</Disclaimer>
       </ScrollView>
     </SafeAreaView>
   );
@@ -174,21 +160,21 @@ export default function CompareScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  head: { paddingHorizontal: space[4], paddingTop: space[2], paddingBottom: space[1] },
   stickyBar: {
     paddingTop: space[2],
     paddingBottom: space[3],
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  content: { paddingHorizontal: space[4], paddingTop: space[4], paddingBottom: space[10] },
-  pillsContent: { paddingHorizontal: space[4] },
+  content: {
+    paddingHorizontal: layout.screenX,
+    paddingTop: layout.topGap,
+    paddingBottom: layout.bottomGap,
+  },
+  pillsContent: { paddingHorizontal: layout.screenX, paddingRight: space[2] },
   mapCard: {
-    borderRadius: radius.lg,
-    borderWidth: StyleSheet.hairlineWidth,
-    overflow: 'hidden',
     paddingVertical: space[3],
     paddingHorizontal: space[3],
-    marginBottom: space[4],
+    marginBottom: layout.gap,
     minHeight: 300,
   },
   legend: {
@@ -200,13 +186,7 @@ const styles = StyleSheet.create({
   },
   ramp: { flexDirection: 'row', height: 8, width: 120, borderRadius: radius.pill, overflow: 'hidden' },
   rampSeg: { flex: 1 },
-  table: {
-    borderRadius: radius.lg,
-    borderWidth: StyleSheet.hairlineWidth,
-    overflow: 'hidden',
-    paddingHorizontal: space[4],
-  },
-  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
+  table: { paddingHorizontal: space[4] },
   headRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -219,5 +199,4 @@ const styles = StyleSheet.create({
   colCountry: { flex: 1 },
   colAmount: { width: 104, textAlign: 'right' },
   colPoints: { width: 56, textAlign: 'right' },
-  disclaimer: { marginTop: space[4], textAlign: 'center' },
 });

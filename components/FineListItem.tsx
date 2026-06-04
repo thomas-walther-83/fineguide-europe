@@ -1,12 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { Card } from '@/components/Card';
 import { Pill } from '@/components/Pill';
 import { SeverityBar } from '@/components/SeverityBar';
 import { categoryIcon } from '@/lib/categories';
 import type { Fine } from '@/lib/fines';
 import { severityColor, severityForAmount } from '@/lib/severity';
-import { elevation, radius, space, type, useTheme } from '@/lib/theme';
+import { space, type, useTheme } from '@/lib/theme';
 
 type Props = {
   fine: Fine;
@@ -21,15 +22,7 @@ export function FineListItem({ fine, maxAmount }: Props) {
   const sevKey = severityForAmount(fine.amount, maxAmount);
 
   return (
-    <View
-      style={[
-        styles.card,
-        elevation(theme, 'card'),
-        { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
-      ]}
-    >
-      {/* premium top highlight (dark mode only; transparent in light) */}
-      <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+    <Card noPadding style={styles.card}>
       {/* severity accent bar */}
       <View style={[styles.accent, { backgroundColor: sev }]} />
       <View style={styles.body}>
@@ -53,19 +46,15 @@ export function FineListItem({ fine, maxAmount }: Props) {
           </View>
         )}
       </View>
-    </View>
+    </Card>
   );
 }
 
 const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
-    borderRadius: radius.lg,
-    borderWidth: StyleSheet.hairlineWidth,
     marginBottom: space[3],
-    overflow: 'hidden',
   },
-  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
   accent: { width: 5 },
   body: { flex: 1, padding: space[4] },
   headerRow: {

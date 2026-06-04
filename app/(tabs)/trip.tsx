@@ -3,15 +3,17 @@ import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { FilterPill } from '@/components/FilterPill';
+import { Card } from '@/components/Card';
+import { Disclaimer } from '@/components/Disclaimer';
 import { FlagChip } from '@/components/FlagChip';
 import { Pill } from '@/components/Pill';
 import { ScreenHeader } from '@/components/ScreenHeader';
+import { Selector } from '@/components/Selector';
 import { CATEGORIES, type CategoryId } from '@/lib/categories';
-import { COUNTRIES, findCountry, type Country } from '@/lib/countries';
+import { COUNTRIES, findCountry } from '@/lib/countries';
 import { convert, type Currency } from '@/lib/currency';
 import { fetchAllFines, type Fine } from '@/lib/fines';
-import { elevation, radius, space, type, useTheme } from '@/lib/theme';
+import { layout, space, type, useTheme } from '@/lib/theme';
 
 /** Common currency used to compare across CHF/EUR. */
 const COMPARE_CURRENCY: Currency = 'EUR';
@@ -120,25 +122,16 @@ export default function TripScreen() {
     selectedId: string,
     onSelect: (id: string) => void
   ) => (
-    <View style={styles.selectorBlock}>
-      <Text style={[type.label, { color: theme.text.tertiary }]}>{label}</Text>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.pillsRow}
-        contentContainerStyle={styles.pillsContent}
-      >
-        {COUNTRIES.map((c: Country) => (
-          <FilterPill
-            key={c.id}
-            label={t(c.nameKey)}
-            active={c.id === selectedId}
-            onPress={() => onSelect(c.id)}
-            leading={<FlagChip flag={c.flag} size={22} />}
-          />
-        ))}
-      </ScrollView>
-    </View>
+    <Selector
+      label={label}
+      options={COUNTRIES.map((c) => ({
+        id: c.id,
+        label: t(c.nameKey),
+        leading: <FlagChip flag={c.flag} size={22} />,
+      }))}
+      selectedId={selectedId}
+      onSelect={onSelect}
+    />
   );
 
   return (
@@ -172,25 +165,11 @@ export default function TripScreen() {
         </Text>
 
         {rows.length === 0 ? (
-          <View
-            style={[
-              styles.card,
-              elevation(theme, 'card'),
-              { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
-            ]}
-          >
-            <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+          <Card>
             <Text style={[type.body, { color: theme.text.secondary }]}>{t('trip.noData')}</Text>
-          </View>
+          </Card>
         ) : (
-          <View
-            style={[
-              styles.card,
-              elevation(theme, 'card'),
-              { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
-            ]}
-          >
-            <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+          <Card noPadding style={styles.card}>
             {rows.map((row, i) => {
               const tone =
                 row.verdict === 'more'
@@ -274,15 +253,11 @@ export default function TripScreen() {
                 </View>
               );
             })}
-          </View>
+          </Card>
         )}
 
-        <Text style={[type.caption, styles.note, { color: theme.text.tertiary }]}>
-          {t('trip.approxNote', { currency: COMPARE_CURRENCY })}
-        </Text>
-        <Text style={[type.caption, styles.disclaimer, { color: theme.text.tertiary }]}>
-          {t('detail.disclaimer')}
-        </Text>
+        <Disclaimer>{t('trip.approxNote', { currency: COMPARE_CURRENCY })}</Disclaimer>
+        <Disclaimer style={styles.disclaimerTight}>{t('detail.disclaimer')}</Disclaimer>
       </ScrollView>
     </SafeAreaView>
   );
@@ -290,29 +265,21 @@ export default function TripScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: space[4], paddingBottom: space[10] },
-  subtitle: { marginTop: space[1], marginBottom: space[4] },
-  selectorBlock: { marginBottom: space[3] },
-  pillsRow: { flexGrow: 0, marginTop: space[2], marginHorizontal: -space[4] },
-  pillsContent: { paddingHorizontal: space[4] },
+  content: {
+    paddingHorizontal: layout.screenX,
+    paddingTop: layout.topGap,
+    paddingBottom: layout.bottomGap,
+  },
   routeRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: space[2],
     marginBottom: space[1],
   },
   routeEnd: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: space[2] },
   routeEndRight: { justifyContent: 'flex-end' },
   arrow: { marginHorizontal: space[2] },
-  summary: { marginBottom: space[4] },
-  card: {
-    borderRadius: radius.lg,
-    borderWidth: StyleSheet.hairlineWidth,
-    overflow: 'hidden',
-    paddingHorizontal: space[4],
-    paddingVertical: space[1],
-  },
-  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
+  summary: { marginBottom: layout.gap },
+  card: { paddingHorizontal: space[4], paddingVertical: space[1] },
   tr: { paddingVertical: space[4] },
   catCell: { flexDirection: 'row', alignItems: 'center', gap: space[2], marginBottom: space[3] },
   catIcon: { fontSize: 20 },
@@ -324,6 +291,5 @@ const styles = StyleSheet.create({
   verdictRow: { marginTop: space[1] },
   pointsRow: { flexDirection: 'row', alignItems: 'center', gap: space[2], marginTop: space[1] },
   pointsHint: { flexShrink: 1 },
-  note: { marginTop: space[4], textAlign: 'center' },
-  disclaimer: { marginTop: space[2], textAlign: 'center' },
+  disclaimerTight: { marginTop: space[2] },
 });

@@ -12,16 +12,19 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { Card } from '@/components/Card';
+import { Disclaimer } from '@/components/Disclaimer';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { FineListItem } from '@/components/FineListItem';
 import { FlagChip } from '@/components/FlagChip';
 import { MobilityInfo } from '@/components/MobilityInfo';
 import { OfflineBanner } from '@/components/OfflineBanner';
 import { Pill } from '@/components/Pill';
+import { SectionHeader } from '@/components/SectionHeader';
 import { CATEGORIES, categoryIcon, type CategoryId } from '@/lib/categories';
 import { findCountry } from '@/lib/countries';
 import { fetchFinesByCountryResult, type Fine } from '@/lib/fines';
-import { elevation, radius, space, type, useTheme } from '@/lib/theme';
+import { layout, radius, space, type, useTheme } from '@/lib/theme';
 
 type Section = { category: CategoryId; max: number; data: Fine[] };
 
@@ -120,14 +123,7 @@ export default function CountryDetailScreen() {
           ListHeaderComponent={
             <View style={styles.headerWrap}>
               <OfflineBanner visible={offline} />
-              <View
-                style={[
-                  styles.hero,
-                  elevation(theme, 'raised'),
-                  { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
-                ]}
-              >
-                <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+              <Card variant="raised" style={styles.hero}>
                 <FlagChip flag={country?.flag ?? '🏳️'} size={48} />
                 <View style={styles.heroText}>
                   <Text style={[type.h1, { color: theme.text.primary }]}>{title}</Text>
@@ -141,13 +137,12 @@ export default function CountryDetailScreen() {
                     </View>
                   )}
                 </View>
-              </View>
+              </Card>
 
               <View style={styles.metaRow}>
-                <Text style={[type.caption, styles.disclaimer, { color: theme.text.tertiary }]}>
-                  {t('detail.disclaimer')}
-                  {updated ? ` · ${t('meta.updated')} ${updated}` : ''}
-                </Text>
+                <Disclaimer style={styles.disclaimer}>
+                  {`${t('detail.disclaimer')}${updated ? ` · ${t('meta.updated')} ${updated}` : ''}`}
+                </Disclaimer>
                 {source && (
                   <Text
                     onPress={() => Linking.openURL(source)}
@@ -162,10 +157,13 @@ export default function CountryDetailScreen() {
             </View>
           }
           renderSectionHeader={({ section }) => (
-            <Text style={[type.label, styles.sectionHeader, { color: theme.text.tertiary }]}>
-              {categoryIcon((section as Section).category)}{' '}
-              {t(`categories.${(section as Section).category}`)}
-            </Text>
+            <View style={styles.sectionHeader}>
+              <SectionHeader
+                title={`${categoryIcon((section as Section).category)}  ${t(
+                  `categories.${(section as Section).category}`
+                )}`}
+              />
+            </View>
           )}
           ListEmptyComponent={
             <View style={styles.center}>
@@ -185,24 +183,19 @@ export default function CountryDetailScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  listContent: { padding: space[4], paddingBottom: space[10] },
+  listContent: { padding: layout.screenX, paddingBottom: layout.bottomGap },
   headerWrap: { gap: space[3], marginBottom: space[2] },
   hero: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: space[4],
-    padding: space[4],
-    borderRadius: radius.xl,
-    borderWidth: StyleSheet.hairlineWidth,
-    overflow: 'hidden',
   },
-  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
   heroText: { flex: 1, gap: space[2] },
   heroMeta: { flexDirection: 'row', gap: space[2], flexWrap: 'wrap' },
   metaRow: { alignItems: 'center', gap: space[1] },
-  disclaimer: { textAlign: 'center' },
+  disclaimer: { marginTop: 0 },
   sourceLink: {},
-  sectionHeader: { marginTop: space[5], marginBottom: space[3] },
+  sectionHeader: { marginTop: space[5] },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space[8], gap: space[3] },
   muted: { textAlign: 'center' },
   errorIcon: { fontSize: 32 },
