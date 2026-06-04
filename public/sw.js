@@ -11,7 +11,7 @@
  * derived from `self.registration.scope` rather than being hardcoded.
  */
 
-const CACHE_VERSION = 'v5';
+const CACHE_VERSION = 'v6';
 const CACHE_NAME = `fineguide-shell-${CACHE_VERSION}`;
 
 // The scope is the directory the SW was registered under, e.g.
