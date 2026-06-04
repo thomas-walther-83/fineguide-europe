@@ -49,10 +49,20 @@ if (!html.includes('id="premium-fonts"')) {
   html = html.replace('</head>', `    ${fontCss}\n  </head>`);
 }
 
+// Fill the page background with the theme canvas (light + dark) so any area not
+// covered by the app (e.g. the bottom safe-area) matches the app instead of
+// flashing white.
+const appBgCss =
+  '<style id="app-bg">html,body{height:100%;margin:0;background-color:#E7ECF3;}' +
+  '@media (prefers-color-scheme:dark){html,body{background-color:#151D2C;}}</style>';
+if (!html.includes('id="app-bg"')) {
+  html = html.replace('</head>', `    ${appBgCss}\n  </head>`);
+}
+
 const tags = [
   `<meta name="description" content="Verkehrsbussen in europäischen Ländern" />`,
   `<link rel="manifest" href="${base}manifest.json" />`,
-  `<meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)" />`,
+  `<meta name="theme-color" content="#151D2C" media="(prefers-color-scheme: dark)" />`,
   `<meta name="theme-color" content="#E7ECF3" media="(prefers-color-scheme: light)" />`,
   `<link rel="icon" href="${base}favicon.png" />`,
   `<link rel="apple-touch-icon" href="${base}apple-touch-icon.png" />`,

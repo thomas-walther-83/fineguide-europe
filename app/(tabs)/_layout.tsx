@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/Icon';
@@ -28,10 +28,11 @@ export default function TabsLayout() {
           backgroundColor: theme.bg.surface,
           borderTopColor: theme.border.subtle,
           borderTopWidth: StyleSheet.hairlineWidth,
-          // Compact bar whose background fills the bottom safe area, so there's
-          // no empty band under the icons.
-          height: 54 + insets.bottom,
-          paddingBottom: insets.bottom,
+          // Web's safe-area inset can be unexpectedly large (huge empty bar), so
+          // use a fixed compact height there; native keeps the home-indicator
+          // inset so the bar background fills to the bottom edge.
+          height: Platform.OS === 'web' ? 60 : 54 + insets.bottom,
+          paddingBottom: Platform.OS === 'web' ? 8 : insets.bottom,
           paddingTop: 6,
         },
         tabBarActiveTintColor: theme.brand.primary,
