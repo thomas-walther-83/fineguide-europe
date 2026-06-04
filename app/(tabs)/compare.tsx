@@ -1,4 +1,4 @@
-import { useNavigation, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -17,14 +17,8 @@ export default function CompareScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
   const router = useRouter();
-  const navigation = useNavigation();
   const [fines, setFines] = useState<Fine[]>([]);
   const [category, setCategory] = useState<CategoryId>('speeding');
-
-  // Show the full name in the header (the tab label stays the short "Vergleich").
-  useEffect(() => {
-    navigation.setOptions({ title: t('compare.title') });
-  }, [navigation, t]);
 
   useEffect(() => {
     let active = true;
@@ -68,7 +62,11 @@ export default function CompareScreen() {
     router.push({ pathname: '/country/[id]', params: { id } });
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
+      <View style={styles.head}>
+        <Text style={[type.h1, { color: theme.text.primary }]}>{t('compare.title')}</Text>
+      </View>
+
       {/* Sticky violation selector — stays put while the map/table scroll. */}
       <View style={[styles.stickyBar, { backgroundColor: theme.bg.canvas, borderBottomColor: theme.border.subtle }]}>
         <ScrollView
@@ -177,8 +175,9 @@ export default function CompareScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  head: { paddingHorizontal: space[4], paddingTop: space[2], paddingBottom: space[1] },
   stickyBar: {
-    paddingTop: space[3],
+    paddingTop: space[2],
     paddingBottom: space[3],
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
