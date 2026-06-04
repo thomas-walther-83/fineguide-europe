@@ -71,6 +71,30 @@
     "noData": "No comparable data for this pair yet.",
     "summary": "Compared in {{currency}} (approx.)"
   },
+  "mobility": {
+    "title": "Mobility costs",
+    "subtitle": "The other costs of driving here — vignette, tolls and low-emission zones. Illustrative, not legal advice.",
+    "disclaimer": "Illustrative values – not legal advice.",
+    "period": {
+      "year": "year"
+    },
+    "vignette": {
+      "label": "Vignette",
+      "none": "Not required"
+    },
+    "toll": {
+      "label": "Tolls",
+      "none": "None for cars",
+      "system": {
+        "distance": "Per kilometre",
+        "vignette-plus-special": "Vignette + special sections"
+      }
+    },
+    "zones": {
+      "label": "Low-emission zones",
+      "none": "None nationwide"
+    }
+  },
   "search": {
     "placeholder": "Search a violation or country…",
     "hint": "Type to search violations across all countries.",

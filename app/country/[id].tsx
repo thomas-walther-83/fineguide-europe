@@ -15,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { FineListItem } from '@/components/FineListItem';
 import { FlagChip } from '@/components/FlagChip';
+import { MobilityInfo } from '@/components/MobilityInfo';
 import { OfflineBanner } from '@/components/OfflineBanner';
 import { Pill } from '@/components/Pill';
 import { CATEGORIES, categoryIcon, type CategoryId } from '@/lib/categories';
@@ -156,6 +157,8 @@ export default function CountryDetailScreen() {
                   </Text>
                 )}
               </View>
+
+              <MobilityInfo countryCode={countryCode} />
             </View>
           }
           renderSectionHeader={({ section }) => (

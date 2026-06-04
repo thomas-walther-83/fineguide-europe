@@ -71,6 +71,30 @@
     "noData": "Noch keine vergleichbaren Daten für dieses Paar.",
     "summary": "Verglichen in {{currency}} (ca.)"
   },
+  "mobility": {
+    "title": "Mobilitätskosten",
+    "subtitle": "Die übrigen Kosten des Fahrens hier — Vignette, Maut und Umweltzonen. Orientierungswerte, keine Rechtsberatung.",
+    "disclaimer": "Orientierungswerte – keine Rechtsberatung.",
+    "period": {
+      "year": "Jahr"
+    },
+    "vignette": {
+      "label": "Vignette",
+      "none": "Nicht erforderlich"
+    },
+    "toll": {
+      "label": "Maut",
+      "none": "Keine für Pkw",
+      "system": {
+        "distance": "Pro Kilometer",
+        "vignette-plus-special": "Vignette + Sonderstrecken"
+      }
+    },
+    "zones": {
+      "label": "Umweltzonen",
+      "none": "Landesweit keine"
+    }
+  },
   "search": {
     "placeholder": "Verstoss oder Land suchen…",
     "hint": "Tippe, um Verstösse über alle Länder zu durchsuchen.",
