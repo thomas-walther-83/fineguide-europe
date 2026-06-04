@@ -1,0 +1,147 @@
+{
+  "ch": {
+    "country_code": "ch",
+    "vignette": {
+      "required": true,
+      "price": 40,
+      "currency": "CHF",
+      "period": "year",
+      "note_de": "Autobahnvignette für alle Nationalstrassen, Pkw bis 3,5 t; Kleber oder E-Vignette. Gültig 14 Monate (Dez.–Jan. des Folgejahres).",
+      "note_en": "Motorway vignette for all national roads, cars up to 3.5 t; sticker or e-vignette. Valid 14 months (Dec to Jan of the following year).",
+      "note_fr": "Vignette autoroutière pour toutes les routes nationales, voitures jusqu'à 3,5 t ; autocollant ou e-vignette. Valable 14 mois (déc. à janv. de l'année suivante).",
+      "note_it": "Vignetta autostradale per tutte le strade nazionali, auto fino a 3,5 t; adesivo o e-vignetta. Valida 14 mesi (dic.–gen. dell'anno successivo)."
+    },
+    "toll": {
+      "system": "none",
+      "note_de": "Keine streckenbezogene Maut für Pkw; mit der Vignette sind Autobahnen abgedeckt. Ausnahmen: einzelne Tunnel (z. B. Grosser St. Bernhard) sind kostenpflichtig.",
+      "note_en": "No distance-based toll for cars; motorways are covered by the vignette. Exceptions: a few tunnels (e.g. Great St Bernard) charge a separate fee.",
+      "note_fr": "Pas de péage au kilomètre pour les voitures ; les autoroutes sont couvertes par la vignette. Exceptions : quelques tunnels (p. ex. Grand-Saint-Bernard) sont payants.",
+      "note_it": "Nessun pedaggio a distanza per le auto; le autostrade sono coperte dalla vignetta. Eccezioni: alcuni tunnel (es. Gran San Bernardo) hanno un pedaggio separato."
+    },
+    "lowEmissionZones": {
+      "scheme": "none",
+      "note_de": "Keine landesweiten Umweltzonen für Pkw. Es gibt keine Umweltplakettenpflicht wie in Nachbarländern.",
+      "note_en": "No nationwide low-emission zones for cars. There is no emissions-sticker requirement like in neighbouring countries.",
+      "note_fr": "Pas de zones à faibles émissions à l'échelle nationale pour les voitures. Aucune obligation de vignette environnementale comme dans les pays voisins.",
+      "note_it": "Nessuna zona a basse emissioni a livello nazionale per le auto. Non esiste l'obbligo di bollino ambientale come nei Paesi vicini."
+    },
+    "source_url": "https://www.ch.ch/en/travel-and-emigrate/holidays-in-switzerland/how-to-behave-in-road-traffic/motorway-vignette/",
+    "updated_at": "2026-06-04"
+  },
+  "de": {
+    "country_code": "de",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine nationale Pkw-Vignette. Die geplante Pkw-Maut wurde 2019 vom EuGH gekippt und nicht eingeführt.",
+      "note_en": "No national car vignette. The planned car toll was struck down by the EU Court of Justice in 2019 and never introduced.",
+      "note_fr": "Pas de vignette nationale pour les voitures. Le péage prévu pour les voitures a été annulé par la Cour de justice de l'UE en 2019 et n'a jamais été mis en place.",
+      "note_it": "Nessuna vignetta nazionale per le auto. Il pedaggio previsto per le auto è stato annullato dalla Corte di giustizia UE nel 2019 e mai introdotto."
+    },
+    "toll": {
+      "system": "none",
+      "note_de": "Keine Maut für Pkw auf Autobahnen. Lkw-Maut besteht, betrifft aber keine Personenwagen.",
+      "note_en": "No toll for cars on motorways. A truck toll exists but does not apply to passenger cars.",
+      "note_fr": "Pas de péage pour les voitures sur les autoroutes. Un péage poids lourds existe mais ne concerne pas les voitures particulières.",
+      "note_it": "Nessun pedaggio per le auto in autostrada. Esiste un pedaggio per i camion ma non riguarda le autovetture."
+    },
+    "lowEmissionZones": {
+      "scheme": "Umweltzone",
+      "note_de": "Umweltzonen in vielen Städten verlangen eine Umweltplakette (heute praktisch nur die grüne Plakette). Plakette ca. 6–20 €; Einfahrt ohne gültige Plakette: 100 € Bussgeld.",
+      "note_en": "Low-emission zones (Umweltzonen) in many cities require an emissions sticker (in practice only the green sticker today). Sticker about EUR 6-20; entering without a valid sticker: EUR 100 fine.",
+      "note_fr": "Les zones environnementales (Umweltzonen) de nombreuses villes exigent une vignette antipollution (en pratique, seule la verte aujourd'hui). Vignette env. 6-20 € ; entrer sans vignette valide : amende de 100 €.",
+      "note_it": "Le zone ambientali (Umweltzonen) di molte città richiedono un bollino antinquinamento (oggi in pratica solo quello verde). Bollino circa 6-20 €; ingresso senza bollino valido: multa di 100 €."
+    },
+    "source_url": "https://www.bundesumweltministerium.de/en/topics/air/emissions-control-sticker-and-low-emission-zone",
+    "updated_at": "2026-06-04"
+  },
+  "at": {
+    "country_code": "at",
+    "vignette": {
+      "required": true,
+      "price": 106.8,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Vignette (Klebe- oder digitale Vignette) für alle Autobahnen und Schnellstrassen. Jahresvignette 2026: 106,80 €. Kurzvignetten: 10 Tage 12,80 €, 2 Monate 32,00 €.",
+      "note_en": "Vignette (sticker or digital) for all motorways and expressways. 2026 annual vignette: EUR 106.80. Short-term: 10-day EUR 12.80, 2-month EUR 32.00.",
+      "note_fr": "Vignette (autocollant ou numérique) pour toutes les autoroutes et voies rapides. Vignette annuelle 2026 : 106,80 €. Courte durée : 10 jours 12,80 €, 2 mois 32,00 €.",
+      "note_it": "Vignetta (adesivo o digitale) per tutte le autostrade e superstrade. Vignetta annuale 2026: 106,80 €. Breve durata: 10 giorni 12,80 €, 2 mesi 32,00 €."
+    },
+    "toll": {
+      "system": "vignette-plus-special",
+      "note_de": "Über die Vignette hinaus keine streckenbezogene Pkw-Maut. Einzelne Strecken/Tunnel (z. B. Brenner, Tauern, Arlberg) sind gesondert mautpflichtig.",
+      "note_en": "Beyond the vignette there is no distance-based car toll. A few routes/tunnels (e.g. Brenner, Tauern, Arlberg) carry a separate special toll.",
+      "note_fr": "Au-delà de la vignette, pas de péage au kilomètre pour les voitures. Quelques tronçons/tunnels (p. ex. Brenner, Tauern, Arlberg) ont un péage spécial distinct.",
+      "note_it": "Oltre alla vignetta non c'è pedaggio a distanza per le auto. Alcuni tratti/tunnel (es. Brennero, Tauri, Arlberg) hanno un pedaggio speciale separato."
+    },
+    "lowEmissionZones": {
+      "scheme": "IG-L",
+      "note_de": "Keine klassischen Umweltzonen, aber IG-L-Massnahmen: streckenweise (oft wechselnde) Tempolimits auf über 400 km Autobahn zum Schutz der Luftqualität; E- und Wasserstofffahrzeuge ausgenommen.",
+      "note_en": "No classic low-emission zones, but IG-L measures: sectional (often variable) speed limits on over 400 km of motorway to protect air quality; electric and hydrogen vehicles exempt.",
+      "note_fr": "Pas de zones à faibles émissions classiques, mais des mesures IG-L : limitations de vitesse par tronçons (souvent variables) sur plus de 400 km d'autoroute pour protéger la qualité de l'air ; véhicules électriques et à hydrogène exemptés.",
+      "note_it": "Nessuna zona a basse emissioni classica, ma misure IG-L: limiti di velocità per tratti (spesso variabili) su oltre 400 km di autostrada per proteggere la qualità dell'aria; veicoli elettrici e a idrogeno esentati."
+    },
+    "source_url": "https://www.bmluk.gv.at/en/topics/climate-environment/air-and-noise/law/air-pollution-control-act.html",
+    "updated_at": "2026-06-04"
+  },
+  "fr": {
+    "country_code": "fr",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine nationale Autobahnvignette. Stattdessen streckenbezogene Maut (péage) und für Umweltzonen die Crit'Air-Plakette.",
+      "note_en": "No national motorway vignette. Instead there is distance-based toll (péage) and, for low-emission zones, the Crit'Air sticker.",
+      "note_fr": "Pas de vignette autoroutière nationale. À la place : péage au kilomètre et, pour les zones à faibles émissions, la vignette Crit'Air.",
+      "note_it": "Nessuna vignetta autostradale nazionale. Al suo posto: pedaggio a distanza (péage) e, per le zone a basse emissioni, il bollino Crit'Air."
+    },
+    "toll": {
+      "system": "distance",
+      "note_de": "Streckenbezogene Autobahnmaut (péage) an Mautstationen oder per Télépéage-Transponder. Pkw (Klasse 1) ca. 0,11 €/km, je nach Strecke.",
+      "note_en": "Distance-based motorway toll (péage) paid at toll stations or via a Télépéage transponder. Cars (Class 1) around EUR 0.11/km, depending on the route.",
+      "note_fr": "Péage autoroutier au kilomètre, réglé aux gares de péage ou via un badge Télépéage. Voitures (classe 1) env. 0,11 €/km selon l'itinéraire.",
+      "note_it": "Pedaggio autostradale a distanza (péage), pagato ai caselli o con un telepass Télépéage. Auto (classe 1) circa 0,11 €/km, a seconda del percorso."
+    },
+    "lowEmissionZones": {
+      "scheme": "Crit'Air / ZFE",
+      "note_de": "Umweltzonen (ZFE) in Paris, Lyon, Marseille u. a. Grossstädten verlangen die Crit'Air-Plakette. Einfahrt richtet sich nach der Crit'Air-Stufe des Fahrzeugs.",
+      "note_en": "Low-emission zones (ZFE) in Paris, Lyon, Marseille and other large cities require the Crit'Air sticker. Access depends on the vehicle's Crit'Air class.",
+      "note_fr": "Les zones à faibles émissions (ZFE) de Paris, Lyon, Marseille et d'autres grandes villes exigent la vignette Crit'Air. L'accès dépend de la classe Crit'Air du véhicule.",
+      "note_it": "Le zone a basse emissioni (ZFE) di Parigi, Lione, Marsiglia e altre grandi città richiedono il bollino Crit'Air. L'accesso dipende dalla classe Crit'Air del veicolo."
+    },
+    "source_url": "https://www.service-public.gouv.fr/particuliers/actualites/A17253?lang=en",
+    "updated_at": "2026-06-04"
+  },
+  "it": {
+    "country_code": "it",
+    "vignette": {
+      "required": false,
+      "price": null,
+      "currency": "EUR",
+      "period": "year",
+      "note_de": "Keine nationale Autobahnvignette. Stattdessen streckenbezogene Maut (pedaggio) auf den Autostrade.",
+      "note_en": "No national motorway vignette. Instead there is distance-based toll (pedaggio) on the autostrade.",
+      "note_fr": "Pas de vignette autoroutière nationale. À la place : péage au kilomètre (pedaggio) sur les autostrade.",
+      "note_it": "Nessuna vignetta autostradale nazionale. Al suo posto: pedaggio a distanza (pedaggio) sulle autostrade."
+    },
+    "toll": {
+      "system": "distance",
+      "note_de": "Streckenbezogene Autobahnmaut (pedaggio): meist geschlossenes System – am Eingang ein Ticket ziehen, am Ausgang nach gefahrenen Kilometern und Fahrzeugklasse zahlen.",
+      "note_en": "Distance-based motorway toll (pedaggio): usually a closed system – take a ticket at the entry, pay at the exit by kilometres driven and vehicle class.",
+      "note_fr": "Péage autoroutier au kilomètre (pedaggio) : système généralement fermé – prendre un ticket à l'entrée, payer à la sortie selon les kilomètres et la classe du véhicule.",
+      "note_it": "Pedaggio autostradale a distanza: di solito sistema chiuso – ritirare il biglietto all'ingresso, pagare all'uscita in base ai chilometri percorsi e alla classe del veicolo."
+    },
+    "lowEmissionZones": {
+      "scheme": "ZTL",
+      "note_de": "Zonen mit beschränktem Verkehr (ZTL) in fast jeder grösseren Stadt schützen die historischen Zentren. Kameras erfassen die Kennzeichen; Einfahrt ohne Genehmigung führt automatisch zu einem Bussgeld.",
+      "note_en": "Limited-traffic zones (ZTL) in nearly every larger city protect historic centres. Cameras read number plates; entering without a permit automatically triggers a fine.",
+      "note_fr": "Les zones à trafic limité (ZTL) de presque toutes les grandes villes protègent les centres historiques. Des caméras lisent les plaques ; entrer sans autorisation entraîne automatiquement une amende.",
+      "note_it": "Le zone a traffico limitato (ZTL) di quasi ogni città più grande proteggono i centri storici. Le telecamere leggono le targhe; entrare senza permesso comporta automaticamente una multa."
+    },
+    "source_url": "https://mobility.autopay.eu/en/knowledge/drivers-guide/road-tolls-italy/",
+    "updated_at": "2026-06-04"
+  }
+}

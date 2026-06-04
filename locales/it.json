@@ -71,6 +71,30 @@
     "noData": "Ancora nessun dato confrontabile per questa coppia.",
     "summary": "Confrontato in {{currency}} (circa)"
   },
+  "mobility": {
+    "title": "Costi di mobilità",
+    "subtitle": "Gli altri costi per guidare qui — vignetta, pedaggi e zone a basse emissioni. Valori indicativi, non consulenza legale.",
+    "disclaimer": "Valori indicativi – non è consulenza legale.",
+    "period": {
+      "year": "anno"
+    },
+    "vignette": {
+      "label": "Vignetta",
+      "none": "Non richiesta"
+    },
+    "toll": {
+      "label": "Pedaggi",
+      "none": "Nessuno per le auto",
+      "system": {
+        "distance": "Al chilometro",
+        "vignette-plus-special": "Vignetta + tratti speciali"
+      }
+    },
+    "zones": {
+      "label": "Zone a basse emissioni",
+      "none": "Nessuna a livello nazionale"
+    }
+  },
   "search": {
     "placeholder": "Cerca un’infrazione o un paese…",
     "hint": "Digita per cercare le infrazioni in tutti i paesi.",
