@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -17,8 +17,14 @@ export default function CompareScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
   const router = useRouter();
+  const navigation = useNavigation();
   const [fines, setFines] = useState<Fine[]>([]);
   const [category, setCategory] = useState<CategoryId>('speeding');
+
+  // Show the full name in the header (the tab label stays the short "Vergleich").
+  useEffect(() => {
+    navigation.setOptions({ title: t('compare.title') });
+  }, [navigation, t]);
 
   useEffect(() => {
     let active = true;
@@ -63,16 +69,11 @@ export default function CompareScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={[type.display, { color: theme.text.primary }]}>{t('compare.title')}</Text>
-        <Text style={[type.body, styles.subtitle, { color: theme.text.secondary }]}>
-          {t('compare.subtitle')}
-        </Text>
-
+      {/* Sticky violation selector — stays put while the map/table scroll. */}
+      <View style={[styles.stickyBar, { backgroundColor: theme.bg.canvas, borderBottomColor: theme.border.subtle }]}>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          style={styles.pillsRow}
           contentContainerStyle={styles.pillsContent}
         >
           {CATEGORIES.map((cat) => (
@@ -84,7 +85,9 @@ export default function CompareScreen() {
             />
           ))}
         </ScrollView>
+      </View>
 
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {/* Map hero: countries coloured by their representative fine. */}
         <View
           style={[
@@ -174,9 +177,12 @@ export default function CompareScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: space[4], paddingBottom: space[10] },
-  subtitle: { marginTop: space[1], marginBottom: space[4] },
-  pillsRow: { flexGrow: 0, marginBottom: space[4], marginHorizontal: -space[4] },
+  stickyBar: {
+    paddingTop: space[3],
+    paddingBottom: space[3],
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  content: { paddingHorizontal: space[4], paddingTop: space[4], paddingBottom: space[10] },
   pillsContent: { paddingHorizontal: space[4] },
   mapCard: {
     borderRadius: radius.lg,
