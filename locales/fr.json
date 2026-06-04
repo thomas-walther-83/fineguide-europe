@@ -76,6 +76,14 @@
     "hint": "Tapez pour rechercher des infractions dans tous les pays.",
     "noResults": "Aucun résultat."
   },
+  "location": {
+    "button": "Dans quel pays suis-je ?",
+    "detecting": "Localisation en cours…",
+    "youAreIn": "Vous êtes en {{country}}",
+    "outside": "Vous êtes hors des pays couverts (CH, DE, AT, FR, IT).",
+    "denied": "Accès à la localisation refusé. Activez-le pour détecter votre pays.",
+    "unavailable": "La localisation est indisponible pour le moment. Choisissez un pays sur la carte."
+  },
   "meta": {
     "withPoints": "Système à points",
     "noPoints": "Sans points",

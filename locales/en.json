@@ -76,6 +76,14 @@
     "hint": "Type to search violations across all countries.",
     "noResults": "No results."
   },
+  "location": {
+    "button": "Which country am I in?",
+    "detecting": "Detecting your location…",
+    "youAreIn": "You're in {{country}}",
+    "outside": "You're outside the covered countries (CH, DE, AT, FR, IT).",
+    "denied": "Location access denied. Enable it to detect your country.",
+    "unavailable": "Location is unavailable right now. Pick a country on the map."
+  },
   "meta": {
     "withPoints": "Point system",
     "noPoints": "No point system",

@@ -76,6 +76,14 @@
     "hint": "Digita per cercare le infrazioni in tutti i paesi.",
     "noResults": "Nessun risultato."
   },
+  "location": {
+    "button": "In quale paese mi trovo?",
+    "detecting": "Rilevamento della posizione…",
+    "youAreIn": "Ti trovi in {{country}}",
+    "outside": "Sei fuori dai paesi coperti (CH, DE, AT, FR, IT).",
+    "denied": "Accesso alla posizione negato. Attivalo per rilevare il tuo paese.",
+    "unavailable": "La posizione non è disponibile al momento. Scegli un paese sulla mappa."
+  },
   "meta": {
     "withPoints": "Sistema a punti",
     "noPoints": "Senza punti",
