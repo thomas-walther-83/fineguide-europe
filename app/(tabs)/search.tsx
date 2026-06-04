@@ -8,6 +8,7 @@ import { EmptyState } from '@/components/EmptyState';
 import { FlagChip } from '@/components/FlagChip';
 import { Icon } from '@/components/Icon';
 import { Pill } from '@/components/Pill';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { SeverityBar } from '@/components/SeverityBar';
 import { SkeletonList } from '@/components/Skeleton';
 import { categoryIcon } from '@/lib/categories';
@@ -54,6 +55,7 @@ export default function SearchScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
+      <ScreenHeader title={t('tabs.search')} subtitle={t('search.hint')} />
       <View style={styles.searchWrap}>
         <Text style={[type.display, styles.heading, { color: theme.text.primary }]}>
           {t('tabs.search')}

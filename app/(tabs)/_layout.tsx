@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Icon, type IconName } from '@/components/Icon';
 import { fonts, useTheme } from '@/lib/theme';
@@ -8,6 +9,7 @@ import { fonts, useTheme } from '@/lib/theme';
 export default function TabsLayout() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
 
   const icon =
     (name: IconName) =>
@@ -26,6 +28,11 @@ export default function TabsLayout() {
           backgroundColor: theme.bg.surface,
           borderTopColor: theme.border.subtle,
           borderTopWidth: StyleSheet.hairlineWidth,
+          // Compact bar whose background fills the bottom safe area, so there's
+          // no empty band under the icons.
+          height: 54 + insets.bottom,
+          paddingBottom: insets.bottom,
+          paddingTop: 6,
         },
         tabBarActiveTintColor: theme.brand.primary,
         tabBarInactiveTintColor: theme.text.tertiary,

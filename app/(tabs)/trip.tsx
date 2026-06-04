@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { FilterPill } from '@/components/FilterPill';
 import { FlagChip } from '@/components/FlagChip';
 import { Pill } from '@/components/Pill';
+import { ScreenHeader } from '@/components/ScreenHeader';
 import { CATEGORIES, type CategoryId } from '@/lib/categories';
 import { COUNTRIES, findCountry, type Country } from '@/lib/countries';
 import { convert, type Currency } from '@/lib/currency';
@@ -145,12 +146,8 @@ export default function TripScreen() {
       style={[styles.container, { backgroundColor: theme.bg.canvas }]}
       edges={['top']}
     >
+      <ScreenHeader title={t('trip.title')} subtitle={t('trip.subtitle')} />
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <Text style={[type.display, { color: theme.text.primary }]}>{t('trip.title')}</Text>
-        <Text style={[type.body, styles.subtitle, { color: theme.text.secondary }]}>
-          {t('trip.subtitle')}
-        </Text>
-
         {renderSelector(t('trip.home'), home.id, selectHome)}
         {renderSelector(t('trip.destination'), dest.id, selectDest)}
 
