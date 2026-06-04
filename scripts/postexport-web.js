@@ -49,12 +49,25 @@ if (!html.includes('id="premium-fonts"')) {
   html = html.replace('</head>', `    ${fontCss}\n  </head>`);
 }
 
-// Fill the page background with the theme canvas (light + dark) so any area not
-// covered by the app (e.g. the bottom safe-area) matches the app instead of
-// flashing white.
+// Root sizing + page background.
+//
+// On an installed iOS PWA (`viewport-fit=cover` + translucent status bar) the
+// CSS `%` height chain under-resolves, so the whole react-native-web flex tree
+// lays out shorter than the screen — leaving canvas-coloured slack above and
+// below the tab bar and clipping content early. Anchoring html/body/#root to
+// the *dynamic* viewport (`100dvh`, with `100%` as the pre-dvh fallback)
+// resolves to the true visible height, so the flex chain fills the screen and
+// the tab bar sits flush at the bottom.
+//
+// The background colours (light + dark) also fill any area momentarily not
+// covered by the app, so it matches the app canvas instead of flashing white.
 const appBgCss =
-  '<style id="app-bg">html,body{height:100%;margin:0;background-color:#E7ECF3;}' +
-  '@media (prefers-color-scheme:dark){html,body{background-color:#151D2C;}}</style>';
+  '<style id="app-bg">' +
+  'html,body,#root{height:100%;height:100dvh;margin:0;}' +
+  'html,body{background-color:#E7ECF3;}' +
+  '#root{display:flex;flex-direction:column;}' +
+  '@media (prefers-color-scheme:dark){html,body{background-color:#151D2C;}}' +
+  '</style>';
 if (!html.includes('id="app-bg"')) {
   html = html.replace('</head>', `    ${appBgCss}\n  </head>`);
 }
