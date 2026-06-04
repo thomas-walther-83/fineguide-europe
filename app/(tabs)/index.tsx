@@ -28,12 +28,10 @@ export default function CountriesScreen() {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
       <View style={styles.header}>
-        <View style={styles.titleRow}>
-          <Text style={[type.h1, { color: theme.text.primary }]} numberOfLines={1}>
-            {t('home.title')}
-          </Text>
-          <LanguageSwitcher />
-        </View>
+        <Text style={[type.h1, { color: theme.text.primary }]} numberOfLines={1}>
+          {t('home.title')}
+        </Text>
+        <LanguageSwitcher />
       </View>
 
       {/* The map is the primary country picker and fills the remaining space. */}
@@ -82,16 +80,11 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   header: {
     paddingHorizontal: space[4],
-    paddingTop: space[2],
-    paddingBottom: space[2],
+    paddingTop: space[1],
+    paddingBottom: space[1],
+    gap: space[2],
   },
-  titleRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: space[3],
-  },
-  mapWrap: { flex: 1, paddingHorizontal: space[3], minHeight: 0 },
+  mapWrap: { flex: 1, paddingHorizontal: space[2], minHeight: 0 },
   footer: {
     paddingHorizontal: space[4],
     paddingTop: space[2],

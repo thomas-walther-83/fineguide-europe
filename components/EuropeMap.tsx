@@ -203,12 +203,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: space[1],
-    paddingHorizontal: space[2],
-    paddingVertical: 3,
+    gap: 3,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
     borderRadius: radius.pill,
     borderWidth: StyleSheet.hairlineWidth,
-    transform: [{ translateX: -22 }, { translateY: -13 }],
+    transform: [{ translateX: -18 }, { translateY: -10 }],
     ...Platform.select({
       web: { boxShadow: '0 2px 8px rgba(11,18,32,0.18)' } as object,
       default: {
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  chipFlag: { fontSize: 13, lineHeight: 16 },
-  chipCode: { fontSize: 10, letterSpacing: 0.4 },
+  chipFlag: { fontSize: 11, lineHeight: 13 },
+  chipCode: { fontSize: 9, letterSpacing: 0.3 },
   hit: { position: 'absolute', width: 44, height: 44, borderRadius: 22 },
 });

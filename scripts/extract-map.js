@@ -32,12 +32,13 @@ function iso(f) {
 const LON0 = -6.0, LON1 = 19.5; // west..east
 const LAT0 = 35.5, LAT1 = 55.8; // south..north
 const W = 1000;
-// Web Mercator-ish vertical scaling using cos(midLat) keeps shapes recognizable.
+// Equirectangular with cos(midLat) so 1° lon ≈ cos(lat)·(1° lat) in pixels —
+// keeps shapes correctly proportioned (not horizontally stretched).
 const midLat = (LAT0 + LAT1) / 2;
 const k = Math.cos((midLat * Math.PI) / 180);
 const spanLon = LON1 - LON0;
 const spanLat = LAT1 - LAT0;
-const H = Math.round((W * (spanLat / spanLon)) * k);
+const H = Math.round((W * (spanLat / spanLon)) / k);
 
 function project([lon, lat]) {
   const x = ((lon - LON0) / spanLon) * W;
