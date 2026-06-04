@@ -43,6 +43,13 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
+        name="calc"
+        options={{
+          title: t('tabs.calculator'),
+          tabBarIcon: ({ color }) => <TabIcon icon="🧮" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="search"
         options={{
           title: t('tabs.search'),

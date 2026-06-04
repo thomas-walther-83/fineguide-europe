@@ -6,7 +6,17 @@
   "tabs": {
     "countries": "Pays",
     "compare": "Comparer",
+    "calculator": "Calculateur",
     "search": "Recherche"
+  },
+  "calc": {
+    "title": "Calculateur d’amende",
+    "subtitle": "Choisissez un pays et une infraction — amende estimée.",
+    "selectCountry": "Pays",
+    "selectViolation": "Infraction",
+    "original": "Original",
+    "noData": "Aucune donnée pour cette sélection.",
+    "estimate": "Estimation."
   },
   "countries": {
     "ch": "Suisse",

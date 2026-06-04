@@ -6,7 +6,17 @@
   "tabs": {
     "countries": "Paesi",
     "compare": "Confronta",
+    "calculator": "Calcolatore",
     "search": "Cerca"
+  },
+  "calc": {
+    "title": "Calcolatore multe",
+    "subtitle": "Scegli un paese e un’infrazione — multa stimata.",
+    "selectCountry": "Paese",
+    "selectViolation": "Infrazione",
+    "original": "Originale",
+    "noData": "Nessun dato per questa selezione.",
+    "estimate": "Stima."
   },
   "countries": {
     "ch": "Svizzera",

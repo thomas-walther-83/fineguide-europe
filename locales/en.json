@@ -6,7 +6,17 @@
   "tabs": {
     "countries": "Countries",
     "compare": "Compare",
+    "calculator": "Calculator",
     "search": "Search"
+  },
+  "calc": {
+    "title": "Fine calculator",
+    "subtitle": "Pick a country and a violation — estimated fine.",
+    "selectCountry": "Country",
+    "selectViolation": "Violation",
+    "original": "Original",
+    "noData": "No data for this selection.",
+    "estimate": "Estimate."
   },
   "countries": {
     "ch": "Switzerland",
