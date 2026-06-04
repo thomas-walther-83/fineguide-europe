@@ -64,7 +64,7 @@ export default function CalculatorScreen() {
   const sevKey = result ? severityForAmount(result.amount, categoryMax) : 'low';
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <Text style={[type.display, { color: theme.text.primary }]}>{t('calc.title')}</Text>
         <Text style={[type.body, styles.subtitle, { color: theme.text.secondary }]}>

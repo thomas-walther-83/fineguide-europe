@@ -143,7 +143,7 @@ export default function TripScreen() {
   return (
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.bg.canvas }]}
-      edges={['bottom']}
+      edges={['top']}
     >
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <Text style={[type.display, { color: theme.text.primary }]}>{t('trip.title')}</Text>

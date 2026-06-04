@@ -121,7 +121,7 @@ export function EuropeMap({ onSelectCountry, fillFor, selectedId, maxHeight }: P
                     fill={fill}
                     fillOpacity={fillOpacity}
                     stroke={stroke}
-                    strokeWidth={isSelected ? 2.6 : isActive ? 2 : 1.3}
+                    strokeWidth={isSelected ? 2.8 : isActive ? 2.2 : 1.7}
                     strokeLinejoin="round"
                     // Tapping anywhere on the shape selects it (web + native).
                     onPress={() => handlePress(c.id)}
@@ -197,13 +197,13 @@ const styles = StyleSheet.create({
   stage: { position: 'relative' },
   flagBadge: {
     position: 'absolute',
-    width: 28,
-    height: 28,
+    width: 24,
+    height: 24,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radius.pill,
     borderWidth: StyleSheet.hairlineWidth,
-    transform: [{ translateX: -14 }, { translateY: -14 }],
+    transform: [{ translateX: -12 }, { translateY: -12 }],
     ...Platform.select({
       web: { boxShadow: '0 2px 8px rgba(11,18,32,0.22)' } as object,
       default: {
@@ -215,6 +215,6 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  badgeFlag: { fontSize: 16, lineHeight: 19 },
+  badgeFlag: { fontSize: 14, lineHeight: 17 },
   hit: { position: 'absolute', width: 44, height: 44, borderRadius: 22 },
 });
