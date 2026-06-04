@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { EuropeMap } from '@/components/EuropeMap';
 import { FlagChip } from '@/components/FlagChip';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
+import { LocateButton } from '@/components/LocateButton';
 import { COUNTRIES, findCountry } from '@/lib/countries';
 import { useFavorites } from '@/lib/favorites';
 import { tapImpact } from '@/lib/haptics';
@@ -32,6 +33,11 @@ export default function CountriesScreen() {
           {t('home.title')}
         </Text>
         <LanguageSwitcher />
+      </View>
+
+      {/* "Where am I?" — detect the current country and jump to its fines. */}
+      <View style={styles.locateWrap}>
+        <LocateButton />
       </View>
 
       {/* The map is the primary country picker and fills the remaining space. */}
@@ -84,6 +90,7 @@ const styles = StyleSheet.create({
     paddingBottom: space[1],
     gap: space[2],
   },
+  locateWrap: { paddingHorizontal: space[4], paddingBottom: space[2] },
   mapWrap: { flex: 1, paddingHorizontal: space[2], minHeight: 0 },
   footer: {
     paddingHorizontal: space[4],

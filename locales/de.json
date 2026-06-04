@@ -100,6 +100,14 @@
     "hint": "Tippe, um Verstösse über alle Länder zu durchsuchen.",
     "noResults": "Keine Treffer."
   },
+  "location": {
+    "button": "In welchem Land bin ich?",
+    "detecting": "Standort wird ermittelt…",
+    "youAreIn": "Du bist in {{country}}",
+    "outside": "Du bist ausserhalb der abgedeckten Länder (CH, DE, AT, FR, IT).",
+    "denied": "Standortzugriff verweigert. Aktiviere ihn, um dein Land zu erkennen.",
+    "unavailable": "Standort ist gerade nicht verfügbar. Wähle ein Land auf der Karte."
+  },
   "meta": {
     "withPoints": "Punktesystem",
     "noPoints": "kein Punktesystem",

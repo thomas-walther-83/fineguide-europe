@@ -12,7 +12,11 @@
       "bundleIdentifier": "com.fineguide.europe"
     },
     "android": {
-      "package": "com.fineguide.europe"
+      "package": "com.fineguide.europe",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -20,7 +24,15 @@
     },
     "plugins": [
       "expo-router",
-      "expo-localization"
+      "expo-localization",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "FineGuide uses your location only to detect which country you're in and show its traffic fines.",
+          "isIosBackgroundLocationEnabled": false,
+          "isAndroidBackgroundLocationEnabled": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
