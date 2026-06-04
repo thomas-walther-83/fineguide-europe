@@ -3,6 +3,11 @@
     "title": "FineGuide Europe",
     "subtitle": "Traffic fines across European countries"
   },
+  "tabs": {
+    "countries": "Countries",
+    "compare": "Compare",
+    "search": "Search"
+  },
   "countries": {
     "ch": "Switzerland",
     "de": "Germany",
@@ -15,7 +20,8 @@
     "parking": "Parking",
     "phone": "Phone use",
     "redlight": "Red light",
-    "alcohol": "Alcohol"
+    "alcohol": "Alcohol",
+    "seatbelt": "Seatbelt"
   },
   "detail": {
     "loading": "Loading fines…",
@@ -24,5 +30,17 @@
     "disclaimer": "Sample values – not legal advice.",
     "points_one": "1 point",
     "points_other": "{{count}} points"
+  },
+  "compare": {
+    "title": "Country comparison",
+    "subtitle": "Pick a violation and compare the fines.",
+    "country": "Country",
+    "amount": "Fine",
+    "points": "Points"
+  },
+  "search": {
+    "placeholder": "Search a violation or country…",
+    "hint": "Type to search violations across all countries.",
+    "noResults": "No results."
   }
 }

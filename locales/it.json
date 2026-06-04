@@ -3,6 +3,11 @@
     "title": "FineGuide Europe",
     "subtitle": "Multe stradali nei paesi europei"
   },
+  "tabs": {
+    "countries": "Paesi",
+    "compare": "Confronta",
+    "search": "Cerca"
+  },
   "countries": {
     "ch": "Svizzera",
     "de": "Germania",
@@ -15,7 +20,8 @@
     "parking": "Sosta",
     "phone": "Telefono",
     "redlight": "Semaforo rosso",
-    "alcohol": "Alcol"
+    "alcohol": "Alcol",
+    "seatbelt": "Cintura"
   },
   "detail": {
     "loading": "Caricamento multe…",
@@ -24,5 +30,17 @@
     "disclaimer": "Valori di esempio – non è consulenza legale.",
     "points_one": "1 punto",
     "points_other": "{{count}} punti"
+  },
+  "compare": {
+    "title": "Confronto tra paesi",
+    "subtitle": "Scegli un’infrazione e confronta le multe.",
+    "country": "Paese",
+    "amount": "Multa",
+    "points": "Punti"
+  },
+  "search": {
+    "placeholder": "Cerca un’infrazione o un paese…",
+    "hint": "Digita per cercare le infrazioni in tutti i paesi.",
+    "noResults": "Nessun risultato."
   }
 }

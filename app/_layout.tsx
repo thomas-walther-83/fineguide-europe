@@ -8,7 +8,7 @@ import '@/lib/i18n';
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
       <Stack
         screenOptions={{
           headerStyle: { backgroundColor: '#0a7ea4' },
@@ -16,7 +16,8 @@ export default function RootLayout() {
           headerTitleStyle: { fontWeight: '700' },
         }}
       >
-        <Stack.Screen name="index" />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="country/[id]" />
       </Stack>
     </SafeAreaProvider>
   );
