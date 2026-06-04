@@ -42,5 +42,12 @@
     "placeholder": "Cerca un’infrazione o un paese…",
     "hint": "Digita per cercare le infrazioni in tutti i paesi.",
     "noResults": "Nessun risultato."
+  },
+  "meta": {
+    "withPoints": "Sistema a punti",
+    "noPoints": "Senza punti"
+  },
+  "common": {
+    "retry": "Riprova"
   }
 }
