@@ -1,26 +1,28 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FineListItem } from '@/components/FineListItem';
-import { COUNTRIES } from '@/lib/countries';
+import { FlagChip } from '@/components/FlagChip';
+import { findCountry } from '@/lib/countries';
 import { fetchFinesByCountry, type Fine } from '@/lib/fines';
+import { useTheme } from '@/lib/theme';
 
 export default function CountryDetailScreen() {
   const { t } = useTranslation();
+  const theme = useTheme();
   const { id } = useLocalSearchParams<{ id: string }>();
   const countryCode = String(id);
-  const country = COUNTRIES.find((c) => c.id === countryCode);
+  const country = findCountry(countryCode);
 
   const [fines, setFines] = useState<Fine[]>([]);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
-  useEffect(() => {
+  const load = useCallback(() => {
     let active = true;
     setStatus('loading');
-
     fetchFinesByCountry(countryCode)
       .then((data) => {
         if (!active) return;
@@ -32,28 +34,37 @@ export default function CountryDetailScreen() {
         console.warn('[country detail] failed to load fines:', error);
         setStatus('error');
       });
-
     return () => {
       active = false;
     };
   }, [countryCode]);
 
+  useEffect(() => load(), [load]);
+
   const title = country ? t(country.nameKey) : countryCode.toUpperCase();
+  const maxAmount = fines.reduce((m, f) => Math.max(m, f.amount), 0);
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
       <Stack.Screen options={{ title }} />
 
       {status === 'loading' && (
         <View style={styles.center}>
-          <ActivityIndicator color="#0a7ea4" />
-          <Text style={styles.muted}>{t('detail.loading')}</Text>
+          <ActivityIndicator color={theme.brand.primary} />
+          <Text style={[styles.muted, { color: theme.text.secondary }]}>{t('detail.loading')}</Text>
         </View>
       )}
 
       {status === 'error' && (
         <View style={styles.center}>
-          <Text style={styles.muted}>{t('detail.error')}</Text>
+          <Text style={styles.errorIcon}>⚠️</Text>
+          <Text style={[styles.muted, { color: theme.text.secondary }]}>{t('detail.error')}</Text>
+          <Pressable
+            onPress={load}
+            style={[styles.retry, { borderColor: theme.border.subtle, backgroundColor: theme.bg.surfaceAlt }]}
+          >
+            <Text style={[styles.retryText, { color: theme.brand.primary }]}>{t('common.retry')}</Text>
+          </Pressable>
         </View>
       )}
 
@@ -63,17 +74,29 @@ export default function CountryDetailScreen() {
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
           ListHeaderComponent={
-            <Text style={styles.heading}>
-              {country?.flag} {title}
-            </Text>
+            <View>
+              <View style={[styles.hero, { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle }]}>
+                <FlagChip flag={country?.flag ?? '🏳️'} size={40} />
+                <View style={styles.heroText}>
+                  <Text style={[styles.heroTitle, { color: theme.text.primary }]}>{title}</Text>
+                  {country && (
+                    <Text style={[styles.heroSubtitle, { color: theme.text.secondary }]}>
+                      {country.currency} · {country.hasPoints ? t('meta.withPoints') : t('meta.noPoints')}
+                    </Text>
+                  )}
+                </View>
+              </View>
+              <Text style={[styles.disclaimer, { color: theme.text.tertiary }]}>
+                {t('detail.disclaimer')}
+              </Text>
+            </View>
           }
           ListEmptyComponent={
             <View style={styles.center}>
-              <Text style={styles.muted}>{t('detail.empty')}</Text>
+              <Text style={[styles.muted, { color: theme.text.secondary }]}>{t('detail.empty')}</Text>
             </View>
           }
-          ListFooterComponent={<Text style={styles.disclaimer}>{t('detail.disclaimer')}</Text>}
-          renderItem={({ item }) => <FineListItem fine={item} />}
+          renderItem={({ item }) => <FineListItem fine={item} maxAmount={maxAmount} />}
         />
       )}
     </SafeAreaView>
@@ -81,35 +104,29 @@ export default function CountryDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f2f3f5',
-  },
-  listContent: {
-    padding: 16,
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: '#11181C',
-    marginBottom: 16,
-  },
-  center: {
-    flex: 1,
+  container: { flex: 1 },
+  listContent: { padding: 16 },
+  hero: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 32,
-    gap: 8,
+    gap: 14,
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: StyleSheet.hairlineWidth,
   },
-  muted: {
-    fontSize: 15,
-    color: '#687076',
-    textAlign: 'center',
+  heroText: { flex: 1 },
+  heroTitle: { fontSize: 22, fontWeight: '800' },
+  heroSubtitle: { marginTop: 2, fontSize: 14 },
+  disclaimer: { marginTop: 10, marginBottom: 14, fontSize: 12, textAlign: 'center' },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 10 },
+  muted: { fontSize: 15, textAlign: 'center' },
+  errorIcon: { fontSize: 32 },
+  retry: {
+    marginTop: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+    borderWidth: StyleSheet.hairlineWidth,
   },
-  disclaimer: {
-    marginTop: 12,
-    fontSize: 12,
-    color: '#9BA1A6',
-    textAlign: 'center',
-  },
+  retryText: { fontSize: 15, fontWeight: '700' },
 });

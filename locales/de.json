@@ -42,5 +42,12 @@
     "placeholder": "Verstoss oder Land suchen…",
     "hint": "Tippe, um Verstösse über alle Länder zu durchsuchen.",
     "noResults": "Keine Treffer."
+  },
+  "meta": {
+    "withPoints": "Punktesystem",
+    "noPoints": "kein Punktesystem"
+  },
+  "common": {
+    "retry": "Erneut versuchen"
   }
 }

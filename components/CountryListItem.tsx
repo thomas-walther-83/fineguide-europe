@@ -2,7 +2,9 @@ import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { FlagChip } from '@/components/FlagChip';
 import type { Country } from '@/lib/countries';
+import { useTheme } from '@/lib/theme';
 
 type Props = {
   country: Country;
@@ -10,21 +12,30 @@ type Props = {
 
 export function CountryListItem({ country }: Props) {
   const { t } = useTranslation();
+  const theme = useTheme();
+
+  const subtitle = `${country.currency} · ${
+    country.hasPoints ? t('meta.withPoints') : t('meta.noPoints')
+  }`;
 
   return (
-    <Link
-      href={{ pathname: '/country/[id]', params: { id: country.id } }}
-      asChild
-    >
+    <Link href={{ pathname: '/country/[id]', params: { id: country.id } }} asChild>
       <Pressable
         accessibilityRole="link"
-        style={({ pressed }) => [styles.row, pressed && styles.pressed]}
+        style={({ pressed }) => [
+          styles.row,
+          {
+            backgroundColor: pressed ? theme.bg.surfaceAlt : theme.bg.surface,
+            borderColor: theme.border.subtle,
+          },
+        ]}
       >
-        <Text style={styles.flag}>{country.flag}</Text>
+        <FlagChip flag={country.flag} />
         <View style={styles.textContainer}>
-          <Text style={styles.name}>{t(country.nameKey)}</Text>
+          <Text style={[styles.name, { color: theme.text.primary }]}>{t(country.nameKey)}</Text>
+          <Text style={[styles.subtitle, { color: theme.text.secondary }]}>{subtitle}</Text>
         </View>
-        <Text style={styles.chevron}>›</Text>
+        <Text style={[styles.chevron, { color: theme.text.tertiary }]}>›</Text>
       </Pressable>
     </Link>
   );
@@ -34,29 +45,16 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    backgroundColor: '#ffffff',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     borderRadius: 12,
-    marginBottom: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+    marginBottom: 12,
     gap: 14,
+    minHeight: 64,
   },
-  pressed: {
-    opacity: 0.6,
-  },
-  flag: {
-    fontSize: 28,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  name: {
-    fontSize: 17,
-    fontWeight: '600',
-    color: '#11181C',
-  },
-  chevron: {
-    fontSize: 24,
-    color: '#9BA1A6',
-  },
+  textContainer: { flex: 1 },
+  name: { fontSize: 17, fontWeight: '700' },
+  subtitle: { marginTop: 2, fontSize: 13 },
+  chevron: { fontSize: 26, fontWeight: '300' },
 });

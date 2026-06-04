@@ -42,5 +42,12 @@
     "placeholder": "Search a violation or country…",
     "hint": "Type to search violations across all countries.",
     "noResults": "No results."
+  },
+  "meta": {
+    "withPoints": "Point system",
+    "noPoints": "No point system"
+  },
+  "common": {
+    "retry": "Retry"
   }
 }
