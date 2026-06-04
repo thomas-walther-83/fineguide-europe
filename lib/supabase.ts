@@ -3,8 +3,10 @@ import 'react-native-url-polyfill/auto';
 
 // Keys come from environment variables (see .env.example).
 // Only the anon / publishable key belongs here — NEVER the service_role key.
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY;
+// Normalise: trim and drop any trailing slash (a trailing "/" makes Supabase's
+// gateway reject requests with "Invalid path specified in request URL").
+const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL?.trim().replace(/\/+$/, '');
+const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY?.trim();
 
 /** True when both Supabase env vars are present, so real queries can run. */
 export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);

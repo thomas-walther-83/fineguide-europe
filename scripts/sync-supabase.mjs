@@ -12,11 +12,19 @@ import { fileURLToPath } from 'node:url';
 
 import { createClient } from '@supabase/supabase-js';
 
-const url = process.env.SUPABASE_URL;
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const url = process.env.SUPABASE_URL?.trim().replace(/\/+$/, '');
+const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 
 if (!url || !serviceKey) {
   console.error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY — nothing to sync.');
+  process.exit(1);
+}
+
+if (!/^https:\/\/[a-z0-9-]+\.supabase\.co$/i.test(url)) {
+  console.error(
+    `SUPABASE_URL looks wrong: "${url}". It must be exactly https://<project-ref>.supabase.co ` +
+      '(no trailing slash, no path). Find it under Project Settings → Data API → Project URL.'
+  );
   process.exit(1);
 }
 
