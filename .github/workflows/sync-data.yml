@@ -1,0 +1,35 @@
+name: Sync fine data to Supabase
+
+on:
+  # Quarterly: 06:00 UTC on the 1st of Jan, Apr, Jul, Oct.
+  schedule:
+    - cron: '0 6 1 1,4,7,10 *'
+  # Also run whenever the dataset changes on main, and on demand.
+  push:
+    branches: [main]
+    paths:
+      - 'data/fines.json'
+      - 'scripts/sync-supabase.mjs'
+  workflow_dispatch:
+
+jobs:
+  sync:
+    name: Upsert dataset into Supabase
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Sync (skips if Supabase secrets are not set yet)
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "Supabase secrets not configured yet — skipping sync."
+            exit 0
+          fi
+          node scripts/sync-supabase.mjs

@@ -55,7 +55,9 @@
   },
   "meta": {
     "withPoints": "Système à points",
-    "noPoints": "Sans points"
+    "noPoints": "Sans points",
+    "source": "Source",
+    "updated": "Mise à jour"
   },
   "common": {
     "retry": "Réessayer"

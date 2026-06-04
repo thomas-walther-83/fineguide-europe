@@ -10,6 +10,7 @@
     "web": "expo start --web",
     "build:web": "expo export --platform web && node scripts/postexport-web.js",
     "icons": "node scripts/generate-icons.js",
+    "sync:data": "node scripts/sync-supabase.mjs",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit"
   },
