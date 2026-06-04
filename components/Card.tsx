@@ -10,7 +10,10 @@ type Props = {
   variant?: 'card' | 'raised' | 'flat';
 };
 
-/** Surface container: rounded, hairline border, soft shadow in light mode. */
+/**
+ * Surface container: generously rounded, hairline border, soft shadow in light
+ * mode and a faint top highlight (premium sheen) in dark mode.
+ */
 export function Card({ children, style, variant = 'card' }: Props) {
   const theme = useTheme();
   return (
@@ -18,13 +21,15 @@ export function Card({ children, style, variant = 'card' }: Props) {
       style={[
         styles.card,
         {
-          backgroundColor: theme.bg.surface,
+          backgroundColor: variant === 'flat' ? theme.bg.surfaceAlt : theme.bg.surface,
           borderColor: theme.border.subtle,
         },
         variant !== 'flat' && elevation(theme, variant === 'raised' ? 'raised' : 'card'),
         style,
       ]}
     >
+      {/* faint top highlight — only visible in dark mode (transparent in light) */}
+      <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
       {children}
     </View>
   );
@@ -35,5 +40,13 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     borderWidth: StyleSheet.hairlineWidth,
     padding: space[4],
+    overflow: 'hidden',
+  },
+  sheen: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 1,
   },
 });

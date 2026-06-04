@@ -1,17 +1,26 @@
 import { Stack, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Linking, Pressable, SectionList, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Linking,
+  Pressable,
+  SectionList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { FavoriteButton } from '@/components/FavoriteButton';
 import { FineListItem } from '@/components/FineListItem';
 import { FlagChip } from '@/components/FlagChip';
 import { OfflineBanner } from '@/components/OfflineBanner';
+import { Pill } from '@/components/Pill';
 import { CATEGORIES, categoryIcon, type CategoryId } from '@/lib/categories';
 import { findCountry } from '@/lib/countries';
 import { fetchFinesByCountryResult, type Fine } from '@/lib/fines';
-import { useTheme } from '@/lib/theme';
+import { elevation, radius, space, type, useTheme } from '@/lib/theme';
 
 type Section = { category: CategoryId; max: number; data: Fine[] };
 
@@ -79,19 +88,23 @@ export default function CountryDetailScreen() {
       {status === 'loading' && (
         <View style={styles.center}>
           <ActivityIndicator color={theme.brand.primary} />
-          <Text style={[styles.muted, { color: theme.text.secondary }]}>{t('detail.loading')}</Text>
+          <Text style={[type.body, styles.muted, { color: theme.text.secondary }]}>
+            {t('detail.loading')}
+          </Text>
         </View>
       )}
 
       {status === 'error' && (
         <View style={styles.center}>
           <Text style={styles.errorIcon}>⚠️</Text>
-          <Text style={[styles.muted, { color: theme.text.secondary }]}>{t('detail.error')}</Text>
+          <Text style={[type.body, styles.muted, { color: theme.text.secondary }]}>
+            {t('detail.error')}
+          </Text>
           <Pressable
             onPress={load}
             style={[styles.retry, { borderColor: theme.border.subtle, backgroundColor: theme.bg.surfaceAlt }]}
           >
-            <Text style={[styles.retryText, { color: theme.brand.primary }]}>{t('common.retry')}</Text>
+            <Text style={[type.bodyStrong, { color: theme.brand.primary }]}>{t('common.retry')}</Text>
           </Pressable>
         </View>
       )}
@@ -102,29 +115,42 @@ export default function CountryDetailScreen() {
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContent}
           stickySectionHeadersEnabled={false}
+          showsVerticalScrollIndicator={false}
           ListHeaderComponent={
-            <View>
+            <View style={styles.headerWrap}>
               <OfflineBanner visible={offline} />
-              <View style={[styles.hero, { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle }]}>
-                <FlagChip flag={country?.flag ?? '🏳️'} size={40} />
+              <View
+                style={[
+                  styles.hero,
+                  elevation(theme, 'raised'),
+                  { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
+                ]}
+              >
+                <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+                <FlagChip flag={country?.flag ?? '🏳️'} size={48} />
                 <View style={styles.heroText}>
-                  <Text style={[styles.heroTitle, { color: theme.text.primary }]}>{title}</Text>
+                  <Text style={[type.h1, { color: theme.text.primary }]}>{title}</Text>
                   {country && (
-                    <Text style={[styles.heroSubtitle, { color: theme.text.secondary }]}>
-                      {country.currency} · {country.hasPoints ? t('meta.withPoints') : t('meta.noPoints')}
-                    </Text>
+                    <View style={styles.heroMeta}>
+                      <Pill tone="neutral" label={country.currency} />
+                      <Pill
+                        tone={country.hasPoints ? 'brand' : 'neutral'}
+                        label={country.hasPoints ? t('meta.withPoints') : t('meta.noPoints')}
+                      />
+                    </View>
                   )}
                 </View>
               </View>
+
               <View style={styles.metaRow}>
-                <Text style={[styles.disclaimer, { color: theme.text.tertiary }]}>
+                <Text style={[type.caption, styles.disclaimer, { color: theme.text.tertiary }]}>
                   {t('detail.disclaimer')}
                   {updated ? ` · ${t('meta.updated')} ${updated}` : ''}
                 </Text>
                 {source && (
                   <Text
                     onPress={() => Linking.openURL(source)}
-                    style={[styles.sourceLink, { color: theme.brand.primary }]}
+                    style={[type.captionStrong, styles.sourceLink, { color: theme.brand.primary }]}
                   >
                     {t('meta.source')} ↗
                   </Text>
@@ -133,14 +159,16 @@ export default function CountryDetailScreen() {
             </View>
           }
           renderSectionHeader={({ section }) => (
-            <Text style={[styles.sectionHeader, { color: theme.text.tertiary }]}>
+            <Text style={[type.label, styles.sectionHeader, { color: theme.text.tertiary }]}>
               {categoryIcon((section as Section).category)}{' '}
               {t(`categories.${(section as Section).category}`)}
             </Text>
           )}
           ListEmptyComponent={
             <View style={styles.center}>
-              <Text style={[styles.muted, { color: theme.text.secondary }]}>{t('detail.empty')}</Text>
+              <Text style={[type.body, styles.muted, { color: theme.text.secondary }]}>
+                {t('detail.empty')}
+              </Text>
             </View>
           }
           renderItem={({ item, section }) => (
@@ -154,38 +182,32 @@ export default function CountryDetailScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  listContent: { padding: 16 },
+  listContent: { padding: space[4], paddingBottom: space[10] },
+  headerWrap: { gap: space[3], marginBottom: space[2] },
   hero: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
-    padding: 16,
-    borderRadius: 16,
+    gap: space[4],
+    padding: space[4],
+    borderRadius: radius.xl,
     borderWidth: StyleSheet.hairlineWidth,
+    overflow: 'hidden',
   },
-  heroText: { flex: 1 },
-  heroTitle: { fontSize: 22, fontWeight: '800' },
-  heroSubtitle: { marginTop: 2, fontSize: 14 },
-  metaRow: { marginTop: 10, marginBottom: 8, alignItems: 'center', gap: 4 },
-  disclaimer: { fontSize: 12, textAlign: 'center' },
-  sourceLink: { fontSize: 12, fontWeight: '700' },
-  sectionHeader: {
-    fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginTop: 14,
-    marginBottom: 8,
-  },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32, gap: 10 },
-  muted: { fontSize: 15, textAlign: 'center' },
+  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
+  heroText: { flex: 1, gap: space[2] },
+  heroMeta: { flexDirection: 'row', gap: space[2], flexWrap: 'wrap' },
+  metaRow: { alignItems: 'center', gap: space[1] },
+  disclaimer: { textAlign: 'center' },
+  sourceLink: {},
+  sectionHeader: { marginTop: space[5], marginBottom: space[3] },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: space[8], gap: space[3] },
+  muted: { textAlign: 'center' },
   errorIcon: { fontSize: 32 },
   retry: {
-    marginTop: 6,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 12,
+    marginTop: space[1],
+    paddingVertical: space[3],
+    paddingHorizontal: space[5],
+    borderRadius: radius.md,
     borderWidth: StyleSheet.hairlineWidth,
   },
-  retryText: { fontSize: 15, fontWeight: '700' },
 });

@@ -1,15 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { FilterPill } from '@/components/FilterPill';
 import { FlagChip } from '@/components/FlagChip';
+import { Pill } from '@/components/Pill';
+import { SeverityBar } from '@/components/SeverityBar';
 import { CATEGORIES, categoryIcon, type CategoryId } from '@/lib/categories';
 import { COUNTRIES, findCountry } from '@/lib/countries';
 import { type Currency, formatConverted } from '@/lib/currency';
 import { fetchAllFines, type Fine } from '@/lib/fines';
-import { severityColor } from '@/lib/severity';
-import { useTheme } from '@/lib/theme';
+import { severityColor, severityForAmount } from '@/lib/severity';
+import { elevation, radius, space, type, useTheme } from '@/lib/theme';
 
 type Display = 'original' | 'EUR' | 'CHF';
 
@@ -57,161 +60,136 @@ export default function CalculatorScreen() {
     return formatConverted(result.amount, from, display);
   }, [result, display]);
 
+  const sev = result ? severityColor(theme, result.amount, categoryMax) : theme.text.tertiary;
+  const sevKey = result ? severityForAmount(result.amount, categoryMax) : 'low';
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={[styles.title, { color: theme.text.primary }]}>{t('calc.title')}</Text>
-        <Text style={[styles.subtitle, { color: theme.text.secondary }]}>{t('calc.subtitle')}</Text>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <Text style={[type.display, { color: theme.text.primary }]}>{t('calc.title')}</Text>
+        <Text style={[type.body, styles.subtitle, { color: theme.text.secondary }]}>
+          {t('calc.subtitle')}
+        </Text>
 
         {/* Country */}
-        <Text style={[styles.label, { color: theme.text.tertiary }]}>{t('calc.selectCountry')}</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillsRow}>
-          {COUNTRIES.map((c) => {
-            const active = c.id === countryId;
-            return (
-              <Pressable
-                key={c.id}
-                onPress={() => setCountryId(c.id)}
-                style={[
-                  styles.countryPill,
-                  {
-                    backgroundColor: active ? theme.brand.primary : theme.bg.surfaceAlt,
-                    borderColor: theme.border.subtle,
-                  },
-                ]}
-              >
-                <FlagChip flag={c.flag} size={20} />
-                <Text
-                  style={[
-                    styles.pillText,
-                    { color: active ? theme.brand.onPrimary : theme.text.secondary },
-                  ]}
-                >
-                  {t(c.nameKey)}
-                </Text>
-              </Pressable>
-            );
-          })}
+        <Text style={[type.label, styles.label, { color: theme.text.tertiary }]}>
+          {t('calc.selectCountry')}
+        </Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.pillsRow}
+          contentContainerStyle={styles.pillsContent}
+        >
+          {COUNTRIES.map((c) => (
+            <FilterPill
+              key={c.id}
+              label={t(c.nameKey)}
+              active={c.id === countryId}
+              onPress={() => setCountryId(c.id)}
+              leading={<FlagChip flag={c.flag} size={20} />}
+            />
+          ))}
         </ScrollView>
 
         {/* Violation */}
-        <Text style={[styles.label, { color: theme.text.tertiary }]}>{t('calc.selectViolation')}</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillsRow}>
-          {CATEGORIES.map((cat) => {
-            const active = cat.id === category;
-            return (
-              <Pressable
-                key={cat.id}
-                onPress={() => setCategory(cat.id)}
-                style={[
-                  styles.pill,
-                  {
-                    backgroundColor: active ? theme.brand.primary : theme.bg.surfaceAlt,
-                    borderColor: theme.border.subtle,
-                  },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.pillText,
-                    { color: active ? theme.brand.onPrimary : theme.text.secondary },
-                  ]}
-                >
-                  {cat.icon} {t(`categories.${cat.id}`)}
-                </Text>
-              </Pressable>
-            );
-          })}
+        <Text style={[type.label, styles.label, { color: theme.text.tertiary }]}>
+          {t('calc.selectViolation')}
+        </Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.pillsRow}
+          contentContainerStyle={styles.pillsContent}
+        >
+          {CATEGORIES.map((cat) => (
+            <FilterPill
+              key={cat.id}
+              label={`${cat.icon}  ${t(`categories.${cat.id}`)}`}
+              active={cat.id === category}
+              onPress={() => setCategory(cat.id)}
+            />
+          ))}
         </ScrollView>
 
         {/* Variant (only when several bands/cases exist) */}
         {variants.length > 1 && (
           <>
-            <Text style={[styles.label, { color: theme.text.tertiary }]}>{t('calc.variant')}</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.pillsRow}>
-              {variants.map((v) => {
-                const active = v.id === result?.id;
-                return (
-                  <Pressable
-                    key={v.id}
-                    onPress={() => setVariantId(v.id)}
-                    style={[
-                      styles.pill,
-                      {
-                        backgroundColor: active ? theme.brand.primary : theme.bg.surfaceAlt,
-                        borderColor: theme.border.subtle,
-                      },
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.pillText,
-                        { color: active ? theme.brand.onPrimary : theme.text.secondary },
-                      ]}
-                    >
-                      {v.description}
-                    </Text>
-                  </Pressable>
-                );
-              })}
+            <Text style={[type.label, styles.label, { color: theme.text.tertiary }]}>
+              {t('calc.variant')}
+            </Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              style={styles.pillsRow}
+              contentContainerStyle={styles.pillsContent}
+            >
+              {variants.map((v) => (
+                <FilterPill
+                  key={v.id}
+                  label={v.description}
+                  active={v.id === result?.id}
+                  onPress={() => setVariantId(v.id)}
+                />
+              ))}
             </ScrollView>
           </>
         )}
 
-        {/* Result */}
-        <View style={[styles.resultCard, { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle }]}>
+        {/* Result — the hero */}
+        <View
+          style={[
+            styles.resultCard,
+            elevation(theme, 'raised'),
+            { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
+          ]}
+        >
+          <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
           {result ? (
             <>
-              <Text style={[styles.resultCategory, { color: theme.brand.primary }]}>
+              <Text style={[type.label, styles.resultCategory, { color: theme.brand.primary }]}>
                 {categoryIcon(category)} {findCountry(countryId)?.flag} {t(`categories.${category}`)}
               </Text>
-              <Text style={[styles.resultAmount, { color: severityColor(theme, result.amount, categoryMax) }]}>
-                {amountText}
+              <Text style={[type.amountHero, styles.resultAmount, { color: sev }]}>{amountText}</Text>
+              <SeverityBar
+                amount={result.amount}
+                maxRef={categoryMax}
+                height={8}
+                style={styles.heroBar}
+              />
+              <Text style={[type.body, styles.resultDesc, { color: theme.text.primary }]}>
+                {result.description}
               </Text>
-              <Text style={[styles.resultDesc, { color: theme.text.primary }]}>{result.description}</Text>
               {result.points != null && result.points > 0 && (
-                <View style={[styles.pointsPill, { backgroundColor: theme.accent.amberSoft }]}>
-                  <Text style={[styles.pointsText, { color: theme.accent.amber }]}>
-                    {t('detail.points', { count: result.points })}
-                  </Text>
+                <View style={styles.pointsWrap}>
+                  <Pill tone={sevKey} label={t('detail.points', { count: result.points })} />
                 </View>
               )}
 
               {/* Currency toggle */}
-              <View style={styles.toggleRow}>
+              <View style={[styles.toggleTrack, { backgroundColor: theme.bg.surfaceAlt }]}>
                 {(['original', 'EUR', 'CHF'] as Display[]).map((mode) => {
                   const active = display === mode;
                   return (
-                    <Pressable
+                    <FilterPill
                       key={mode}
+                      label={mode === 'original' ? t('calc.original') : mode}
+                      active={active}
                       onPress={() => setDisplay(mode)}
-                      style={[
-                        styles.togglePill,
-                        {
-                          backgroundColor: active ? theme.brand.primary : theme.bg.surfaceAlt,
-                          borderColor: theme.border.subtle,
-                        },
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.toggleText,
-                          { color: active ? theme.brand.onPrimary : theme.text.secondary },
-                        ]}
-                      >
-                        {mode === 'original' ? t('calc.original') : mode}
-                      </Text>
-                    </Pressable>
+                      style={styles.toggleSegment}
+                    />
                   );
                 })}
               </View>
             </>
           ) : (
-            <Text style={[styles.resultDesc, { color: theme.text.secondary }]}>{t('calc.noData')}</Text>
+            <Text style={[type.body, styles.resultDesc, { color: theme.text.secondary }]}>
+              {t('calc.noData')}
+            </Text>
           )}
         </View>
 
-        <Text style={[styles.disclaimer, { color: theme.text.tertiary }]}>
+        <Text style={[type.caption, styles.disclaimer, { color: theme.text.tertiary }]}>
           {t('calc.estimate')} {t('detail.disclaimer')}
         </Text>
       </ScrollView>
@@ -221,55 +199,32 @@ export default function CalculatorScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  content: { padding: 16 },
-  title: { fontSize: 24, fontWeight: '800' },
-  subtitle: { marginTop: 4, marginBottom: 8, fontSize: 14 },
-  label: {
-    fontSize: 12,
-    fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    marginTop: 12,
-    marginBottom: 8,
-  },
-  pillsRow: { flexGrow: 0 },
-  pill: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 999,
-    borderWidth: StyleSheet.hairlineWidth,
-    marginRight: 8,
-  },
-  countryPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 999,
-    borderWidth: StyleSheet.hairlineWidth,
-    marginRight: 8,
-  },
-  pillText: { fontSize: 14, fontWeight: '600' },
+  content: { padding: space[4], paddingBottom: space[10] },
+  subtitle: { marginTop: space[1] },
+  label: { marginTop: space[5], marginBottom: space[3] },
+  pillsRow: { flexGrow: 0, marginHorizontal: -space[4] },
+  pillsContent: { paddingHorizontal: space[4] },
   resultCard: {
-    marginTop: 20,
-    padding: 20,
-    borderRadius: 16,
+    marginTop: space[6],
+    padding: space[6],
+    borderRadius: radius.xl,
     borderWidth: StyleSheet.hairlineWidth,
     alignItems: 'center',
+    overflow: 'hidden',
   },
-  resultCategory: { fontSize: 13, fontWeight: '700', textTransform: 'uppercase', letterSpacing: 0.5 },
-  resultAmount: { fontSize: 40, fontWeight: '900', marginTop: 8, fontVariant: ['tabular-nums'] },
-  resultDesc: { fontSize: 15, textAlign: 'center', marginTop: 8 },
-  pointsPill: { marginTop: 12, paddingVertical: 5, paddingHorizontal: 12, borderRadius: 999 },
-  pointsText: { fontSize: 13, fontWeight: '700' },
-  toggleRow: { flexDirection: 'row', gap: 8, marginTop: 20 },
-  togglePill: {
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 999,
-    borderWidth: StyleSheet.hairlineWidth,
+  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
+  resultCategory: { textAlign: 'center' },
+  resultAmount: { marginTop: space[3], textAlign: 'center' },
+  heroBar: { marginTop: space[4], maxWidth: 260 },
+  resultDesc: { textAlign: 'center', marginTop: space[4] },
+  pointsWrap: { marginTop: space[3] },
+  toggleTrack: {
+    flexDirection: 'row',
+    marginTop: space[6],
+    padding: space[1],
+    borderRadius: radius.pill,
+    gap: space[1],
   },
-  toggleText: { fontSize: 14, fontWeight: '700' },
-  disclaimer: { marginTop: 16, fontSize: 12, textAlign: 'center', lineHeight: 18 },
+  toggleSegment: { marginRight: 0, borderWidth: 0, minHeight: 40, paddingHorizontal: space[4] },
+  disclaimer: { marginTop: space[4], textAlign: 'center' },
 });

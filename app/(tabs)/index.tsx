@@ -9,6 +9,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { SectionHeader } from '@/components/SectionHeader';
 import { COUNTRIES, findCountry } from '@/lib/countries';
 import { useFavorites } from '@/lib/favorites';
+import { tapImpact } from '@/lib/haptics';
 import { elevation, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
 export default function CountriesScreen() {
@@ -22,7 +23,7 @@ export default function CountriesScreen() {
     .filter((c): c is NonNullable<typeof c> => c != null);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
+    <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
       <FlatList
         data={COUNTRIES}
         keyExtractor={(item) => item.id}
@@ -32,10 +33,10 @@ export default function CountriesScreen() {
           <View style={styles.header}>
             <View style={styles.heroTop}>
               <View style={styles.heroText}>
-                <Text style={[type.display, { color: theme.text.primary }]}>{t('home.title')}</Text>
-                <Text style={[type.body, styles.subtitle, { color: theme.text.secondary }]}>
-                  {t('home.subtitle')}
+                <Text style={[type.label, styles.eyebrow, { color: theme.brand.primary }]}>
+                  {t('home.title')}
                 </Text>
+                <Text style={[type.hero, { color: theme.text.primary }]}>{t('home.subtitle')}</Text>
               </View>
             </View>
 
@@ -45,6 +46,7 @@ export default function CountriesScreen() {
               <Pressable
                 accessibilityRole="link"
                 accessibilityLabel={`${t('compare.title')}. ${t('compare.subtitle')}`}
+                onPress={tapImpact}
                 style={({ pressed }) => [
                   styles.cta,
                   elevation(theme, 'raised'),
@@ -54,6 +56,12 @@ export default function CountriesScreen() {
                   },
                 ]}
               >
+                {/* decorative severity ramp on the CTA edge */}
+                <View pointerEvents="none" style={styles.ctaRamp}>
+                  <View style={[styles.rampSeg, { backgroundColor: theme.severity.low }]} />
+                  <View style={[styles.rampSeg, { backgroundColor: theme.severity.mid }]} />
+                  <View style={[styles.rampSeg, { backgroundColor: theme.severity.high }]} />
+                </View>
                 <View style={styles.ctaIconBadge}>
                   <Icon name="compare" size={22} color={theme.brand.onPrimary} />
                 </View>
@@ -89,26 +97,30 @@ export default function CountriesScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  listContent: { padding: space[4] },
+  listContent: { padding: space[4], paddingBottom: space[12] },
   header: { gap: space[5], paddingTop: space[2] },
   heroTop: { flexDirection: 'row', alignItems: 'flex-start' },
-  heroText: { flex: 1 },
-  subtitle: { marginTop: space[1] },
+  heroText: { flex: 1, gap: space[1] },
+  eyebrow: {},
   cta: {
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: radius.xl,
     padding: space[4],
+    paddingLeft: space[5],
     gap: space[3],
+    overflow: 'hidden',
   },
+  ctaRamp: { position: 'absolute', left: 0, top: 0, bottom: 0, width: 5 },
+  rampSeg: { flex: 1 },
   ctaIconBadge: {
-    width: 44,
-    height: 44,
+    width: 46,
+    height: 46,
     borderRadius: radius.md,
     backgroundColor: 'rgba(255,255,255,0.18)',
     alignItems: 'center',
     justifyContent: 'center',
   },
   ctaText: { flex: 1 },
-  ctaSubtitle: { marginTop: 2, opacity: 0.9 },
+  ctaSubtitle: { marginTop: 2, opacity: 0.92 },
 });

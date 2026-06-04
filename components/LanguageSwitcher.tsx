@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { Icon } from '@/components/Icon';
+import { tapSelect } from '@/lib/haptics';
 import { SUPPORTED_LANGUAGES } from '@/lib/i18n';
 import { PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
@@ -30,7 +31,10 @@ export function LanguageSwitcher() {
             accessibilityRole="button"
             accessibilityLabel={lng.toUpperCase()}
             accessibilityState={{ selected: active }}
-            onPress={() => i18n.changeLanguage(lng)}
+            onPress={() => {
+              tapSelect();
+              i18n.changeLanguage(lng);
+            }}
             style={({ pressed }) => [
               styles.segment,
               {

@@ -1,4 +1,4 @@
-import type { Theme } from './theme';
+import { severityTint, type Theme } from './theme';
 
 export type Severity = 'low' | 'mid' | 'high';
 
@@ -17,4 +17,19 @@ export function severityForAmount(amount: number, maxRef: number): Severity {
 
 export function severityColor(theme: Theme, amount: number, maxRef: number): string {
   return theme.severity[severityForAmount(amount, maxRef)];
+}
+
+/** Soft background tint for the given amount's severity bucket. */
+export function severityTintFor(theme: Theme, amount: number, maxRef: number): string {
+  return severityTint(theme, severityForAmount(amount, maxRef));
+}
+
+/**
+ * Fraction (0..1) of the reference max an amount represents — used to size the
+ * thin severity bars that encode magnitude visually. Clamped and floored so an
+ * existing fine always shows at least a sliver.
+ */
+export function severityRatio(amount: number, maxRef: number): number {
+  if (maxRef <= 0 || amount <= 0) return 0;
+  return Math.max(0.08, Math.min(1, amount / maxRef));
 }

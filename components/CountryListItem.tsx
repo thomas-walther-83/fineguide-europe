@@ -6,6 +6,7 @@ import { FavoriteButton } from '@/components/FavoriteButton';
 import { FlagChip } from '@/components/FlagChip';
 import { Icon } from '@/components/Icon';
 import type { Country } from '@/lib/countries';
+import { tapImpact } from '@/lib/haptics';
 import { elevation, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
 type Props = {
@@ -25,6 +26,7 @@ export function CountryListItem({ country }: Props) {
       <Pressable
         accessibilityRole="link"
         accessibilityLabel={`${t(country.nameKey)}, ${subtitle}`}
+        onPress={tapImpact}
         style={({ pressed }) => [
           styles.row,
           elevation(theme, 'card'),
@@ -35,7 +37,8 @@ export function CountryListItem({ country }: Props) {
           },
         ]}
       >
-        <FlagChip flag={country.flag} />
+        <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+        <FlagChip flag={country.flag} size={36} />
         <View style={styles.textContainer}>
           <Text style={[type.h2, { color: theme.text.primary }]}>{t(country.nameKey)}</Text>
           <Text style={[type.caption, styles.subtitle, { color: theme.text.secondary }]}>
@@ -44,7 +47,9 @@ export function CountryListItem({ country }: Props) {
         </View>
         <View style={styles.trailing}>
           <FavoriteButton id={country.id} />
-          <Icon name="chevron-right" size={20} color={theme.text.tertiary} />
+          <View style={[styles.chev, { backgroundColor: theme.bg.surfaceAlt }]}>
+            <Icon name="chevron-right" size={18} color={theme.text.tertiary} />
+          </View>
         </View>
       </Pressable>
     </Link>
@@ -61,9 +66,18 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     marginBottom: space[3],
     gap: space[4],
-    minHeight: 68,
+    minHeight: 72,
+    overflow: 'hidden',
   },
+  sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
   textContainer: { flex: 1 },
   subtitle: { marginTop: 2 },
   trailing: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
+  chev: {
+    width: 28,
+    height: 28,
+    borderRadius: radius.pill,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
