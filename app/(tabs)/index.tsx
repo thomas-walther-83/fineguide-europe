@@ -1,116 +1,112 @@
-import { Link } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { CountryListItem } from '@/components/CountryListItem';
-import { Icon } from '@/components/Icon';
+import { EuropeMap } from '@/components/EuropeMap';
+import { FlagChip } from '@/components/FlagChip';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
-import { SectionHeader } from '@/components/SectionHeader';
 import { COUNTRIES, findCountry } from '@/lib/countries';
 import { useFavorites } from '@/lib/favorites';
 import { tapImpact } from '@/lib/haptics';
-import { elevation, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
-
-// Fixed strong blue for the Compare CTA so white text always has good contrast
-// in both light and dark.
-const CTA_BLUE = '#2563E6';
-const CTA_BLUE_PRESSED = '#1B4FCC';
+import { PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
 export default function CountriesScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const router = useRouter();
   const { favorites } = useFavorites();
 
   const favoriteCountries = favorites
     .map((id) => findCountry(id))
     .filter((c): c is NonNullable<typeof c> => c != null);
 
+  const openCountry = (id: string) => {
+    router.push({ pathname: '/country/[id]', params: { id } });
+  };
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
-      <FlatList
-        data={COUNTRIES}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={
-          <View style={styles.header}>
-            <View>
-              <Text style={[type.display, { color: theme.text.primary }]}>{t('home.title')}</Text>
-              <Text style={[type.caption, styles.subtitle, { color: theme.text.secondary }]} numberOfLines={2}>
-                {t('home.subtitle')}
-              </Text>
-            </View>
+      <View style={styles.header}>
+        <View style={styles.titleRow}>
+          <Text style={[type.h1, { color: theme.text.primary }]} numberOfLines={1}>
+            {t('home.title')}
+          </Text>
+          <LanguageSwitcher />
+        </View>
+      </View>
 
-            <LanguageSwitcher />
+      {/* The map is the primary country picker and fills the remaining space. */}
+      <View style={styles.mapWrap}>
+        <EuropeMap onSelectCountry={openCountry} />
+      </View>
 
-            <Link href="/compare" asChild>
+      <View style={styles.footer}>
+        {favoriteCountries.length > 0 ? (
+          <View style={styles.favRow}>
+            {favoriteCountries.map((country) => (
               <Pressable
+                key={country.id}
                 accessibilityRole="link"
-                accessibilityLabel={`${t('compare.title')}. ${t('compare.subtitle')}`}
-                onPress={tapImpact}
+                accessibilityLabel={t(country.nameKey)}
+                onPress={() => {
+                  tapImpact();
+                  openCountry(country.id);
+                }}
                 style={({ pressed }) => [
-                  styles.cta,
-                  elevation(theme, 'card'),
+                  styles.favChip,
                   {
-                    backgroundColor: pressed ? CTA_BLUE_PRESSED : CTA_BLUE,
+                    backgroundColor: theme.bg.surface,
+                    borderColor: theme.border.subtle,
                     transform: [{ scale: pressed ? PRESS_SCALE : 1 }],
                   },
                 ]}
               >
-                <View style={styles.ctaIconBadge}>
-                  <Icon name="compare" size={20} color="#FFFFFF" />
-                </View>
-                <View style={styles.ctaText}>
-                  <Text style={[type.h2, { color: '#FFFFFF' }]}>{t('compare.title')}</Text>
-                  <Text style={[type.caption, styles.ctaSubtitle]} numberOfLines={1}>
-                    {t('compare.subtitle')}
-                  </Text>
-                </View>
-                <Icon name="chevron-right" size={20} color="#FFFFFF" />
+                <FlagChip flag={country.flag} size={22} />
+                <Text style={[type.captionStrong, { color: theme.text.secondary }]}>
+                  {t(country.nameKey)}
+                </Text>
               </Pressable>
-            </Link>
-
-            {favoriteCountries.length > 0 && (
-              <View style={styles.section}>
-                <SectionHeader title={t('favorites.title')} />
-                {favoriteCountries.map((country) => (
-                  <CountryListItem key={country.id} country={country} />
-                ))}
-              </View>
-            )}
-
-            <SectionHeader title={t('tabs.countries')} />
+            ))}
           </View>
-        }
-        renderItem={({ item }) => <CountryListItem country={item} />}
-      />
+        ) : null}
+        <Text style={[type.caption, styles.hint, { color: theme.text.tertiary }]} numberOfLines={1}>
+          {t('home.pickHint')}
+        </Text>
+      </View>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  listContent: { paddingHorizontal: space[4], paddingTop: space[2], paddingBottom: space[12] },
-  header: { gap: space[4] },
-  subtitle: { marginTop: space[1] },
-  cta: {
+  header: {
+    paddingHorizontal: space[4],
+    paddingTop: space[2],
+    paddingBottom: space[2],
+  },
+  titleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: radius.lg,
-    paddingVertical: space[3],
-    paddingHorizontal: space[4],
+    justifyContent: 'space-between',
     gap: space[3],
   },
-  ctaIconBadge: {
-    width: 40,
-    height: 40,
-    borderRadius: radius.md,
-    backgroundColor: 'rgba(255,255,255,0.20)',
-    alignItems: 'center',
-    justifyContent: 'center',
+  mapWrap: { flex: 1, paddingHorizontal: space[3], minHeight: 0 },
+  footer: {
+    paddingHorizontal: space[4],
+    paddingTop: space[2],
+    paddingBottom: space[2],
+    gap: space[2],
   },
-  ctaText: { flex: 1 },
-  ctaSubtitle: { marginTop: 1, color: 'rgba(255,255,255,0.9)' },
-  section: { gap: space[0] },
+  favRow: { flexDirection: 'row', flexWrap: 'wrap', gap: space[2], justifyContent: 'center' },
+  favChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: space[2],
+    paddingVertical: space[1],
+    paddingHorizontal: space[3],
+    borderRadius: radius.pill,
+    borderWidth: StyleSheet.hairlineWidth,
+  },
+  hint: { textAlign: 'center' },
 });

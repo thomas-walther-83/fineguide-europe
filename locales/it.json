@@ -1,7 +1,8 @@
 {
   "home": {
     "title": "FineGuide Europe",
-    "subtitle": "Multe stradali nei paesi europei"
+    "subtitle": "Multe stradali nei paesi europei",
+    "pickHint": "Tocca un paese per vedere le sue multe"
   },
   "tabs": {
     "countries": "Paesi",
@@ -47,7 +48,9 @@
     "subtitle": "Scegli un’infrazione e confronta le multe.",
     "country": "Paese",
     "amount": "Multa",
-    "points": "Punti"
+    "points": "Punti",
+    "legendLow": "Più bassa",
+    "legendHigh": "Più alta"
   },
   "search": {
     "placeholder": "Cerca un’infrazione o un paese…",

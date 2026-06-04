@@ -40,8 +40,10 @@ const light: Theme = {
     midSoft: 'rgba(217,119,6,0.14)',
     highSoft: 'rgba(224,53,59,0.14)',
   },
-  bg: { canvas: '#F4F6FA', surface: '#FFFFFF', surfaceAlt: '#EDF1F7', elevated: '#FFFFFF' },
-  border: { subtle: '#E3E8EF', strong: '#D2DAE4' },
+  // Softer, calmer light mode: a cool grey canvas (less glare) with white cards
+  // for clearer canvas↔surface separation and more contrast.
+  bg: { canvas: '#E7ECF3', surface: '#FFFFFF', surfaceAlt: '#EDF1F7', elevated: '#FFFFFF' },
+  border: { subtle: '#DCE3EC', strong: '#C7D1DD' },
   highlight: 'transparent',
   text: { primary: '#0B1220', secondary: '#56657A', tertiary: '#8A97A9' },
 };

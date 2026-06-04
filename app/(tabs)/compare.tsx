@@ -1,11 +1,12 @@
+import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { EuropeMap } from '@/components/EuropeMap';
 import { FilterPill } from '@/components/FilterPill';
 import { FlagChip } from '@/components/FlagChip';
-import { SeverityBar } from '@/components/SeverityBar';
 import { CATEGORIES, type CategoryId } from '@/lib/categories';
 import { COUNTRIES } from '@/lib/countries';
 import { fetchAllFines, type Fine } from '@/lib/fines';
@@ -15,6 +16,7 @@ import { elevation, radius, space, type, useTheme } from '@/lib/theme';
 export default function CompareScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const router = useRouter();
   const [fines, setFines] = useState<Fine[]>([]);
   const [category, setCategory] = useState<CategoryId>('speeding');
 
@@ -46,6 +48,19 @@ export default function CompareScreen() {
     [rows]
   );
 
+  // Severity-coloured fill per country for the map hero.
+  const fillFor = useMemo(() => {
+    const byId = new Map(rows.map((r) => [r.country.id, r.fine] as const));
+    return (id: string) => {
+      const fine = byId.get(id);
+      if (!fine || maxAmount <= 0) return undefined;
+      return severityColor(theme, fine.amount, maxAmount);
+    };
+  }, [rows, maxAmount, theme]);
+
+  const openCountry = (id: string) =>
+    router.push({ pathname: '/country/[id]', params: { id } });
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -70,6 +85,32 @@ export default function CompareScreen() {
           ))}
         </ScrollView>
 
+        {/* Map hero: countries coloured by their representative fine. */}
+        <View
+          style={[
+            styles.mapCard,
+            elevation(theme, 'card'),
+            { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle },
+          ]}
+        >
+          <View pointerEvents="none" style={[styles.sheen, { backgroundColor: theme.highlight }]} />
+          <EuropeMap onSelectCountry={openCountry} fillFor={fillFor} maxHeight={300} />
+          <View style={styles.legend}>
+            <Text style={[type.caption, { color: theme.text.tertiary }]}>
+              {t('compare.legendLow')}
+            </Text>
+            <View style={styles.ramp}>
+              <View style={[styles.rampSeg, { backgroundColor: theme.severity.low }]} />
+              <View style={[styles.rampSeg, { backgroundColor: theme.severity.mid }]} />
+              <View style={[styles.rampSeg, { backgroundColor: theme.severity.high }]} />
+            </View>
+            <Text style={[type.caption, { color: theme.text.tertiary }]}>
+              {t('compare.legendHigh')}
+            </Text>
+          </View>
+        </View>
+
+        {/* Compact figures below the hero. */}
         <View
           style={[
             styles.table,
@@ -103,26 +144,21 @@ export default function CompareScreen() {
                   },
                 ]}
               >
-                <View style={styles.topLine}>
-                  <View style={[styles.colCountry, styles.countryCell]}>
-                    <FlagChip flag={country.flag} size={26} />
-                    <Text
-                      style={[type.bodyStrong, styles.countryName, { color: theme.text.primary }]}
-                      numberOfLines={1}
-                    >
-                      {t(country.nameKey)}
-                    </Text>
-                  </View>
-                  <Text style={[type.amount, styles.colAmount, { color: sev }]}>
-                    {fine ? `${fine.currency} ${fine.amount}` : '–'}
-                  </Text>
-                  <Text style={[type.bodyStrong, styles.colPoints, { color: theme.text.secondary }]}>
-                    {fine && fine.points != null ? fine.points : '–'}
+                <View style={[styles.colCountry, styles.countryCell]}>
+                  <FlagChip flag={country.flag} size={26} />
+                  <Text
+                    style={[type.bodyStrong, styles.countryName, { color: theme.text.primary }]}
+                    numberOfLines={1}
+                  >
+                    {t(country.nameKey)}
                   </Text>
                 </View>
-                {fine ? (
-                  <SeverityBar amount={fine.amount} maxRef={maxAmount} height={5} style={styles.bar} />
-                ) : null}
+                <Text style={[type.amount, styles.colAmount, { color: sev }]}>
+                  {fine ? `${fine.currency} ${fine.amount}` : '–'}
+                </Text>
+                <Text style={[type.bodyStrong, styles.colPoints, { color: theme.text.secondary }]}>
+                  {fine && fine.points != null ? fine.points : '–'}
+                </Text>
               </View>
             );
           })}
@@ -142,6 +178,24 @@ const styles = StyleSheet.create({
   subtitle: { marginTop: space[1], marginBottom: space[4] },
   pillsRow: { flexGrow: 0, marginBottom: space[4], marginHorizontal: -space[4] },
   pillsContent: { paddingHorizontal: space[4] },
+  mapCard: {
+    borderRadius: radius.lg,
+    borderWidth: StyleSheet.hairlineWidth,
+    overflow: 'hidden',
+    paddingVertical: space[3],
+    paddingHorizontal: space[3],
+    marginBottom: space[4],
+    minHeight: 300,
+  },
+  legend: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: space[2],
+    marginTop: space[2],
+  },
+  ramp: { flexDirection: 'row', height: 8, width: 120, borderRadius: radius.pill, overflow: 'hidden' },
+  rampSeg: { flex: 1 },
   table: {
     borderRadius: radius.lg,
     borderWidth: StyleSheet.hairlineWidth,
@@ -155,13 +209,11 @@ const styles = StyleSheet.create({
     paddingTop: space[4],
     paddingBottom: space[3],
   },
-  tr: { paddingVertical: space[3] },
-  topLine: { flexDirection: 'row', alignItems: 'center' },
+  tr: { paddingVertical: space[3], flexDirection: 'row', alignItems: 'center' },
   countryCell: { flexDirection: 'row', alignItems: 'center', gap: space[3] },
   countryName: { flexShrink: 1 },
   colCountry: { flex: 1 },
   colAmount: { width: 104, textAlign: 'right' },
   colPoints: { width: 56, textAlign: 'right' },
-  bar: { marginTop: space[2] },
   disclaimer: { marginTop: space[4], textAlign: 'center' },
 });

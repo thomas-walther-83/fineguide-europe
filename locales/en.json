@@ -1,7 +1,8 @@
 {
   "home": {
     "title": "FineGuide Europe",
-    "subtitle": "Traffic fines across European countries"
+    "subtitle": "Traffic fines across European countries",
+    "pickHint": "Tap a country to see its fines"
   },
   "tabs": {
     "countries": "Countries",
@@ -47,7 +48,9 @@
     "subtitle": "Pick a violation and compare the fines.",
     "country": "Country",
     "amount": "Fine",
-    "points": "Points"
+    "points": "Points",
+    "legendLow": "Lower",
+    "legendHigh": "Higher"
   },
   "search": {
     "placeholder": "Search a violation or country…",
