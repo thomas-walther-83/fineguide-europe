@@ -66,8 +66,29 @@ if (!html.includes('rel="manifest"')) {
   html = html.replace('</head>', `    ${tags}\n  </head>`);
 }
 
+// Register the app-shell service worker (web only, feature-guarded). `public/`
+// is copied verbatim into `dist/` by the export, so `${base}sw.js` resolves to
+// the SW under the GitHub Pages base path.
+const swScript = [
+  `<script>`,
+  `  if ('serviceWorker' in navigator) {`,
+  `    window.addEventListener('load', function () {`,
+  `      navigator.serviceWorker.register('${base}sw.js').catch(function (err) {`,
+  `        console.warn('[sw] registration failed:', err);`,
+  `      });`,
+  `    });`,
+  `  }`,
+  `</script>`,
+].join('\n    ');
+
+if (!html.includes("serviceWorker.register")) {
+  html = html.replace('</body>', `    ${swScript}\n  </body>`);
+}
+
 fs.writeFileSync(indexPath, html);
 fs.copyFileSync(indexPath, path.join(dist, '404.html'));
 fs.writeFileSync(path.join(dist, '.nojekyll'), '');
 
-console.log(`postexport-web: injected PWA tags (base "${base}"), wrote 404.html + .nojekyll`);
+console.log(
+  `postexport-web: injected PWA tags + SW registration (base "${base}"), wrote 404.html + .nojekyll`
+);

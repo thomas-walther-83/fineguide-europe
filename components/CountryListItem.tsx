@@ -2,6 +2,7 @@ import { Link } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { FavoriteButton } from '@/components/FavoriteButton';
 import { FlagChip } from '@/components/FlagChip';
 import { Icon } from '@/components/Icon';
 import type { Country } from '@/lib/countries';
@@ -44,8 +45,11 @@ export function CountryListItem({ country }: Props) {
             {subtitle}
           </Text>
         </View>
-        <View style={[styles.chev, { backgroundColor: theme.bg.surfaceAlt }]}>
-          <Icon name="chevron-right" size={18} color={theme.text.tertiary} />
+        <View style={styles.trailing}>
+          <FavoriteButton id={country.id} />
+          <View style={[styles.chev, { backgroundColor: theme.bg.surfaceAlt }]}>
+            <Icon name="chevron-right" size={18} color={theme.text.tertiary} />
+          </View>
         </View>
       </Pressable>
     </Link>
@@ -68,6 +72,7 @@ const styles = StyleSheet.create({
   sheen: { position: 'absolute', top: 0, left: 0, right: 0, height: 1 },
   textContainer: { flex: 1 },
   subtitle: { marginTop: 2 },
+  trailing: { flexDirection: 'row', alignItems: 'center', gap: space[1] },
   chev: {
     width: 28,
     height: 28,

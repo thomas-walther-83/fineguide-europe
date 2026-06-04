@@ -7,13 +7,20 @@ import { CountryListItem } from '@/components/CountryListItem';
 import { Icon } from '@/components/Icon';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { SectionHeader } from '@/components/SectionHeader';
-import { COUNTRIES } from '@/lib/countries';
+import { COUNTRIES, findCountry } from '@/lib/countries';
+import { useFavorites } from '@/lib/favorites';
 import { tapImpact } from '@/lib/haptics';
 import { elevation, PRESS_SCALE, radius, space, type, useTheme } from '@/lib/theme';
 
 export default function CountriesScreen() {
   const { t } = useTranslation();
   const theme = useTheme();
+  const { favorites } = useFavorites();
+
+  // Favorite countries, in the order the user starred them; ignore any stale ids.
+  const favoriteCountries = favorites
+    .map((id) => findCountry(id))
+    .filter((c): c is NonNullable<typeof c> => c != null);
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['top']}>
@@ -69,6 +76,15 @@ export default function CountriesScreen() {
                 <Icon name="chevron-right" size={22} color={theme.brand.onPrimary} />
               </Pressable>
             </Link>
+
+            {favoriteCountries.length > 0 && (
+              <View>
+                <SectionHeader title={t('favorites.title')} />
+                {favoriteCountries.map((country) => (
+                  <CountryListItem key={country.id} country={country} />
+                ))}
+              </View>
+            )}
 
             <SectionHeader title={t('tabs.countries')} />
           </View>

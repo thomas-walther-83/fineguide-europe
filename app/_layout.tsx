@@ -15,6 +15,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Platform, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { FavoritesProvider } from '@/lib/favorites';
 import { fonts, type, useTheme } from '@/lib/theme';
 
 // Initialise i18next as early as possible.
@@ -47,26 +48,28 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: theme.bg.canvas },
-          headerTintColor: theme.brand.primary,
-          headerLargeTitle: true,
-          headerLargeTitleStyle: {
-            fontFamily: fonts.display,
-            fontSize: 30,
-            color: theme.text.primary,
-          },
-          headerLargeStyle: { backgroundColor: theme.bg.canvas },
-          headerTitleStyle: { ...type.h1, color: theme.text.primary },
-          headerShadowVisible: false,
-          contentStyle: { backgroundColor: theme.bg.canvas },
-        }}
-      >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="country/[id]" options={{ headerLargeTitle: false }} />
-      </Stack>
+      <FavoritesProvider>
+        <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: theme.bg.canvas },
+            headerTintColor: theme.brand.primary,
+            headerLargeTitle: true,
+            headerLargeTitleStyle: {
+              fontFamily: fonts.display,
+              fontSize: 30,
+              color: theme.text.primary,
+            },
+            headerLargeStyle: { backgroundColor: theme.bg.canvas },
+            headerTitleStyle: { ...type.h1, color: theme.text.primary },
+            headerShadowVisible: false,
+            contentStyle: { backgroundColor: theme.bg.canvas },
+          }}
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="country/[id]" options={{ headerLargeTitle: false }} />
+        </Stack>
+      </FavoritesProvider>
     </SafeAreaProvider>
   );
 }

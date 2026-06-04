@@ -5,7 +5,15 @@ import { StyleSheet, View, type ViewStyle } from 'react-native';
  * tint cleanly on web + native (no emoji-as-data, no extra native deps). Each
  * icon is sized by `size` and coloured by `color`; stroke weight scales with it.
  */
-export type IconName = 'chevron-right' | 'search' | 'globe' | 'compare' | 'languages' | 'calc';
+export type IconName =
+  | 'chevron-right'
+  | 'search'
+  | 'globe'
+  | 'compare'
+  | 'languages'
+  | 'calc'
+  | 'star'
+  | 'star-filled';
 
 type Props = {
   name: IconName;
@@ -147,6 +155,49 @@ export function Icon({ name, size = 20, color, style }: Props) {
               </View>
             ))}
           </View>
+        </View>
+      </View>
+    );
+  }
+
+  if (name === 'star' || name === 'star-filled') {
+    // A 5-point star composed of three overlapping triangles (rotated
+    // 0°/72°/144°), drawn with the CSS triangle border-trick so it tints
+    // cleanly and stays crisp on web + native without an SVG dependency.
+    // Both variants share one silhouette; the favorited (`star-filled`) vs
+    // un-favorited (`star`) state is conveyed by `color` and a lower opacity
+    // for the outline, matching this colour-driven icon set.
+    const filled = name === 'star-filled';
+    const triBase = size;
+    const triHeight = size * 0.62;
+    return (
+      <View style={[box, { width: size, height: size }, style]}>
+        <View
+          style={{
+            width: size,
+            height: size,
+            alignItems: 'center',
+            justifyContent: 'center',
+            opacity: filled ? 1 : 0.5,
+          }}
+        >
+          {[0, 72, 144].map((rotate, i) => (
+            <View
+              key={i}
+              style={{
+                position: 'absolute',
+                width: 0,
+                height: 0,
+                borderLeftWidth: triBase / 2,
+                borderRightWidth: triBase / 2,
+                borderBottomWidth: triHeight,
+                borderLeftColor: 'transparent',
+                borderRightColor: 'transparent',
+                borderBottomColor: color,
+                transform: [{ rotate: `${rotate}deg` }],
+              }}
+            />
+          ))}
         </View>
       </View>
     );
