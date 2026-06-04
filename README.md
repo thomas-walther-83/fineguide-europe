@@ -76,3 +76,13 @@ anon-key-only rule for the client.
 | `npm run typecheck` | Run the TypeScript compiler |
 
 See [`CLAUDE.md`](./CLAUDE.md) for project context and development rules.
+
+## Product & design program
+Strategy and design docs for growing and selling the app:
+
+- [`docs/marketing-program.md`](./docs/marketing-program.md) — positioning,
+  personas, monetization, go-to-market, 90-day plan.
+- [`docs/design-system.md`](./docs/design-system.md) — color/spacing/typography
+  tokens and component specs to elevate the UI.
+- [`docs/feature-roadmap.md`](./docs/feature-roadmap.md) — Now / Next / Later
+  feature roadmap.
