@@ -37,3 +37,6 @@ yarn-error.*
 
 # TypeScript
 *.tsbuildinfo
+
+# Claude agent worktrees
+.claude/worktrees/

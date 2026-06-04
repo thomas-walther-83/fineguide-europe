@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { categoryIcon } from '@/lib/categories';
 import type { Fine } from '@/lib/fines';
 
 type Props = {
@@ -14,6 +15,7 @@ export function FineListItem({ fine }: Props) {
     <View style={styles.card}>
       <View style={styles.headerRow}>
         <Text style={styles.category}>
+          {categoryIcon(fine.category)}{' '}
           {t(`categories.${fine.category}`, { defaultValue: fine.category })}
         </Text>
         <Text style={styles.amount}>

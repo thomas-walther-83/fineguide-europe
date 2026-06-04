@@ -3,6 +3,11 @@
     "title": "FineGuide Europe",
     "subtitle": "Amendes routières dans les pays européens"
   },
+  "tabs": {
+    "countries": "Pays",
+    "compare": "Comparer",
+    "search": "Recherche"
+  },
   "countries": {
     "ch": "Suisse",
     "de": "Allemagne",
@@ -15,7 +20,8 @@
     "parking": "Stationnement",
     "phone": "Téléphone",
     "redlight": "Feu rouge",
-    "alcohol": "Alcool"
+    "alcohol": "Alcool",
+    "seatbelt": "Ceinture"
   },
   "detail": {
     "loading": "Chargement des amendes…",
@@ -24,5 +30,17 @@
     "disclaimer": "Valeurs d’exemple – pas un conseil juridique.",
     "points_one": "1 point",
     "points_other": "{{count}} points"
+  },
+  "compare": {
+    "title": "Comparatif par pays",
+    "subtitle": "Choisissez une infraction et comparez les amendes.",
+    "country": "Pays",
+    "amount": "Amende",
+    "points": "Points"
+  },
+  "search": {
+    "placeholder": "Rechercher une infraction ou un pays…",
+    "hint": "Tapez pour rechercher des infractions dans tous les pays.",
+    "noResults": "Aucun résultat."
   }
 }

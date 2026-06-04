@@ -3,6 +3,11 @@
     "title": "FineGuide Europe",
     "subtitle": "Verkehrsbussen in europäischen Ländern"
   },
+  "tabs": {
+    "countries": "Länder",
+    "compare": "Vergleich",
+    "search": "Suche"
+  },
   "countries": {
     "ch": "Schweiz",
     "de": "Deutschland",
@@ -15,7 +20,8 @@
     "parking": "Parken",
     "phone": "Handy am Steuer",
     "redlight": "Rotlicht",
-    "alcohol": "Alkohol"
+    "alcohol": "Alkohol",
+    "seatbelt": "Gurt"
   },
   "detail": {
     "loading": "Bussen werden geladen…",
@@ -24,5 +30,17 @@
     "disclaimer": "Beispielwerte – keine Rechtsberatung.",
     "points_one": "1 Punkt",
     "points_other": "{{count}} Punkte"
+  },
+  "compare": {
+    "title": "Ländervergleich",
+    "subtitle": "Wähle einen Verstoss und vergleiche die Bussen.",
+    "country": "Land",
+    "amount": "Busse",
+    "points": "Punkte"
+  },
+  "search": {
+    "placeholder": "Verstoss oder Land suchen…",
+    "hint": "Tippe, um Verstösse über alle Länder zu durchsuchen.",
+    "noResults": "Keine Treffer."
   }
 }

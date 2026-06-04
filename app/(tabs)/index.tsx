@@ -1,4 +1,3 @@
-import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,24 +6,19 @@ import { CountryListItem } from '@/components/CountryListItem';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { COUNTRIES } from '@/lib/countries';
 
-export default function HomeScreen() {
+export default function CountriesScreen() {
   const { t } = useTranslation();
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <Stack.Screen options={{ title: t('home.title') }} />
       <FlatList
         data={COUNTRIES}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={
           <View style={styles.header}>
-            <View style={styles.titleRow}>
-              <View style={styles.titleBlock}>
-                <Text style={styles.title}>{t('home.title')}</Text>
-                <Text style={styles.subtitle}>{t('home.subtitle')}</Text>
-              </View>
-            </View>
+            <Text style={styles.title}>{t('home.title')}</Text>
+            <Text style={styles.subtitle}>{t('home.subtitle')}</Text>
             <LanguageSwitcher />
           </View>
         }
@@ -45,14 +39,6 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 16,
     gap: 14,
-  },
-  titleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-  },
-  titleBlock: {
-    flex: 1,
   },
   title: {
     fontSize: 28,
