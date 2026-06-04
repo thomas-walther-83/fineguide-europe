@@ -7,6 +7,7 @@
   "tabs": {
     "countries": "Countries",
     "compare": "Compare",
+    "trip": "Trip",
     "calculator": "Calculator",
     "search": "Search"
   },
@@ -51,6 +52,24 @@
     "points": "Points",
     "legendLow": "Lower",
     "legendHigh": "Higher"
+  },
+  "trip": {
+    "title": "Trip comparison",
+    "subtitle": "Pick where you're from and where you're going.",
+    "home": "Home",
+    "destination": "Destination",
+    "homeShort": "Home",
+    "destShort": "There",
+    "moreExpensive": "More expensive",
+    "cheaper": "Cheaper",
+    "similar": "About the same",
+    "pointsHint": "Watch out: demerit points where you have none.",
+    "morePointsHint": "Watch out: more demerit points than at home.",
+    "pointsBadge": "+{{count}} points",
+    "approxNote": "Amounts are converted to {{currency}} for comparison at an approximate rate — see each country's original figure.",
+    "approxLabel": "approx.",
+    "noData": "No comparable data for this pair yet.",
+    "summary": "Compared in {{currency}} (approx.)"
   },
   "search": {
     "placeholder": "Search a violation or country…",

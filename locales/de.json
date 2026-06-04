@@ -7,6 +7,7 @@
   "tabs": {
     "countries": "Länder",
     "compare": "Vergleich",
+    "trip": "Reise",
     "calculator": "Rechner",
     "search": "Suche"
   },
@@ -51,6 +52,24 @@
     "points": "Punkte",
     "legendLow": "Tiefer",
     "legendHigh": "Höher"
+  },
+  "trip": {
+    "title": "Reisevergleich",
+    "subtitle": "Wähle, woher du kommst und wohin du fährst.",
+    "home": "Zuhause",
+    "destination": "Reiseziel",
+    "homeShort": "Zuhause",
+    "destShort": "Dort",
+    "moreExpensive": "Teurer",
+    "cheaper": "Günstiger",
+    "similar": "Etwa gleich",
+    "pointsHint": "Achtung: Punkte, wo du zuhause keine hast.",
+    "morePointsHint": "Achtung: mehr Punkte als zuhause.",
+    "pointsBadge": "+{{count}} Punkte",
+    "approxNote": "Beträge werden zum Vergleich näherungsweise in {{currency}} umgerechnet — siehe den Originalbetrag jedes Landes.",
+    "approxLabel": "ca.",
+    "noData": "Noch keine vergleichbaren Daten für dieses Paar.",
+    "summary": "Verglichen in {{currency}} (ca.)"
   },
   "search": {
     "placeholder": "Verstoss oder Land suchen…",

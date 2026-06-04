@@ -64,6 +64,10 @@ export default function TabsLayout() {
         options={{ title: t('tabs.compare'), tabBarIcon: icon('compare') }}
       />
       <Tabs.Screen
+        name="trip"
+        options={{ title: t('tabs.trip'), tabBarIcon: icon('trip') }}
+      />
+      <Tabs.Screen
         name="calc"
         options={{ title: t('tabs.calculator'), tabBarIcon: icon('calc') }}
       />
