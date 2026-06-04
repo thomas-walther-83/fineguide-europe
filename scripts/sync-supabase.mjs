@@ -12,7 +12,12 @@ import { fileURLToPath } from 'node:url';
 
 import { createClient } from '@supabase/supabase-js';
 
-const url = process.env.SUPABASE_URL?.trim().replace(/\/+$/, '');
+// Accept the bare project URL, and tolerate a pasted "/rest/v1" path or
+// trailing slashes (supabase-js appends the path itself).
+const url = process.env.SUPABASE_URL?.trim()
+  .replace(/\/+$/, '')
+  .replace(/\/rest\/v1$/, '')
+  .replace(/\/+$/, '');
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim();
 
 if (!url || !serviceKey) {
