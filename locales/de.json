@@ -30,7 +30,11 @@
     "es": "Spanien",
     "nl": "Niederlande",
     "be": "Belgien",
-    "hr": "Kroatien"
+    "hr": "Kroatien",
+    "pt": "Portugal",
+    "gr": "Griechenland",
+    "lu": "Luxemburg",
+    "si": "Slowenien"
   },
   "categories": {
     "speeding": "Geschwindigkeit",
