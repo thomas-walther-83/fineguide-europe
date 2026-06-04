@@ -2,6 +2,7 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
+import { FavoritesProvider } from '@/lib/favorites';
 import { type, useTheme } from '@/lib/theme';
 
 // Initialise i18next as early as possible.
@@ -12,19 +13,21 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
-      <Stack
-        screenOptions={{
-          headerStyle: { backgroundColor: theme.bg.canvas },
-          headerTintColor: theme.brand.primary,
-          headerTitleStyle: { ...type.h1, color: theme.text.primary },
-          headerShadowVisible: false,
-          contentStyle: { backgroundColor: theme.bg.canvas },
-        }}
-      >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="country/[id]" />
-      </Stack>
+      <FavoritesProvider>
+        <StatusBar style={theme.mode === 'dark' ? 'light' : 'dark'} />
+        <Stack
+          screenOptions={{
+            headerStyle: { backgroundColor: theme.bg.canvas },
+            headerTintColor: theme.brand.primary,
+            headerTitleStyle: { ...type.h1, color: theme.text.primary },
+            headerShadowVisible: false,
+            contentStyle: { backgroundColor: theme.bg.canvas },
+          }}
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="country/[id]" />
+        </Stack>
+      </FavoritesProvider>
     </SafeAreaProvider>
   );
 }

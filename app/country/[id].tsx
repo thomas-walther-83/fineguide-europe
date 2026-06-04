@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Linking, Pressable, SectionList, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { FavoriteButton } from '@/components/FavoriteButton';
 import { FineListItem } from '@/components/FineListItem';
 import { FlagChip } from '@/components/FlagChip';
+import { OfflineBanner } from '@/components/OfflineBanner';
 import { CATEGORIES, categoryIcon, type CategoryId } from '@/lib/categories';
 import { findCountry } from '@/lib/countries';
-import { fetchFinesByCountry, type Fine } from '@/lib/fines';
+import { fetchFinesByCountryResult, type Fine } from '@/lib/fines';
 import { useTheme } from '@/lib/theme';
 
 type Section = { category: CategoryId; max: number; data: Fine[] };
@@ -21,15 +23,17 @@ export default function CountryDetailScreen() {
   const country = findCountry(countryCode);
 
   const [fines, setFines] = useState<Fine[]>([]);
+  const [offline, setOffline] = useState(false);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
 
   const load = useCallback(() => {
     let active = true;
     setStatus('loading');
-    fetchFinesByCountry(countryCode)
-      .then((data) => {
+    fetchFinesByCountryResult(countryCode)
+      .then((result) => {
         if (!active) return;
-        setFines(data);
+        setFines(result.data);
+        setOffline(result.offline);
         setStatus('ready');
       })
       .catch((error) => {
@@ -65,7 +69,12 @@ export default function CountryDetailScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.bg.canvas }]} edges={['bottom']}>
-      <Stack.Screen options={{ title }} />
+      <Stack.Screen
+        options={{
+          title,
+          headerRight: () => <FavoriteButton id={countryCode} />,
+        }}
+      />
 
       {status === 'loading' && (
         <View style={styles.center}>
@@ -95,6 +104,7 @@ export default function CountryDetailScreen() {
           stickySectionHeadersEnabled={false}
           ListHeaderComponent={
             <View>
+              <OfflineBanner visible={offline} />
               <View style={[styles.hero, { backgroundColor: theme.bg.surface, borderColor: theme.border.subtle }]}>
                 <FlagChip flag={country?.flag ?? '🏳️'} size={40} />
                 <View style={styles.heroText}>

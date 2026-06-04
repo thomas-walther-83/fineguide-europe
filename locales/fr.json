@@ -60,6 +60,14 @@
     "source": "Source",
     "updated": "Mise à jour"
   },
+  "favorites": {
+    "title": "Favoris",
+    "add": "Ajouter aux favoris",
+    "remove": "Retirer des favoris"
+  },
+  "offline": {
+    "banner": "Hors ligne – données enregistrées affichées"
+  },
   "common": {
     "retry": "Réessayer"
   }
